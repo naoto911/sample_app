@@ -1,10 +1,10 @@
 <div class="d-flex align-items-center">
-  <h1>グループ紹介</h1>
+  <h1>グループ検索</h1>
   <div class="ml-auto boards__linkBox">
   </div>
 </div>
 
-<%#ここからGroupsを次々に表示させる%>
+<%#ここからGroupsを次々に表示%>
 <table class="table table-hover boards__table">
   <thead class="table-info"> <%# thead-light %>
     <tr>
@@ -15,8 +15,8 @@
   <tbody>
     <% @groups.each do |group| %>
       <tr>
-          <th><%= group.name %></th>
-          <th><%= group.introduction %></th>
+          <td><%= link_to group.name, groups_show_path %></td> <%# thead-light class: 'btn btn-outline-dark' %>
+          <td><%= group.introduction %></td>
       </tr>
     <% end %>
   </tbody>
