@@ -1,10 +1,10 @@
 class GroupsController < ApplicationController
+  before_action :set_target_group, only: %i[show edit update destroy]
   def index
     @groups = Group.all
   end
 
   def show
-    @group = Group.find(params[:id])
   end
 
   def new
@@ -22,11 +22,9 @@ class GroupsController < ApplicationController
   end
 
   def edit
-    @group = Group.find(params[:id])
   end
 
   def update
-    @group = Group.find(params[:id])
     if @group.update(group_params)
       redirect_to groups_path
     else
@@ -35,7 +33,6 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    @group = Group.find(params[:id])
     @group.destroy
     redirect_to groups_path, flash: { notice: "「#{@group.name}」が削除されました"}
   end
@@ -46,4 +43,8 @@ class GroupsController < ApplicationController
     params.require(:group).permit(:name, :introduction)
   end
 
+  def set_target_group
+    @group = Group.find(params[:id])
+  end
+  
 end
