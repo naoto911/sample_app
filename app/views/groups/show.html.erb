@@ -8,4 +8,5 @@
 <table class="table table-hover boards__table">
   <td><%= @group.name %></td>
   <td><%= @group.introduction %></td>
+  <td><%= link_to '編集', edit_group_path(@group) %></td> <%#ここは将来的に幹事のみ実行可能に変更予定%>
 </table>
