@@ -1,2 +1,19 @@
-<h1>Groups#edit</h1>
-<p>Find me in app/views/groups/edit.html.erb</p>
+<div class="d-flex align-items-center">
+  <h1><%= @group.name %></h1>
+  <div class="ml-auto boards__linkBox">
+  </div>
+</div>
+
+<%#Groupの編集フォームを表示%>
+<%= form_for @group do |f| %>
+  <div class="form-group">
+    <%= f.label :name, '名前' %>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :introduction, '紹介' %>
+    <%= f.text_area :introduction, class: 'form-control', rows: 10 %>
+  </div>
+
+  <%= f.submit '保存', class: 'btn btn-primary' %>
+<% end %>
