@@ -14,3 +14,16 @@
  */
 
  @import "bootstrap";
+
+ /* link_toの青色の無効化*/
+ a{
+	color: grey;
+  &:hover{
+    color: #afeeee;
+    text-decoration: none;
+  }
+}
+
+h3{
+  color: #696969;
+}
