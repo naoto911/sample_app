@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   before_action :set_target_group, only: %i[show edit update destroy]
-  before_action :logged_in_user, only: %i[edit update destroy] #このアクションはログイン後しか実行できない
+  before_action :logged_in_user, only: %i[new edit update destroy] #このアクションはログイン後しか実行できない
   
   def index
     @groups = Group.all
