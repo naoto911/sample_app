@@ -7,6 +7,8 @@ require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
+// 追記 21/1/6
+require('jquery')
 
 import 'bootstrap';
 import '../stylesheets/application';
