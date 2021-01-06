@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   before_action :set_target_group, only: %i[show edit update destroy]
-  before_action :logged_in_user, only: %i[edit update destroy]
+  before_action :logged_in_user, only: %i[edit update destroy] #このアクションはログイン後しか実行できない
   
   def index
     @groups = Group.all
@@ -19,7 +19,11 @@ class GroupsController < ApplicationController
       flash[:notice] = "「#{group.name}」を作成しました"
       redirect_to groups_path
     else
-      redirect_to new_group_path
+  #フォームの入力エラーを起こした際のエラー表示を取得するための処理
+      redirect_to new_group_path, flash: {
+        group: group,
+        error_messages: group.errors.full_messages
+      }
     end
   end
 
@@ -30,7 +34,11 @@ class GroupsController < ApplicationController
     if @group.update(group_params)
       redirect_to groups_path
     else
-      redirect_to :back
+  #フォームの入力エラーを起こした際のエラー表示を取得するための処理
+      redirect_to edit_group_path, flash: {
+      group: @group,
+      error_messages: @group.errors.full_messages
+    }
     end
   end
 
@@ -39,7 +47,7 @@ class GroupsController < ApplicationController
     redirect_to groups_path, flash: { notice: "「#{@group.name}」が削除されました"}
   end
 
-  private
+private
 
   def group_params
     params.require(:group).permit(:name, :introduction)

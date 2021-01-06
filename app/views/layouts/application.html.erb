@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SampleApp</title>
+    <title>Syumix</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -11,14 +11,10 @@
   </head>
 
   <body>
-    <%= render 'header' %>
+    <%= render 'layouts/header' %>
     <div class="container mt-3">
-    <%= yield %>
+      <%= yield %>
     </div>
+    <%= render 'layouts/footer' %>
   </body>
-  <%#これより下はpartialでまとめるべき%>
-  <footer>
-    <nav class="navbar fixed-bottom navbar-light" style="background-color:#afeeee;"> 
-    </nav>
-  </footer>
 </html>

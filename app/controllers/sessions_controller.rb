@@ -14,6 +14,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    #「真(true)」となった場合に実行したい処理 if 条件式
     log_out if logged_in?
     redirect_to root_url
   end

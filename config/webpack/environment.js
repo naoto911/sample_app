@@ -1,7 +1,7 @@
 const { environment } = require('@rails/webpacker')
 
 // 追記 21/1/6
-// jQueryとBootstapのJSを使えるように
+//jQueryとBootstapのJSを使えるようにjQueryとBootstapのJSを使えるように
 const webpack = require('webpack')
 environment.plugins.prepend(
   'Provide',

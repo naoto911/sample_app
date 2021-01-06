@@ -13,9 +13,12 @@
 <%# ここにメモを記述 %>
 <a class="nav-link"  data-method="delete" href="<%= login_path %>">ログアウト</a> 
 
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<%# グループ参加申請の時にこの処理を記述 %>
+<% if logged_in? %>
+  <%= render 'groups/logged_in' %>
+<% else %>
+  <%= render 'groups/not_logged_in' %>
+<% end %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+<%# バッックアッップ %>
+<%# テンプレ %>
