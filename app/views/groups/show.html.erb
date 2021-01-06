@@ -1,14 +1,20 @@
-<div class="d-flex align-items-center">
-  <h3><%= @group.name %></h3>
+<div class="card mb-3">
+  <div class="row no-gutters">
+    <div class="col-lg-6" style="max-width: 250px;">
+      <img src= <%="/assets/group#{1}.png"%> class="card-img" alt="...">
+    </div>
+    <div class="col-lg-6">
+      <div class="card-body">
+        <h4 class="card-title"><%= @group.name %></h4>
+        <p class="card-text"><%= @group.introduction %></p>
+        <table class="table table-hover boards__table mt-3">
+          <td><%= link_to '編集', edit_group_path(@group), class: 'btn btn-outline-info'%></td> <%#将来的に幹事のみ実行%>
+          <td><%= button_to '削除', group_path(@group), class: 'btn btn-outline-danger', method: :delete %></td> <%#%>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
-
-<%#Groupの詳細を表示%>
-<table class="table table-hover boards__table mt-3">
-  <td><%= @group.name %></td>
-  <td><%= @group.introduction %></td>
-  <td><%= link_to '編集', edit_group_path(@group), class: 'btn btn-outline-info'%></td> <%#将来的に幹事のみ実行に変更%>
-  <td><%= button_to '削除', group_path(@group), class: 'btn btn-outline-danger', method: :delete %></td> <%#ここも%>
-</table>
 
 <%#3個分のタブ%>
 <ul class="nav nav-tabs" role="tablist">

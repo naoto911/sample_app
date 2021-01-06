@@ -24,6 +24,11 @@
   @import '@fortawesome/fontawesome-free/scss/v4-shims';
  /* ここまで 21/1/6 */
 
+/* 全ぺージの文字色を灰色に*/
+ * {
+   color: grey;
+ }
+
  /* link_toの青色の無効化*/
  a{
 	color: grey;
@@ -31,8 +36,4 @@
     color: #afeeee;
     text-decoration: none;
   }
-}
-
-h3{
-  color: #696969;
 }
