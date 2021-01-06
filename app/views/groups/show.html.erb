@@ -10,21 +10,38 @@
   <td><%= button_to '削除', group_path(@group), class: 'btn btn-outline-danger', method: :delete %></td> <%#ここも%>
 </table>
 
-<%#4個分のタブ%>
+<%#3個分のタブ%>
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
-    <a class="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">Item#1</a>
+    <a class="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">紹介</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">Item#2</a>
+    <a class="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">メンバー</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="item3-tab" data-toggle="tab" href="#item3" role="tab" aria-controls="item3" aria-selected="false">Item#3</a>
+    <a class="nav-link" id="item3-tab" data-toggle="tab" href="#item3" role="tab" aria-controls="item3" aria-selected="false">日程</a>
   </li>
 </ul>
-<!-- タブ部分 -->
+<!-- タブ部分 (各tabをpartialでわけるべき?) -->
 <div class="tab-content">
-  <div class="tab-pane fade show active" id="item1" role="tabpanel" aria-labelledby="item1-tab">This is a text of item#1.</div>
-  <div class="tab-pane fade" id="item2" role="tabpanel" aria-labelledby="item2-tab">This is a text of item#2.</div>
-  <div class="tab-pane fade" id="item3" role="tabpanel" aria-labelledby="item3-tab">This is a text of item#3.</div>
+  <div class="tab-pane fade show active" id="item1" role="tabpanel" aria-labelledby="item1-tab">
+    <h1><%= @group.name %></h1>
+    <div><%= @group.introduction %></div>
+  </div>
+  <div class="tab-pane fade" id="item2" role="tabpanel" aria-labelledby="item2-tab">
+  <div class="row row-eq-height">
+    <div class="col-4 my-2">
+      <div class="card">
+          <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title"><%= @group.name %></h5>
+            <p class="card-text"><%= @group.introduction %></p>
+            <p class="card-text"><small class="text-muted"><%= "#{1}" %></small></p>
+          </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="tab-pane fade" id="item3" role="tabpanel" aria-labelledby="item3-tab">
+  </div>
 </div>

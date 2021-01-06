@@ -15,6 +15,15 @@
 
  @import "bootstrap";
 
+ /* 追記 21/1/6 */
+ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
+  @import '@fortawesome/fontawesome-free/scss/fontawesome';
+  @import '@fortawesome/fontawesome-free/scss/solid';
+  @import '@fortawesome/fontawesome-free/scss/regular';
+  @import '@fortawesome/fontawesome-free/scss/brands';
+  @import '@fortawesome/fontawesome-free/scss/v4-shims';
+ /* ここまで 21/1/6 */
+
  /* link_toの青色の無効化*/
  a{
 	color: grey;
