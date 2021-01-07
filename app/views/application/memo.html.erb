@@ -25,6 +25,7 @@
 <% end %>
 
 <%# テンプレ %>
-docker-compose run web bundle exec rails g model <モデル名> <カラム名>
-
+docker-compose run web bundle exec rails g model <model(中)> <model(多)1>:references <model(多)2>:references
+docker-compose run web bundle exec rails g model user_group_relation user:references group:references
 <%# テンプレ %>
+AddColumnNullToGroups
