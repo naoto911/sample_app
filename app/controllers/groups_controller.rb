@@ -7,6 +7,7 @@ class GroupsController < ApplicationController
   end
 
   def show
+    #@users = User.all
   end
 
   def new

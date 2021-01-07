@@ -29,3 +29,22 @@ docker-compose run web bundle exec rails g model <model(中)> <model(多)1>:refe
 docker-compose run web bundle exec rails g model user_group_relation user:references group:references
 <%# テンプレ %>
 AddColumnNullToGroups
+<!-- ここから幹事以外の紹介 -->
+<h3 class="my-3">メンバー</h3>
+<% @users.each_with_index do |user,i| %>
+  <%= link_to group_path(group) do %>
+    <div class="card my-3" style="max-width: 500px;">
+      <div class="row no-gutters">
+        <div class="col-lg-6" style="max-width: 150px;">
+          <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
+        </div>
+        <div class="col-lg-6">
+          <div class="card-body">
+            <h4 class="card-title"><%= user.name %></h4>
+            <p class="card-text"><%= user.email %></p>
+          </div>
+        </div>
+      </div>
+    </div>  
+  <% end %>
+<% end %>
