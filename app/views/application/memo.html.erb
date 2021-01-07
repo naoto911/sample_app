@@ -25,6 +25,6 @@
 <% end %>
 
 <%# テンプレ %>
-docker-compose run web rails g migration AddColumnNullToUsers 
+docker-compose run web bundle exec rails g model <モデル名> <カラム名>
 
 <%# テンプレ %>
