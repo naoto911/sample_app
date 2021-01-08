@@ -8,15 +8,19 @@
     </div>
     <div class="col-lg-6">
       <div class="card-body">
-        <% @group.user_group_relations.each do |group_user| %>
-          <h4 class="card-title"><%= group_user.user.name %></h4>
-          <p class="card-text"><%= group_user.user.email %></p>
-        <% end %>
+          <h4 class="card-title"><%= @admin_user.name %></h4>
+          <p class="card-text"><%= @admin_user.email %></p>
       </div>
     </div>
   </div>
   <% end %>
 </div>
+
+<%# binding.pry %>
+<% group.users.each do |group_user| %>
+<%= group_user.name %>
+<% end %>
+
 <!-- ここから幹事以外の紹介 -->
 <h3 class="my-3">メンバー</h3>
 <% (1..10).each_with_index do |i| %>

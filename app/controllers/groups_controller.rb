@@ -7,17 +7,19 @@ class GroupsController < ApplicationController
   end
 
   def show
-    #@users = User.all
+    @users = @group.users.all #1/8追記
+    @admin_user = @users.find_by(id: @group.adminuser_id) #1/8追記
   end
 
   def new
     @group = Group.new
-    #@group.users << current_user
-    @group.user_group_relations.build #追加
   end
 
   def create
     group = Group.new(group_params)
+    group.adminuser_id = current_user.id #group作成中のidをgroupモデルのaddminuser_idに格納
+    group.users << current_user #group_user_relationsにidを格納させる
+
     if group.save
       flash[:notice] = "「#{group.name}」を作成しました"
       redirect_to groups_path
@@ -28,7 +30,7 @@ class GroupsController < ApplicationController
         error_messages: group.errors.full_messages
       }
     end
-    binding.pry
+    #binding.pry
   end
 
   def edit
@@ -54,7 +56,7 @@ class GroupsController < ApplicationController
 private
 
   def group_params
-    params.require(:group).permit(:name, :introduction, { user_ids: [] })
+    params.require(:group).permit(:name, :introduction)
   end
 
   def set_target_group

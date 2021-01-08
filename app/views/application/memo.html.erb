@@ -49,4 +49,24 @@ AddColumnNullToGroups
   <% end %>
 <% end %>
 
-<input type="group.user_ids" name="group.user_ids" value="<%= current_user.id %>">
+adminuser_id
+
+
+<%# ここからuser情報を送る %>
+  <p>所属するメンバー</p>
+   <div class="field">
+     <br>
+<%#collection_check_boxesを利用 %>
+    <%#= collection_check_boxes(:group, :user_ids, User.all, :id, :name ) do |t|  %>
+      <%# t.label { t.check_box + t.text } %>
+    <%# end %> 
+  </div>
+   <br>
+
+   <!-- groupとuserの紐付けのテスト -->
+    <%= @group.user_group_relations.each do |group_user| %>
+      <div class="card-body">
+          <h4 class="card-title"><%= group_user.name %></h4>
+          <p class="card-text"><%= group_user.email %></p>
+      </div>
+    <% end %>
