@@ -12,6 +12,8 @@ class GroupsController < ApplicationController
 
   def new
     @group = Group.new
+    #@group.users << current_user
+    @group.user_group_relations.build #追加
   end
 
   def create
@@ -26,6 +28,7 @@ class GroupsController < ApplicationController
         error_messages: group.errors.full_messages
       }
     end
+    binding.pry
   end
 
   def edit
@@ -51,7 +54,7 @@ class GroupsController < ApplicationController
 private
 
   def group_params
-    params.require(:group).permit(:name, :introduction)
+    params.require(:group).permit(:name, :introduction, { user_ids: [] })
   end
 
   def set_target_group

@@ -34,6 +34,9 @@ gem 'jquery-rails'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  # 追加 21/1/8
+  gem 'pry-rails'
+  gem 'pry-byebug'
 end
 
 group :development do

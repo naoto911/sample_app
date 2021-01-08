@@ -13,6 +13,6 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
 
 # ==============アソシエーション ================================
-  has_many :user_group_relations
+  has_many :user_group_relations, dependent: :destroy
   has_many :groups, through: :user_group_relations
 end

@@ -11,6 +11,22 @@
     <%= f.label :introduction, '紹介' %>
     <%= f.text_area :introduction, class: 'form-control', rows: 10 %>
   </div>
+<%# ここからuser情報を送る %>
+  <p>所属するメンバー</p>
+   <div class="field">
+     <br>
+<%# 記述練習 %>
+    <%#= form_for group.user_group_relations do |t|  %>
+<input type="user_ids" name="user_ids" value="<%= current_user.id %>">
+      <%#= t.label :id, 'id' %>
+    <%# end %> 
+    <br>
+<%#collection_check_boxesを利用 %>
+    <%#= collection_check_boxes(:group, :user_ids, User.all, :id, :name ) do |t|  %>
+      <%# t.label { t.check_box + t.text } %>
+    <%# end %> 
+  </div>
+   <br>
 
   <%= f.submit '保存', class: 'btn btn-info' %>
 <% end %>
