@@ -49,7 +49,7 @@ AddColumnNullToGroups
   <% end %>
 <% end %>
 
-adminuser_id
+<%# binding.pry %>
 
 
 <%# ここからuser情報を送る %>
@@ -63,10 +63,7 @@ adminuser_id
   </div>
    <br>
 
-   <!-- groupとuserの紐付けのテスト -->
-    <%= @group.user_group_relations.each do |group_user| %>
-      <div class="card-body">
-          <h4 class="card-title"><%= group_user.name %></h4>
-          <p class="card-text"><%= group_user.email %></p>
-      </div>
-    <% end %>
+<!-- groupとuserの紐付けのテスト -->
+<% group.users.each do |group_user| %>
+<%= group_user.name %>
+<% end %>

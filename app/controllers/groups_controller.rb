@@ -7,8 +7,8 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @users = @group.users.all #1/8追記
-    @admin_user = @users.find_by(id: @group.adminuser_id) #1/8追記
+    @users = @group.users.all #groupに所属するuserを配列で取得
+    @admin_user = @users.find_by(id: @group.adminuser_id) #管理者をgroupのadminuser_idから取得
   end
 
   def new
