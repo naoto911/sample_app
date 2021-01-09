@@ -67,3 +67,8 @@ AddColumnNullToGroups
 <% group.users.each do |group_user| %>
 <%= group_user.name %>
 <% end %>
+
+<!-- User controller -->
+docker-compose exec web rails g controller Users new show edit destroy
+
+docker-compose run web rails g migration AddIndexToGroups

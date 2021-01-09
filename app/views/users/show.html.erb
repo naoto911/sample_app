@@ -1,0 +1,28 @@
+<h3 class="my-3">マイページ</h3>
+<!-- ユーザー情報を表示 -->
+<div class="card my-3" style="max-width: 500px;">
+  <%= link_to user_path(@user) do %>
+  <div class="row no-gutters">
+    <div class="col-lg-6" style="max-width: 150px;">
+      <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
+    </div>
+    <div class="col-lg-6">
+      <div class="card-body">
+          <h4 class="card-title"><%= @user.name %></h4>
+          <p class="card-text"><%= @user.email %></p>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+<%# ユーザー操作ボタン %>
+  <div class="row form-group mt-3">
+    <div class="col-lg-11"></div>
+    <div class="col-lg-1"><%= link_to '編集', edit_user_path(@user), class: 'btn btn-outline-info'%></div>
+  </div>
+  <div class="row form-group mt-3">
+    <div class="col-lg-11"></div>
+    <div class="col-lg-1"><%= button_to '削除', user_path(@user), class: 'btn btn-outline-danger', method: :delete %></div>
+    <div class="col-lg-4"></div>
+  </div>
