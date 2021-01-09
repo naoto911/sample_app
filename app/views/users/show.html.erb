@@ -6,15 +6,21 @@
 <h3 class="my-3">マイページ</h3>
 
 <%# ユーザー操作ボタン %>
-  <div class="row form-group mt-3">
-    <div class="col-lg-11"></div>
-    <div class="col-lg-1"><%= link_to '編集', edit_user_path(@user), class: 'btn btn-outline-info'%></div>
-  </div>
-  <div class="row form-group mt-3">
-    <div class="col-lg-11"></div>
-    <div class="col-lg-1"><%= button_to '削除', user_path(@user), class: 'btn btn-outline-danger', method: :delete %></div>
-    <div class="col-lg-4"></div>
-  </div>
+<%# current_userを判別して分岐 %>
+  <%# 自分自身の場合 %>
+    <% if @user.id == @current_user.id %>
+      <div class="row form-group mt-3">
+        <div class="col-lg-11"></div>
+        <div class="col-lg-1"><%= link_to '編集', edit_user_path(@user), class: 'btn btn-outline-info'%></div>
+      </div>
+      <div class="row form-group mt-3">
+        <div class="col-lg-11"></div>
+        <div class="col-lg-1"><%= button_to '削除', user_path(@user), class: 'btn btn-outline-danger', method: :delete %></div>
+        <div class="col-lg-4"></div>
+      </div>
+  <%# 他のユーザの場合 %>
+    <% else %>
+    <% end %>
 
 <%#2個分のタブ%>
 <ul class="nav nav-tabs" role="tablist">
