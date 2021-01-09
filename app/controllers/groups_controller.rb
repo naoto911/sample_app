@@ -19,7 +19,7 @@ class GroupsController < ApplicationController
     group = Group.new(group_params)
     group.adminuser_id = current_user.id #group作成中のidをgroupモデルのaddminuser_idに格納
     group.users << current_user #group_user_relationsにidを格納させる
-
+    binding.pry
     if group.save
       flash[:notice] = "「#{group.name}」を作成しました"
       redirect_to groups_path
