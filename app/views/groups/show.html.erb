@@ -1,3 +1,8 @@
+<%#申請アクション通過時に生成される:noticeを表示%>
+<% if flash[:notice] %>
+  <div class="alert alert-danger"><%= flash[:notice] %></div>
+<% end %>
+
 <div class="card mb-3">
   <div class="row no-gutters">
     <div class="col-lg-6" style="max-width: 250px;">
@@ -24,7 +29,7 @@
             <% else %>
               <div class="row form-group mt-3">
                 <div class="col-lg-11"></div>
-                <div class="col-lg-1"><%= link_to '申請', edit_group_path(@group) , class: 'btn btn-outline-info'%></div> 
+                <div class="col-lg-1"><%= link_to '申請', join_group_path(@group) , class: 'btn btn-outline-info'%></div> 
                 <div class="col-lg-4"></div>
               </div>
             <% end %>

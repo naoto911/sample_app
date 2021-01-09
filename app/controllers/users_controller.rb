@@ -44,6 +44,13 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @groups = @user.groups.all #userに所属するuserを配列で取得
+    @groups.each do |check_group|
+      if check_group.adminuser_id == @user.id then
+        check_group.destroy
+      end
+    end
+
     @user.destroy
     redirect_to groups_path, flash: { notice: "「#{@user.name}」が削除されました"}
   end

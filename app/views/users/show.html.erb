@@ -1,3 +1,8 @@
+<%#ユーザー作成,更新時に生成される:noticeを表示%>
+<% if flash[:notice] %>
+  <div class="alert alert-danger"><%= flash[:notice] %></div>
+<% end %>
+
 <h3 class="my-3">マイページ</h3>
 
 <%# ユーザー操作ボタン %>

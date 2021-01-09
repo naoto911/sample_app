@@ -71,3 +71,9 @@ AddColumnNullToGroups
 docker-compose exec web rails g controller Users new show edit destroy
 
 docker-compose run web rails g migration AddIndexToGroups
+
+Group.where(id: 127..133).destroy_all
+
+docker-compose run web rails g migration ChangeAdminuser_idToGroups
+
+モデル名.columns_hash['カラム名'].type

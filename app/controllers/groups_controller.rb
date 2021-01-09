@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
-  before_action :set_target_group, only: %i[show edit update destroy]
-  before_action :logged_in_user, only: %i[new edit update destroy] #このアクションはログイン後しか実行できない
+  before_action :set_target_group, only: %i[show edit update destroy join]
+  before_action :logged_in_user, only: %i[new edit update destroy join] #このアクションはログイン後しか実行できない
   
   def index
     @groups = Group.all
@@ -19,7 +19,6 @@ class GroupsController < ApplicationController
     group = Group.new(group_params)
     group.adminuser_id = current_user.id #group作成中のidをgroupモデルのaddminuser_idに格納
     group.users << current_user #group_user_relationsにidを格納させる
-    #binding.pry
     if group.save
       flash[:notice] = "「#{group.name}」を作成しました"
       redirect_to groups_path
@@ -30,7 +29,6 @@ class GroupsController < ApplicationController
         error_messages: group.errors.full_messages
       }
     end
-    #binding.pry
   end
 
   def edit
@@ -53,6 +51,18 @@ class GroupsController < ApplicationController
     redirect_to groups_path, flash: { notice: "「#{@group.name}」が削除されました"}
   end
 
+  #グループ参加申請処理
+  def join
+    #グループに参加済みの人の処理
+    if @group.users.ids.include?(current_user.id) then
+      redirect_to group_path(@group), flash: { notice: "#{@group.name}にはすでに参加済みです"}
+    #グループに新規参加の人の処理
+    else 
+      @group.users << current_user #group_user_relationsにidを格納させる
+      redirect_to group_path(@group), flash: { notice: "「#{current_user.name}が#{@group.name}に参加しました"}
+    end
+  end
+
 private
 
   def group_params
@@ -62,5 +72,5 @@ private
   def set_target_group
     @group = Group.find(params[:id])
   end
-  
+
 end
