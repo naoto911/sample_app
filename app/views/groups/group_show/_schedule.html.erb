@@ -1,28 +1,40 @@
 <%# %>
 <h3 class="my-3">日程</h3>
-<table class="table table-hover boards__table">
-  <thead class="thead-light">
-    <tr>
-      <th>日付</th>
-      <th>場所</th>
-      <th>参加/全員</th>
-      <th>備考</th>
-      <% group.users.each_with_index do |group_user| %>
-        <th><%= link_to group_user.name, user_path(group_user) %></th> 
-      <% end %>
-    </tr>
-  </thead>
-  <tbody>
-    <% (1..5).each do |i| %>
+<div class='text-nowrap table-responsive'>
+  <table class="table table-hover boards__table table-bordered">
+    <thead class="thead-light">
       <tr>
-        <td><%= "1/#{i}" %></td>
-        <td><%= "第#{i}体育館" %></td>
-        <td><%= "#{i}/10" %></td>
-        <td></td>
+        <th>日付</th>
+        <th>場所</th>
+        <th>参加率</th>
+        <th>備考</th>
         <% group.users.each_with_index do |group_user| %>
-          <th></th>
+          <th><%= link_to group_user.name, user_path(group_user) %></th> 
         <% end %>
+        <%# ここから横幅を意図的にひろげるダミーデータ%>
+        <% (1..20).each do |i| %>
+          <th><%= "ダミー#{i} "%></th>
+        <% end %>
+        <%# ここから横幅を意図的にひろげるダミーデータ%>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% (1..5).each do |i| %>
+        <tr>
+          <th><%= "1/#{i}" %></td>
+          <td><%= "第#{i}体育館" %></td>
+          <td><%= "#{i}/10" %></td>
+          <td></td>
+          <% group.users.each_with_index do |group_user| %>
+            <th></th>
+          <% end %>
+          <%# ここから横幅を意図的にひろげるダミーデータ%>
+          <% (1..20).each do |i| %>
+            <td></td>
+          <% end %>
+          <%# ここから横幅を意図的にひろげるダミーデータ%>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -4,7 +4,8 @@ class GroupsController < ApplicationController
   before_action :admin_user, only: %i[edit update destroy] #幹事でないと操作できないアクション
 
   def index
-    @groups = Group.all
+    #@groups = Group.all
+    @groups = Group.order(id: :asc) #idの昇順に表示
   end
 
   def show
