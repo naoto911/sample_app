@@ -18,6 +18,34 @@
 
 <!-- ここから幹事以外の紹介 -->
 <h3 class="my-3">メンバー</h3>
+<% group.users.each_with_index do |group_user| %>
+  <%= link_to group_path(group) do %>
+
+    <%# 幹事の時はeach do を一回分進める%>
+    <% if group_user.id == @admin_user.id then %>
+    <% next %>
+    <% end %>
+    
+    <%# 幹事の時の処理 %>
+    <div class="card my-3" style="max-width: 500px;">
+      <div class="row no-gutters">
+        <div class="col-lg-6" style="max-width: 150px;">
+          <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
+        </div>
+        <div class="col-lg-6">
+          <div class="card-body">
+            <h4 class="card-title"><%= group_user.name %></h4>
+            <p class="card-text"><%= group_user.email %></p>
+          </div>
+        </div>
+      </div>
+    </div>  
+  <% end %>
+<% end %>
+
+<!-- 見た目を確認するためのテストデータ
+
+<h3 class="my-3">メンバー</h3>
 <% (1..10).each_with_index do |i| %>
   <%= link_to group_path(group) do %>
     <div class="card my-3" style="max-width: 500px;">
@@ -35,3 +63,5 @@
     </div>  
   <% end %>
 <% end %>
+
+ -->
