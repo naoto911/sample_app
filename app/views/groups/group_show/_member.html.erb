@@ -1,7 +1,7 @@
 <!-- ここから幹事以外の紹介 -->
 <h3 class="my-3">幹事</h3>
 <div class="card my-3" style="max-width: 500px;">
-  <%= link_to group_path(group) do %>
+  <%= link_to user_path(group.users.find( @admin_user.id)) do %>
   <div class="row no-gutters">
     <div class="col-lg-6" style="max-width: 150px;">
       <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
@@ -19,7 +19,7 @@
 <!-- ここから幹事以外の紹介 -->
 <h3 class="my-3">メンバー</h3>
 <% group.users.each_with_index do |group_user| %>
-  <%= link_to group_path(group) do %>
+  <%= link_to user_path(group_user) do %>
 
     <%# 幹事の時はeach do を一回分進める%>
     <% if group_user.id == @admin_user.id then %>
