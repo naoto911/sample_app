@@ -61,4 +61,11 @@ docker-compose exec web rails g controller Events new edit show
 
 docker-compose exec web rails destroy controller Event
 
-<!-- Events controller  -->
+<%# groupが作ったeventが拾えるかのテスト %>
+<% group.events.each_with_index do |group_event| %>
+  <th><%= group_event.date %></th> <br> 
+  <th><%= group_event.date.strftime( "%-m/%-d") %></th> <br>
+  <th><% time_s = group_event.starttime.strftime( "%-H:%-M") %></th>
+  <th><% time_f = group_event.starttime.strftime( "%-H:%-M") %></th>
+  <th><%= "#{time_s}~#{time_f}" %></th> <br>
+<% end %>

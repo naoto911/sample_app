@@ -10,6 +10,7 @@ class EventsController < ApplicationController
   def new
     @group = Group.find(params[:group_id])
     @event = Event.new
+    #@event = @group.events.new
   end
 
   def create
@@ -52,7 +53,7 @@ class EventsController < ApplicationController
 private
 
   def event_params
-    params.require(:event).permit(:date, :place, :starttime, :finishtime).merge(group_id: params[:group_id])
+    params.require(:event).permit(:date, :place, :starttime, :finishtime, :remarks).merge(group_id: params[:group_id])
   end
 
   def set_target_event

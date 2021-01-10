@@ -1,12 +1,14 @@
 <%# %>
 <h3 class="my-3">日程</h3>
+
+<%# 日程のフォーマット %>
 <div class='text-nowrap table-responsive'>
   <table class="table table-hover boards__table table-bordered">
     <thead class="thead-light">
       <tr>
         <th>日付</th>
+        <th>時間</th>
         <th>場所</th>
-        <th>参加率</th>
         <th>備考</th>
         <% group.users.each_with_index do |group_user| %>
           <th><%= link_to group_user.name, user_path(group_user) %></th> 
@@ -19,14 +21,19 @@
       </tr>
     </thead>
     <tbody>
-      <% (1..5).each do |i| %>
+      <% group.events.each_with_index do |group_event| %>
         <tr>
-          <th><%= "1/#{i}" %></td>
-          <td><%= "第#{i}体育館" %></td>
-          <td><%= "#{i}/10" %></td>
-          <td></td>
-          <% group.users.each_with_index do |group_user| %>
-            <th></th>
+          <td><%= group_event.date %></td>
+            <% time_s = group_event.starttime.strftime( "%-H:%-M") %> <%# 開始時間をtime_sに格納%>
+            <% time_f = group_event.starttime.strftime( "%-H:%-M") %> <%# 開始時間をtime_fに格納%>
+          <td><%= "#{time_s}~#{time_f}" %></td>
+          <td><%= group_event.place %></td>
+          <td><%= group_event.remarks %></td>
+          <% group.users.each_with_index do |group_user| %> 
+          <%# ここでgroup_user.idをゲット %>
+          <%# これをつかってevent.users.find_by(group_user.id) でU_E_relations.idが一意に収束 >
+          <%# Answer.find_by(U_E_relations.id) で完全に一意に収束できる? %>
+            <td></td>
           <% end %>
           <%# ここから横幅を意図的にひろげるダミーデータ%>
           <% (1..20).each do |i| %>
@@ -35,6 +42,11 @@
           <%# ここから横幅を意図的にひろげるダミーデータ%>
         </tr>
       <% end %>
+      <%# ここから新規予定作成ボタンのための行 %>
+        <th><%= link_to '+', new_group_event_path(@group), class: 'btn btn-outline-info'%></th>
+        <% (1..25).each do |i| %>
+          <th></th>
+        <% end %>
     </tbody>
   </table>
 </div>
