@@ -30,9 +30,9 @@
     </thead>
     <tbody>
         <tr>
-          <td><%=  @event.date  %></td>
-            <% time_s = @event.starttime.strftime( "%-H:%-M") %> <%# 開始時間をtime_sに格納%>
-            <% time_f = @event.starttime.strftime( "%-H:%-M") %> <%# 開始時間をtime_fに格納%>
+          <td><%=  @event.date.strftime( "%m:%d")  %></td>
+            <% time_s = @event.starttime.strftime( "%H:%M") %> <%# 開始時間をtime_sに格納%>
+            <% time_f = @event.starttime.strftime( "%H:%M") %> <%# 開始時間をtime_fに格納%>
           <td><%= "#{time_s}~#{time_f}" %></td>
           <td><%= @event.place %></td>
           <td><%= @event.remarks %></td>
