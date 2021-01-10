@@ -22,9 +22,9 @@
     <tbody>
       <% group.events.each_with_index do |group_event| %>
         <tr>
-          <td><%= link_to group_event.date.strftime( "%-m/%d"), group_event_path(group,group_event)  %></td>
-            <% time_s = group_event.starttime.strftime( "%H:%M") %> <%# 開始時間をtime_sに格納%>
-            <% time_f = group_event.starttime.strftime( "%H:%M") %> <%# 開始時間をtime_fに格納%>
+          <td><%= link_to group_event.date.strftime( "%-m/%-d" ), group_event_path(group,group_event)  %></td>
+            <% time_s = group_event.starttime.strftime( "%H:%M" ) %> <%# 開始時間をtime_sに格納%>
+            <% time_f = group_event.finishtime.strftime( "%H:%M" ) %> <%# 開始時間をtime_fに格納%>
           <td><%= "#{time_s}~#{time_f}" %></td>
           <td><%= group_event.place %></td>
           <td><%= group_event.remarks %></td>
