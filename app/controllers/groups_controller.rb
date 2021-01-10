@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
-  before_action :set_target_group, only: %i[show edit update destroy join]
   before_action :logged_in_user, only: %i[new edit update destroy join] #このアクションはログイン後しか実行できない
+  before_action :set_target_group, only: %i[show edit update destroy join]
   before_action :admin_user, only: %i[edit update destroy] #幹事でないと操作できないアクション
 
   def index
@@ -77,7 +77,7 @@ private
 
   #admin_userでないとrootに戻す処理
   def admin_user
-    unless @group.adminuser_id == @current_user.id
+    unless @group.adminuser_id == current_user.id
       redirect_back(fallback_location: root_path) #直接urlに入力してきたユーザーはrootに戻す
     end
   end

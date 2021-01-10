@@ -3,6 +3,12 @@
   <h3>予定の詳細</h3>
 </div>
 
+<%# 日程一覧に戻る %>
+  <div class="row form-group mt-3">
+    <div class="col-lg-10"></div>
+    <div class="col-lg-2"><%= link_to '日程一覧に戻る', group_path(@group), class: 'btn btn-outline-info'%></div>
+  </div>
+
 <%# 日程のフォーマット %>
 <div class='text-nowrap table-responsive'>
   <table class="table table-hover boards__table table-bordered">

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
+  before_action :logged_in_user, only: %i[ edit show update destroy ] #このアクションはログイン後しか実行できない
   before_action :set_target_user, only: %i[show edit update destroy]
-  before_action :logged_in_user, only: %i[ show edit update destroy] #このアクションはログイン後しか実行できない
   before_action :master_user, only: %i[ edit update destroy] #自分自身でないと操作できないアクション
 
   def index
@@ -68,7 +68,7 @@ private
   
   #master_user(自分のアカウント)でないと戻す処理
   def master_user
-    unless @user.id == @current_user.id
+    unless @user.id == current_user.id
       redirect_back(fallback_location: root_path) #直接urlに入力してきたユーザーは戻す
     end
   end
