@@ -37,3 +37,28 @@
     text-decoration: none;
   }
 }
+
+/* body部分 */
+.wrapper {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom:30px;
+}
+
+/* headerとfooterの間の部分 */
+.main {
+  padding-top: 60px; /* ここを 変えたらnavbarからの隙間を調整可能*/
+  position: relative;
+}
+
+ /* footer部分 */
+footer{
+  background-color: #afeeee;
+  width: 100%;
+  height:30px;
+	position: absolute;
+	bottom: 0;
+}
