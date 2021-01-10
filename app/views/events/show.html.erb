@@ -1,2 +1,63 @@
-<h1>Events#show</h1>
-<p>Find me in app/views/events/show.html.erb</p>
+<%# このページを編集してもWebが変化しない時は_schedule更新する %>
+<div class="d-flex align-items-center">
+  <h3>予定の詳細</h3>
+</div>
+
+<%# 日程のフォーマット %>
+<div class='text-nowrap table-responsive'>
+  <table class="table table-hover boards__table table-bordered">
+    <thead class="thead-light">
+      <tr>
+        <th>日付</th>
+        <th>時間</th>
+        <th>場所</th>
+        <th>備考</th>
+        <% @group.users.each_with_index do |group_user| %>
+          <th><%= link_to group_user.name, user_path(group_user) %></th> 
+        <% end %>
+        <%# ここから横幅を意図的にひろげるダミーデータ%>
+        <% (1..20).each do |i| %>
+          <th><%= "ダミー#{i} "%></th>
+        <% end %>
+        <%# ここから横幅を意図的にひろげるダミーデータ%>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><%=  @event.date  %></td>
+            <% time_s = @event.starttime.strftime( "%-H:%-M") %> <%# 開始時間をtime_sに格納%>
+            <% time_f = @event.starttime.strftime( "%-H:%-M") %> <%# 開始時間をtime_fに格納%>
+          <td><%= "#{time_s}~#{time_f}" %></td>
+          <td><%= @event.place %></td>
+          <td><%= @event.remarks %></td>
+          <% @group.users.each_with_index do |group_user| %> 
+          <%# ここでgroup_user.idをゲット %>
+          <%# これをつかってevent.users.find_by(group_user.id) でU_E_relations.idが一意に収束 >
+          <%# Answer.find_by(U_E_relations.id) で完全に一意に収束できる? %>
+            <td></td>
+          <% end %>
+          <%# ここから横幅を意図的にひろげるダミーデータ%>
+          <% (1..20).each do |i| %>
+            <td></td>
+          <% end %>
+          <%# ここから横幅を意図的にひろげるダミーデータ%>
+        </tr>
+    </tbody>
+  </table>
+</div>
+
+<%# current_userを判別して分岐 %>
+  <%# 管理者 %>
+    <% if @group.adminuser_id == current_user.id %>
+      <div class="row form-group mt-3">
+        <div class="col-lg-11"></div>
+        <div class="col-lg-1"><%= link_to '編集', edit_group_event_path(@group,@event), class: 'btn btn-outline-info'%></div>
+      </div>
+      <div class="row form-group mt-3">
+        <div class="col-lg-11"></div>
+        <div class="col-lg-1"><%= button_to '削除', group_event_path(@group,@event), class: 'btn btn-outline-danger', method: :delete %></div>
+        <div class="col-lg-4"></div>
+      </div>
+  <%# ユーザー %>
+    <% else %>
+    <% end %>

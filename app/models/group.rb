@@ -1,7 +1,7 @@
 class Group < ApplicationRecord
 
 # ==============バリデーション ================================
-  #グループ情報はから入力は不可
+  #グループ情報は未入力は不可
   with_options presence: true do
     validates :name
     validates :introduction

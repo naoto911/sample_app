@@ -1,4 +1,3 @@
-<%# %>
 <h3 class="my-3">日程</h3>
 
 <%# 日程のフォーマット %>
@@ -23,7 +22,7 @@
     <tbody>
       <% group.events.each_with_index do |group_event| %>
         <tr>
-          <td><%= group_event.date %></td>
+          <td><%= link_to group_event.date, group_event_path(group,group_event)  %></td>
             <% time_s = group_event.starttime.strftime( "%-H:%-M") %> <%# 開始時間をtime_sに格納%>
             <% time_f = group_event.starttime.strftime( "%-H:%-M") %> <%# 開始時間をtime_fに格納%>
           <td><%= "#{time_s}~#{time_f}" %></td>
@@ -42,11 +41,10 @@
           <%# ここから横幅を意図的にひろげるダミーデータ%>
         </tr>
       <% end %>
-      <%# ここから新規予定作成ボタンのための行 %>
-        <th><%= link_to '+', new_group_event_path(@group), class: 'btn btn-outline-info'%></th>
-        <% (1..25).each do |i| %>
-          <th></th>
-        <% end %>
     </tbody>
   </table>
+  <%# 新規予定作成ボタン %>
+  <div class="row form-group mt-3">
+    <div class="col-lg-12"><%= link_to '+', new_group_event_path(@group), class: 'btn btn-outline-info'%></div>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-<!-- ここから幹事以外の紹介 -->
+<!-- 幹事の紹介 -->
 <h3 class="my-3">幹事</h3>
 <div class="card my-3" style="max-width: 500px;">
   <%= link_to user_path(group.users.find(@admin_user.id)) do %>
@@ -16,7 +16,7 @@
   <% end %>
 </div>
 
-<!-- ここから幹事以外の紹介 -->
+<!-- 幹事以外の紹介 -->
 <h3 class="my-3">メンバー</h3>
 <% group.users.each_with_index do |group_user| %>
   <%= link_to user_path(group_user) do %>

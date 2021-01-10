@@ -5,6 +5,7 @@ class EventsController < ApplicationController
   end
 
   def show
+    @group = Group.find(params[:group_id])
   end
 
   def new
@@ -28,17 +29,16 @@ class EventsController < ApplicationController
   end
 
   def edit
-  end
-
-  def show
+    @group = Group.find(params[:group_id])
   end
 
   def update
+    @group = Group.find(params[:group_id])
     if @event.update(event_params)
-      redirect_to group_path(group_id)
+      redirect_to group_path(@event.group_id)
     else
   #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-      redirect_to edit_event_path, flash: {
+      redirect_to edit_group_event_path, flash: {
       event: @event,
       error_messages: @event.errors.full_messages
     }
@@ -46,8 +46,9 @@ class EventsController < ApplicationController
   end
 
   def destroy
+    @group = Group.find(params[:group_id])
     @event.destroy
-    redirect_to group_path(group_id), flash: { notice: "予定が削除されました"}
+    redirect_to group_path(@group), flash: { notice: "予定が削除されました"}
   end
 
 private
