@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  group: one
+  date: 2021-01-10
+  start-time: 2021-01-10 05:02:52
+  finish-time: 2021-01-10 05:02:52
+  place: MyString
+  maru: MyString
+  batu: MyString
+  remarks: MyText
+
+two:
+  group: two
+  date: 2021-01-10
+  start-time: 2021-01-10 05:02:52
+  finish-time: 2021-01-10 05:02:52
+  place: MyString
+  maru: MyString
+  batu: MyString
+  remarks: MyText

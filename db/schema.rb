@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_09_113900) do
+ActiveRecord::Schema.define(version: 2021_01_10_050252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "events", force: :cascade do |t|
+    t.bigint "group_id", null: false
+    t.date "date", null: false
+    t.time "starttime"
+    t.time "finishtime"
+    t.string "place", null: false
+    t.text "remarks"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_events_on_group_id"
+  end
 
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
@@ -42,6 +54,7 @@ ActiveRecord::Schema.define(version: 2021_01_09_113900) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "events", "groups"
   add_foreign_key "user_group_relations", "groups"
   add_foreign_key "user_group_relations", "users"
 end

@@ -12,36 +12,19 @@
   <%= render 'groups/not_logged_in' %>
 <% end %>
 
-<%# バッックアッップ %>
+<%# each do %>
 <% (1..5).each do |i| %>
+<% end %>
+
+<% @users.each_with_index do |user,i| %>
 <% end %>
 
 <%# テンプレ %>
 docker-compose run web bundle exec rails g model <model(中)> <model(多)1>:references <model(多)2>:references
 docker-compose run web bundle exec rails g model user_group_relation user:references group:references
+
 <%# テンプレ %>
 AddColumnNullToGroups
-<!-- ここから幹事以外の紹介 -->
-<h3 class="my-3">メンバー</h3>
-<% @users.each_with_index do |user,i| %>
-  <%= link_to group_path(group) do %>
-    <div class="card my-3" style="max-width: 500px;">
-      <div class="row no-gutters">
-        <div class="col-lg-6" style="max-width: 150px;">
-          <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
-        </div>
-        <div class="col-lg-6">
-          <div class="card-body">
-            <h4 class="card-title"><%= user.name %></h4>
-            <p class="card-text"><%= user.email %></p>
-          </div>
-        </div>
-      </div>
-    </div>  
-  <% end %>
-<% end %>
-
-<%# binding.pry %>
 
 <%# ここからuser情報を送る %>
   <p>所属するメンバー</p>
@@ -69,3 +52,13 @@ Group.where(id: 127..133).destroy_all
 docker-compose run web rails g migration ChangeAdminuser_idToGroups
 
 モデル名.columns_hash['カラム名'].type
+
+<!-- Event -->
+
+docker-compose run web bundle exec rails g model event group:references date:date start-time:time finish-time:time place:string maru:string batu:string remarks:text
+
+docker-compose exec web rails g controller Events new edit show
+
+docker-compose exec web rails destroy controller Event
+
+<!-- Events controller  -->

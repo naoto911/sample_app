@@ -13,4 +13,5 @@ class Group < ApplicationRecord
 # ==============アソシエーション ================================
   has_many :user_group_relations, dependent: :destroy
   has_many :users, through: :user_group_relations
+  has_many :events, dependent: :destroy
 end
