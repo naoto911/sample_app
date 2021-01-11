@@ -28,12 +28,16 @@
           <td><%= "#{time_s}~#{time_f}" %></td>
           <td><%= group_event.place %></td>
           <td><%= group_event.remarks %></td>
-          <% group.users.each_with_index do |group_user| %> 
-          <%# ここでgroup_user.idをゲット %>
-          <%# これをつかってevent.users.find_by(group_user.id) でU_E_relations.idが一意に収束 >
-          <%# Answer.find_by(U_E_relations.id) で完全に一意に収束できる? %>
-            <td></td>
-          <% end %>
+          <%# eventとuserからAnswerオブジェクトを一意に収束させるための計算処理 %>
+            <% group.users.each_with_index do |group_user| %> 
+              <% Answer.where(event_id: group_event.id).each_with_index do |answer_group| %>
+                <% if answer_group.user_id == group_user.id then %>
+                  <% answer = Answer.find_by(user_id: group_user.id) %>
+                  <td><%= answer.id %></td> <%# ここにリンクを貼る %>
+                <% else %>
+                <% end %>
+              <% end %>
+            <% end %>
           <%# ここから横幅を意図的にひろげるダミーデータ%>
           <% (1..20).each do |i| %>
             <td></td>

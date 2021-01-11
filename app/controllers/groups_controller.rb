@@ -61,6 +61,8 @@ class GroupsController < ApplicationController
     #グループに新規参加の人の処理
     else 
       @group.users << current_user #group_user_relationsにidを格納させる
+      @event = Event.find_by(group_id: @group.id) #Eventを取得 1/11追記
+      @event.users << current_user #Anserにidを格納させる 1/11追記
       redirect_to group_path(@group), flash: { notice: "「#{current_user.name}が#{@group.name}に参加しました"}
     end
   end

@@ -19,7 +19,7 @@
 <% @users.each_with_index do |user,i| %>
 <% end %>
 
-<%# テンプレ %>
+<%# 多対多テンプレ %>
 docker-compose run web bundle exec rails g model <model(中)> <model(多)1>:references <model(多)2>:references
 docker-compose run web bundle exec rails g model user_group_relation user:references group:references
 
@@ -61,19 +61,8 @@ docker-compose exec web rails g controller Events new edit show
 
 docker-compose exec web rails destroy controller Event
 
-<%# groupが作ったeventが拾えるかのテスト %>
-<% group.events.each_with_index do |group_event| %>
-  <th><%= group_event.date %></th> <br> 
-  <th><%= group_event.date.strftime( "%-m/%-d") %></th> <br>
-  <th><% time_s = group_event.starttime.strftime( "%-H:%-M") %></th>
-  <th><% time_f = group_event.starttime.strftime( "%-H:%-M") %></th>
-  <th><%= "#{time_s}~#{time_f}" %></th> <br>
-<% end %>
+<%# Answer model %>
 
-<%# current_userを判別して分岐 %>
-  <%# 管理者 %>
-    <% if @admin_user == current_user %>
-      <td><%= link_to group_event.date.strftime( "%-m/%-d" ), group_event_path(group,group_event)  %></td>
-  <%# ユーザー %>
-    <% else %>
-    <% end %>
+docker-compose run web bundle exec rails g model Answer user:references event:references
+
+<%# Answer model %>

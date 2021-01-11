@@ -8,5 +8,8 @@ class Event < ApplicationRecord
   end
 
 # ==============アソシエーション ================================
+  #group用(多対1) (Event対Eroup)
   belongs_to :group
+  has_many :answers, dependent: :destroy
+  has_many :users, through: :answers
 end

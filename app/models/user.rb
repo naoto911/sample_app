@@ -13,6 +13,10 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
 
 # ==============アソシエーション ================================
+  #user_group_relations用 (多対多)
   has_many :user_group_relations, dependent: :destroy
   has_many :groups, through: :user_group_relations
+  #Answer用 (多対多)
+  has_many :answers, dependent: :destroy
+  has_many :events, through: :answers
 end
