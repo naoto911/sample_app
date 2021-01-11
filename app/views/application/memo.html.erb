@@ -69,3 +69,11 @@ docker-compose exec web rails destroy controller Event
   <th><% time_f = group_event.starttime.strftime( "%-H:%-M") %></th>
   <th><%= "#{time_s}~#{time_f}" %></th> <br>
 <% end %>
+
+<%# current_userを判別して分岐 %>
+  <%# 管理者 %>
+    <% if @admin_user == current_user %>
+      <td><%= link_to group_event.date.strftime( "%-m/%-d" ), group_event_path(group,group_event)  %></td>
+  <%# ユーザー %>
+    <% else %>
+    <% end %>
