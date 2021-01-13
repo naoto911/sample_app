@@ -1,8 +1,10 @@
 <%#  %>
 <%= form_for @answer do |f| %>
   <div class="form-group mt-3">
-    <%= f.label :answer, '名前' %>
-    <%= f.text_field :answer, class: 'form-control' %>
+    <%#= f.label :answer, '名前' %>
+    <%= f.select :answer, ["○","×","-"] %>
+    <%#= f.select :answer, ["○","×","-"], include_blank: "選択して下さい" %>
+    <%#= f.text_field :answer, class: 'form-control' %>
   </div>
 
   <%= f.submit '保存', class: 'btn btn-info' %>
