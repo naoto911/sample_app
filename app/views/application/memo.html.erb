@@ -65,15 +65,6 @@ docker-compose exec web rails destroy controller Event
 
 docker-compose run web bundle exec rails g model Answer user:references event:references
 
-<%# Answer model %>
+<%# Answer controller %>
 
-          <%# eventとuserからAnswerオブジェクトを一意に収束させるための計算処理 %>
-            <% group.users.each_with_index do |group_user| %> 
-              <% Answer.where(event_id: group_event.id).each_with_index do |answer_group| %>
-                <% if answer_group.user_id == group_user.id then %>
-                  <% answer = Answer.find_by(user_id: group_user.id) %>
-                  <td><%= answer.id %></td> <%# ここにリンクを貼る %>
-                <% else %>
-                <% end %>
-              <% end %>
-            <% end %>
+docker-compose exec web rails g controller Answqers show edit 
