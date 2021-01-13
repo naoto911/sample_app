@@ -1,0 +1,9 @@
+<%#  %>
+<%= form_for @answer do |f| %>
+  <div class="form-group mt-3">
+    <%= f.label :answer, '名前' %>
+    <%= f.text_field :answer, class: 'form-control' %>
+  </div>
+
+  <%= f.submit '保存', class: 'btn btn-info' %>
+<% end %>

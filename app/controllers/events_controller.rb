@@ -19,6 +19,7 @@ class EventsController < ApplicationController
     event = Event.new(event_params)
     @group = Group.find(params[:group_id]) #Groupを取得 1/11追記
     event.users << @group.users #Anserにidを格納させる 1/11追記
+    event.users.(answer: "-")  #Anser初期値は全て"-" 1/13追記
 
     if event.save
       flash[:notice] = "予定を作成しました"

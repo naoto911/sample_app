@@ -6,12 +6,14 @@ Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'groups#index'
+  resources :users
+  resources :answers #, :only => [:show, :edit ] 
+
   resources :groups do
-    resources :events
     member do
       get :join
     end
+    resources :events , :except => [:index ] 
   end
-   resources :users
 
 end
