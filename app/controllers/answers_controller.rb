@@ -1,5 +1,6 @@
 class AnswersController < ApplicationController
   before_action :set_target_answer, only: %i[ edit update ]
+  before_action :master_user, only: %i[ edit update ] #自分自身でないと操作できないアクション
 
   #def show
   #end
@@ -28,6 +29,14 @@ private
 
   def set_target_answer
     @answer = Answer.find(params[:id])
+  end
+
+#master_user(自分のアカウント)でないと戻す処理
+  def master_user
+    #binding.pry
+    unless @answer.user_id == current_user.id
+      redirect_back(fallback_location: root_path) #直接urlに入力してきたユーザーは戻す
+    end
   end
 
 end

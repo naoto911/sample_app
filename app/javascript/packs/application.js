@@ -10,7 +10,7 @@ require("channels")
 
 require('jquery') // 追記 21/1/6
 // require('jquery_ujs') // 追記 21/1/6
-require('test.js')
+require('test.js') //追記 21/1/15 jsが読みメルかのTest
 
 import 'bootstrap';
 //import '../src/application.scss'; 非表示 21/1/15 非表示によりjs読み込みが可能に

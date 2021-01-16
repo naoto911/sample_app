@@ -31,7 +31,14 @@
           <%# eventとuserからAnswerオブジェクトを一意に収束させるための計算処理 %>
             <% group.users.each_with_index do |group_user| %> 
               <% answer = Answer.find_by(event_id: group_event.id, user_id: group_user) %>
-                <td><%= link_to answer.answer, edit_answer_path(answer.id) %></td> 
+              <%# current_userを判別して分岐 %>
+                <%# 自分自身 %>
+                <% if group_user == current_user %>
+                  <td><%= link_to answer.answer, edit_answer_path(answer.id) %></td> 
+                <%# その他のユーザー %>
+                <% else %>
+                  <td><%=  answer.answer %></td>
+                <% end %>
             <% end %>
           <%# ここから横幅を意図的にひろげるダミーデータ%>
           <% (1..20).each do |i| %>
