@@ -28,8 +28,18 @@
       </div>
   <%# ユーザー %>
     <% else %>
-      <div class="row form-group mt-3">
-        <div class="col-lg-11"></div>
-        <div class="col-lg-1"><%= link_to '申請', join_group_path(@group) , class: 'btn btn-outline-info'%></div> 
-      </div>
+    <%# current_userをさらに判別して分岐 %>
+      <%# グループ所属済みなら %>
+      <% if @group.users.ids.include?(current_user.id) %>
+        <div class="row form-group mt-3">
+          <div class="col-lg-11"></div>
+          <div class="col-lg-1"><%= link_to '退会', root_path , class: 'btn btn-outline-danger'%></div> 
+        </div>
+      <%# グループ未所属なら %>
+      <% else %>
+        <div class="row form-group mt-3">
+          <div class="col-lg-11"></div>
+          <div class="col-lg-1"><%= link_to '申請', join_group_path(@group) , class: 'btn btn-outline-info'%></div> 
+        </div>
+      <% end %>
     <% end %>
