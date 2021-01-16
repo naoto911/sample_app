@@ -10,9 +10,11 @@ require("channels")
 
 require('jquery') // 追記 21/1/6
 // require('jquery_ujs') // 追記 21/1/6
+require('test.js')
 
 import 'bootstrap';
-import '../src/application.scss';
+//import '../src/application.scss'; 非表示 21/1/15 非表示によりjs読み込みが可能に
+
 import "@fortawesome/fontawesome-free/js/all"; // 追記 21/1/6
 
 // Uncomment to copy all static images under ../images to the output folder and reference

@@ -1,23 +1,26 @@
-<div class="d-flex align-items-center">
-  <h3><%= @group.name %></h3>
-</div>
+ <%# environment.jsのバックアップ @1/15に除去した部分 %>
+ // 追記 21/1/6
+//jQueryとBootstapのJSを使えるようにjQueryとBootstapのJSを使えるように
+// const webpack = require('webpack')
+// environment.plugins.prepend(
+//   'Provide',
+//   new webpack.ProvidePlugin({
+//     $: 'jquery',
+//     jQuery: 'jquery',
+//     Popper: 'popper.js'
+//   })
+// )
+// ここまで
+<%# jsのテストファイル %>
 
-<%# ここにメモを記述 %>
-<a class="nav-link"  data-method="delete" href="<%= login_path %>">ログアウト</a> 
-
-<%# グループ参加申請の時にこの処理を記述 %>
-<% if logged_in? %>
-  <%= render 'groups/logged_in' %>
-<% else %>
-  <%= render 'groups/not_logged_in' %>
-<% end %>
-
-<%# each do %>
-<% (1..5).each do |i| %>
-<% end %>
-
-<% @users.each_with_index do |user,i| %>
-<% end %>
+    <%# jsが使用できるかのテスト%>
+      <p>テスト</p>
+      <script type="text/javascript">
+        $(document).ready(function() {
+        $("p").text("成功！！");
+        });
+      </script>
+    <%# ここまで %>
 
 <%# 多対多テンプレ %>
 docker-compose run web bundle exec rails g model <model(中)> <model(多)1>:references <model(多)2>:references
@@ -25,22 +28,6 @@ docker-compose run web bundle exec rails g model user_group_relation user:refere
 
 <%# テンプレ %>
 AddColumnNullToGroups
-
-<%# ここからuser情報を送る %>
-  <p>所属するメンバー</p>
-   <div class="field">
-     <br>
-<%#collection_check_boxesを利用 %>
-    <%#= collection_check_boxes(:group, :user_ids, User.all, :id, :name ) do |t|  %>
-      <%# t.label { t.check_box + t.text } %>
-    <%# end %> 
-  </div>
-   <br>
-
-<!-- groupとuserの紐付けのテスト -->
-<% group.users.each do |group_user| %>
-<%= group_user.name %>
-<% end %>
 
 <!-- User controller -->
 docker-compose exec web rails g controller Users new show edit destroy
@@ -71,3 +58,7 @@ docker-compose exec web rails g controller Answers show edit
 
 docker-compose run web rails g migration change_answer_of_Answers
 <%= f.select :faculty, [["理工学部", "理工学部"], ["経済学部", "経済学部"], ["法学部", "法学部"], ["医学部", "医学部"]], include_blank: "選択して下さい" %>
+
+<%# stylesheets/application.scssの2行を消した %>
+ *= require_tree .
+ *= require_self
