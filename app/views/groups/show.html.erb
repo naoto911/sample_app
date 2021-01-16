@@ -6,24 +6,28 @@
 <%#3個分のタブ%>
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
-    <a class="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">紹介</a>
+    <!-- <a class="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">紹介</a> -->
+    <a class="nav-link <%= 'active' unless @group.users.ids.include?(current_user.id) %>" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">紹介</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">日程</a>
+    <!-- <a class="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">日程</a> -->
+    <a class="nav-link <%= 'active' if @group.users.ids.include?(current_user.id) %>" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">日程</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" id="item3-tab" data-toggle="tab" href="#item3" role="tab" aria-controls="item3" aria-selected="false">メンバー</a>
   </li>
 </ul>
 
-<!-- タブ部分 (各tabをpartialでわけるべき?) -->
 <div class="tab-content">
   <%#グループ紹介ページを表示%>
-    <div class="tab-pane fade show active" id="item1" role="tabpanel" aria-labelledby="item1-tab">
+    <%# binding.pry %>
+    <div class="tab-pane fade <%= 'show active' unless @group.users.ids.include?(current_user.id) %>" id="item1" role="tabpanel" aria-labelledby="item1-tab">
+    <!-- <div class="tab-pane fade show active" id="item1" role="tabpanel" aria-labelledby="item1-tab"> -->
       <%= render partial: 'groups/group_show/detaile', locals: { group: @group } %>
     </div>
   <%#日程ページを表示%>
-    <div class="tab-pane fade" id="item2" role="tabpanel" aria-labelledby="item2-tab">
+    <div class="tab-pane fade <%= 'show active' if @group.users.ids.include?(current_user.id) %>" id="item2" role="tabpanel" aria-labelledby="item2-tab">
+    <!-- <div class="tab-pane fade" id="item2" role="tabpanel" aria-labelledby="item2-tab"> -->
     <%= render partial: 'groups/group_show/schedule', locals: { group: @group } %>
     </div>
   <%#メンバーページを表示%>
