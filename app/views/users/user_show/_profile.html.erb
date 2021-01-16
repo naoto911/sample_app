@@ -24,7 +24,7 @@
     </div>
     <div class="row form-group mt-3">
       <div class="col-lg-11"></div>
-      <div class="col-lg-1"><%= button_to '削除', user_path(@user), class: 'btn btn-outline-danger', method: :delete %></div>
+      <div class="col-lg-1"><%= link_to '削除', user_path(@user), class: 'btn btn-outline-danger', method: :delete %></div>
       <div class="col-lg-4"></div>
     </div>
 <%# 他のユーザの場合 %>
