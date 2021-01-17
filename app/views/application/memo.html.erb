@@ -67,3 +67,8 @@ docker-compose run web rails g migration change_answer_of_Answers
 <%= link_to URLヘルパー, class: "btn btn-danger", method: :delete do %>
   <i class="far fa-trash-alt"></i> #=>　アイコンのコード
 <% end %>
+
+<%# 画像投稿機能 %>
+docker-compose run web bundle exec rails g uploader image
+docker-compose run web rails generate migration add_image_to_users image:string
+<%# %>

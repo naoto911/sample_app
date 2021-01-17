@@ -13,6 +13,9 @@ RUN apt-get update && apt-get install -y curl apt-transport-https wget && \
 RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - && \
   apt-get install nodejs
 
+# imagemagickをインストール
+RUN apt-get update -qq && apt-get install -y imagemagick 
+
 RUN mkdir /sample_app
 WORKDIR /sample_app
 COPY Gemfile /sample_app/Gemfile
