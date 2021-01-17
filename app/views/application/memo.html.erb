@@ -77,4 +77,11 @@ docker-compose run web rails generate migration add_image_to_users image:string
   <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
 </div>
 
+<%# 画像保存済みの場合はサムネイルを表示 %>
+<div class="row no-gutters">
+  <div class="col-lg-6" style="max-width: 150px;">
+    <%= image_tag "#{@user.image}" if @user.image? %>
+  </div>
+</div>
+
 <%# %>

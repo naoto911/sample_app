@@ -6,7 +6,8 @@
     <%# 有る場合 %>
     <% if user.image? %>
       <div class="col-lg-6" style="max-width: 150px;">
-        <%= image_tag "#{user.image}", class: "card-img", alt:"..." %>
+        <%#= image_tag "#{user.image}", class: "card-img", alt:"..." %>
+        <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="..."> <%# 見た目が悪いので一時的に使用 %>
       </div>
     <%# 無い場合 %>
     <% else %>

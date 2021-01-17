@@ -17,6 +17,9 @@
     <div class="col-lg-4"></div>
     <div class="col-lg-2"><%= f.label :image, '画像' %></div>
     <div class="col-lg-6"><%= f.file_field :image %></div>
+    <%= f.hidden_field :image_cache %>
+    <%#= f.hidden_field :image_cache %>
+    <%#= f.file_field :image %>
   </div>
 
   <div class="row">
