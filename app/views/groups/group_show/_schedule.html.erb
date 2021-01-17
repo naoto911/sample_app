@@ -26,9 +26,11 @@
           <%# eventとuserからAnswerオブジェクトを一意に収束させるための計算処理 %>
             <% group.users.each_with_index do |group_user| %> 
               <% answer = Answer.find_by(event_id: group_event.id, user_id: group_user) %>
-              <%# current_userを判別して分岐 %>
+                <%# eventがない場合 %>
+                <% if answer == nil %>
+                <td></td>
                 <%# 自分自身 %>
-                <% if group_user == current_user %>
+                <% elsif group_user == current_user %>
                   <td><%= link_to answer.answer, edit_answer_path(answer.id) %></td>
                 <%# その他のユーザー %>
                 <% else %>
