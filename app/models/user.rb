@@ -1,5 +1,7 @@
 class User < ApplicationRecord
 
+# ==============画像uploader機能 ================================
+  mount_uploader :image, ImageUploader
 # ==============バリデーション ================================
   #ユーザー認証のpassword用の設定
   has_secure_password
