@@ -62,3 +62,8 @@ docker-compose run web rails g migration change_answer_of_Answers
 <%# stylesheets/application.scssの2行を消した %>
  *= require_tree .
  *= require_self
+
+ <!-- ここからlink付きfontawesome -->
+<%= link_to URLヘルパー, class: "btn btn-danger", method: :delete do %>
+  <i class="far fa-trash-alt"></i> #=>　アイコンのコード
+<% end %>
