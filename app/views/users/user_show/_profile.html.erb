@@ -2,9 +2,19 @@
 <div class="card my-3" style="max-width: 500px;">
   <%= link_to user_path(user) do %>
   <div class="row no-gutters">
-    <div class="col-lg-6" style="max-width: 150px;">
-      <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
-    </div>
+  <%# 画像ファイルの有無で処理を分岐 %>
+    <%# 有る場合 %>
+    <% if user.image? %>
+      <div class="col-lg-6" style="max-width: 150px;">
+        <%= image_tag "#{user.image}", class: "card-img", alt:"..." %>
+      </div>
+    <%# 無い場合 %>
+    <% else %>
+      <div class="col-lg-6" style="max-width: 150px;">
+        <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
+      </div>
+    <% end %>
+
     <div class="col-lg-6">
       <div class="card-body">
           <h4 class="card-title"><%= user.name %></h4>
