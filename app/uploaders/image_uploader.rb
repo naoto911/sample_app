@@ -3,8 +3,16 @@ class ImageUploader < CarrierWave::Uploader::Base
   # include CarrierWave::RMagick
    include CarrierWave::MiniMagick
 
-   process resize_to_fill: [1000, 500] #画面をリサイズ
+  #=============画像サイズ変更==================
+  # 画面をリサイズ
+   process resize_to_fill: [1000, 500]
 
+  # 上記とは別にサムネイルを別サイズで用意します。
+  version :thumb do
+    process resize_to_fill: [200, 200]
+  end
+
+  #============= ==================
   # Choose what kind of storage to use for this uploader:
   storage :file
   # storage :fog

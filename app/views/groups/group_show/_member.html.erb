@@ -2,16 +2,26 @@
 <h3 class="my-3">幹事</h3>
 <div class="card my-3" style="max-width: 500px;">
   <%= link_to user_path(group.users.find(@admin_user.id)) do %>
+
   <div class="row no-gutters">
+    <%# 画像ファイルの有無で処理を分岐 %>
     <div class="col-lg-6" style="max-width: 150px;">
-      <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
+      <%# 有る場合 %>
+      <% if @admin_user.image? %>
+        <%= image_tag @admin_user.image.thumb.url, class: "card-img", alt:"..." %>
+      <%# 無い場合 %>
+      <% else %>
+          <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
+      <% end %>
     </div>
+
     <div class="col-lg-6">
       <div class="card-body">
           <h4 class="card-title"><%= @admin_user.name %></h4>
           <p class="card-text"><%= @admin_user.email %></p>
       </div>
     </div>
+
   </div>
   <% end %>
 </div>
@@ -26,19 +36,29 @@
     <% next %>
     <% end %>
     
-    <%# 幹事の時の処理 %>
+    <%# 幹事以外の処理 %>
     <div class="card my-3" style="max-width: 500px;">
       <div class="row no-gutters">
+        <%# 画像ファイルの有無で処理を分岐 %>
         <div class="col-lg-6" style="max-width: 150px;">
-          <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
+          <%# 有る場合 %>
+          <% if group_user.image? %>
+            <%= image_tag group_user.image.thumb.url, class: "card-img", alt:"..." %>
+          <%# 無い場合 %>
+          <% else %>
+            <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
+          <% end %>
         </div>
+
         <div class="col-lg-6">
           <div class="card-body">
             <h4 class="card-title"><%= group_user.name %></h4>
             <p class="card-text"><%= group_user.email %></p>
           </div>
         </div>
+
       </div>
     </div>  
+
   <% end %>
 <% end %>

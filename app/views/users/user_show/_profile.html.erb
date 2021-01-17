@@ -1,20 +1,18 @@
 <!-- ユーザー情報を表示 -->
 <div class="card my-3" style="max-width: 500px;">
   <%= link_to user_path(user) do %>
+  
   <div class="row no-gutters">
-  <%# 画像ファイルの有無で処理を分岐 %>
-    <%# 有る場合 %>
-    <% if user.image? %>
-      <div class="col-lg-6" style="max-width: 150px;">
-        <%#= image_tag "#{user.image}", class: "card-img", alt:"..." %>
-        <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="..."> <%# 見た目が悪いので一時的に使用 %>
-      </div>
-    <%# 無い場合 %>
-    <% else %>
-      <div class="col-lg-6" style="max-width: 150px;">
-        <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
-      </div>
-    <% end %>
+    <%# 画像ファイルの有無で処理を分岐 %>
+    <div class="col-lg-6" style="max-width: 150px;">
+      <%# 有る場合 %>
+      <% if user.image? %>
+        <%= image_tag user.image.thumb.url, class: "card-img", alt:"..." %>
+      <%# 無い場合 %>
+      <% else %>
+          <img src= <%="/assets/cuba1.jpeg"%> class="card-img" alt="...">
+      <% end %>
+    </div>
 
     <div class="col-lg-6">
       <div class="card-body">

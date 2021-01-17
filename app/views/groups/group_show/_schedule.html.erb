@@ -12,11 +12,6 @@
         <% group.users.each_with_index do |group_user| %>
           <th><%= link_to group_user.name, user_path(group_user) %></th> 
         <% end %>
-        <%# ここから横幅を意図的にひろげるダミーデータ%>
-        <% (1..20).each do |i| %>
-          <th><%= "ダミー#{i} "%></th>
-        <% end %>
-        <%# ここから横幅を意図的にひろげるダミーデータ%>
       </tr>
     </thead>
     <tbody>
@@ -34,17 +29,12 @@
               <%# current_userを判別して分岐 %>
                 <%# 自分自身 %>
                 <% if group_user == current_user %>
-                  <td><%= link_to answer.answer, edit_answer_path(answer.id) %></td> 
+                  <td><%= link_to answer.answer, edit_answer_path(answer.id) %></td>
                 <%# その他のユーザー %>
                 <% else %>
-                  <td><%=  answer.answer %></td>
+                  <td><%= answer.answer %></td>
                 <% end %>
             <% end %>
-          <%# ここから横幅を意図的にひろげるダミーデータ%>
-          <% (1..20).each do |i| %>
-            <td></td>
-          <% end %>
-          <%# ここから横幅を意図的にひろげるダミーデータ%>
         </tr>
       <% end %>
     </tbody>
