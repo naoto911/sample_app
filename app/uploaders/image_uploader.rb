@@ -9,7 +9,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   # 上記とは別にサムネイルを別サイズで用意します。
   version :thumb do
-    process resize_to_fill: [200, 200]
+    process resize_to_fill: [250, 250]
   end
 
   #============= ==================

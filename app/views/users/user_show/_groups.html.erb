@@ -1,5 +1,4 @@
   <!-- 所属するグループを情報を表示 -->
-<h3 class="my-3">所属グループ</h3>
 <% user.groups.each_with_index do |user_group| %>
   <%= link_to group_path(user_group) do %>
     <div class="card my-3" style="max-width: 500px;">
