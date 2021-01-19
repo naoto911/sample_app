@@ -12,5 +12,16 @@
     <%= f.text_area :introduction, class: 'form-control', rows: 10 %>
   </div>
 
+<%# ここから画像をアップロード %>
+  <div class="row form-group mt-3">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-2"><%= f.label :image, '画像' %></div>
+    <div class="col-lg-6"><%= f.file_field :image %></div>
+    <%#= f.hidden_field :image_cache %>
+      <div class="col-lg-6" style="max-width: 150px;">
+        <%= image_tag group.image.thumb.url if group.image? %>
+      </div>
+  </div>
+
   <%= f.submit '保存', class: 'btn btn-info' %>
 <% end %>

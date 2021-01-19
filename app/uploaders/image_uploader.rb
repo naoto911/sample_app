@@ -5,7 +5,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   #=============画像サイズ変更==================
   # 画面をリサイズ
-   process resize_to_fill: [1000, 500]
+   process resize_to_fill: [500, 500]
 
   # 上記とは別にサムネイルを別サイズで用意します。
   version :thumb do

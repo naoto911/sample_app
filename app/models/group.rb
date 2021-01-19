@@ -1,5 +1,7 @@
 class Group < ApplicationRecord
 
+# ==============画像uploader機能 ================================
+  mount_uploader :image, ImageUploader
 # ==============バリデーション ================================
   #グループ情報は未入力は不可
   with_options presence: true do

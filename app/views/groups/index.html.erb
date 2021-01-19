@@ -13,7 +13,14 @@
     <div class="col-4 my-3">
       <div class="card">
         <%= link_to group_path(group) do %>
-          <img src= <%="/assets/group#{i+1}.png"%> class="card-img-top" alt="...">
+          <%# 画像が有る場合 %>
+          <% if group.image? %>
+            <%= image_tag group.image.url, class: "card-img", alt:"..." %>
+          <%# 画像が無い場合 %>
+          <% else %>
+            <img src= <%="/assets/group#{1}.png"%> class="card-img" alt="...">
+          <% end %>
+
           <div class="card-body">
             <h5 class="card-title"><%= group.name %></h5>
             <p class="card-text"><%= group.introduction %></p>

@@ -71,7 +71,7 @@ class GroupsController < ApplicationController
 private
 
   def group_params
-    params.require(:group).permit(:name, :introduction)
+    params.require(:group).permit(:name, :introduction, :image, :image_cache)
   end
 
   def set_target_group

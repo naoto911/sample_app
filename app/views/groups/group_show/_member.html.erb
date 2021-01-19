@@ -39,12 +39,11 @@
     <%# 幹事以外の処理 %>
     <div class="card my-3" style="max-width: 500px;">
       <div class="row no-gutters">
-        <%# 画像ファイルの有無で処理を分岐 %>
         <div class="col-lg-6" style="max-width: 150px;">
-          <%# 有る場合 %>
+          <%# 画像が有る場合 %>
           <% if group_user.image? %>
             <%= image_tag group_user.image.thumb.url, class: "card-img", alt:"..." %>
-          <%# 無い場合 %>
+          <%# 画像が無い場合 %>
           <% else %>
             <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
           <% end %>
