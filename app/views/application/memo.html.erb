@@ -87,4 +87,17 @@ docker-compose run web rails generate migration add_image_to_users image:string
 <%# %><%#= group.index %>
 <img src= <%="/assets/group#{i+1}.png"%> class="card-img-top" alt="...">
 
-<%# %><%#= answer.answer %>
+
+<%# ここから検索フォームのテスト %>
+<%= form_tag root_path, method: :get, class: 'boards__searchForm' do %>
+      <%= select_tag :tag_id,
+                     options_from_collection_for_select(Group.all, :id, :introduction, params[:tag_id]),
+                     {
+                       prompt: 'タグで絞り込み検索',
+                       onchange: 'submit(this.form);'
+                     }
+      %>
+<% end %>
+
+<%# %>
+<%#= answer.answer %>
