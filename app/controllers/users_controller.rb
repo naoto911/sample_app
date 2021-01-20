@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :logged_in_user, only: %i[ edit show update destroy ] #このアクションはログイン後しか実行できない
   before_action :set_target_user, only: %i[show edit update destroy]
   before_action :master_user, only: %i[ edit update destroy] #自分自身でないと操作できないアクション
+  before_action :check_guest, only: %i[update destroy] #ゲストユーザーは編集,削除不可
 
   def index
   end
@@ -56,6 +57,16 @@ class UsersController < ApplicationController
     redirect_to groups_path, flash: { notice: "「#{@user.name}」が削除されました"}
   end
 
+  #ゲストユーザーログイン機能 1/20追記
+  def guest_login
+    user = User.find_or_create_by(email: 'guest@example.com')
+    user.name = "GuestUser"
+    user.password = SecureRandom.urlsafe_base64
+    user.save if !user.id #idがない場合、DBに保存してIDを生成
+    session[:user_id] = user.id
+    redirect_to groups_path, flash: { notice: "「ゲストユーザー」としてログインしました" }
+  end
+
 private
 
   def user_params
@@ -70,6 +81,13 @@ private
   def master_user
     unless @user.id == current_user.id
       redirect_back(fallback_location: root_path) #直接urlに入力してきたユーザーは戻す
+    end
+  end
+
+  #ゲストユーザーは変更・削除できない使用 1/20追加
+  def check_guest
+    if @user.email == 'guest@example.com'
+      redirect_to root_path, flash: { notice: "「ゲストユーザー」は変更・削除できません" }
     end
   end
 

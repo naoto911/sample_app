@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/login', to: 'sessions#destroy'
+  get 'guest_login', to: "users#guest_login" #簡単ログイン用に追加 1/20
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'groups#index'
