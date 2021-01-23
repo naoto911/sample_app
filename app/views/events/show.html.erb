@@ -21,11 +21,6 @@
         <% @group.users.each_with_index do |group_user| %>
           <th><%= link_to group_user.name, user_path(group_user) %></th> 
         <% end %>
-        <%# ここから横幅を意図的にひろげるダミーデータ%>
-        <% (1..20).each do |i| %>
-          <th><%= "ダミー#{i} "%></th>
-        <% end %>
-        <%# ここから横幅を意図的にひろげるダミーデータ%>
       </tr>
     </thead>
     <tbody>
@@ -42,11 +37,6 @@
           <%# Answer.find_by(U_E_relations.id) で完全に一意に収束できる? %>
             <td></td>
           <% end %>
-          <%# ここから横幅を意図的にひろげるダミーデータ%>
-          <% (1..20).each do |i| %>
-            <td></td>
-          <% end %>
-          <%# ここから横幅を意図的にひろげるダミーデータ%>
         </tr>
     </tbody>
   </table>
