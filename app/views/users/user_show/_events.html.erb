@@ -1,0 +1,30 @@
+  <!-- 所属するイベントを情報を表示 -->
+<% user.events.each_with_index do |user_event| %>
+<% @event_group = Group.find(user_event.group_id) %>
+  <%= link_to group_path(@event_group) do %>
+    <div class="card my-3" style="max-width: 500px;">
+      <div class="row no-gutters">
+        <div class="col-lg-6" style="max-width: 150px;">
+
+          <%# 画像が有る場合 %>
+          <% if @event_group.image? %>
+            <%= image_tag @event_group.image.thumb.url, class: "card-img", alt:"..." %>
+          <%# 画像が無い場合 %>
+          <% else %>
+            <img src= <%="/assets/group#{1}.png"%> class="card-img" alt="...">
+          <% end %>
+
+        </div>
+        <div class="col-lg-6">
+          <div class="card-body">
+            <h4 class="card-title"><%= user_event.place %></h4>
+            <p class="card-text"><%= user_event.date.strftime( "%-m/%-d" ) %></p>
+              <% time_s = user_event.starttime.strftime( "%H:%M" ) %> <%# 開始時間をtime_sに格納%>
+              <% time_f = user_event.finishtime.strftime( "%H:%M" ) %> <%# 開始時間をtime_fに格納%>
+            <p class="card-text"><%= "#{time_s}~#{time_f}" %></p>
+          </div>
+        </div>
+      </div>
+    </div>  
+  <% end %>
+<% end %>

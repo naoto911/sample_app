@@ -5,13 +5,16 @@
 
 <h3 class="my-3">マイページ</h3>
 
-<%#2個分のタブ%>
+<%#3個分のタブ%>
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">プロフィール</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">所属グループ一覧</a>
+  </li>
+  <li class="nav-item"> <%# 2/5 追記 %>
+  <a class="nav-link" id="item3-tab" data-toggle="tab" href="#item3" role="tab" aria-controls="item3" aria-selected="false">参加event一覧</a>
   </li>
 </ul>
 
@@ -24,5 +27,9 @@
   <%#日程ページを表示%>
     <div class="tab-pane fade" id="item2" role="tabpanel" aria-labelledby="item2-tab">
     <%= render partial: 'users/user_show/groups', locals: { user: @user } %>
+    </div>
+  <%#イベントページを表示%>
+    <div class="tab-pane fade" id="item3" role="tabpanel" aria-labelledby="item3-tab">
+    <%= render partial: 'users/user_show/events', locals: { user: @user } %>
     </div>
 </div>
