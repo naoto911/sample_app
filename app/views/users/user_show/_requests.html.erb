@@ -3,9 +3,9 @@
 <% user_group = Group.find(join_user.group_id) %>
 
   <%#= link_to edit_group_join_path(user_group,join_user) do %>
-    <div class="card my-3" style="max-width: 500px;">
+    <div class="card my-3" style="max-width: 500px;"> <!-- max-height: 75px;-->
       <div class="row no-gutters">
-        <div class="col-lg-6" style="max-width: 150px;">
+        <div class="col-lg-4" style="max-width: 100%;">
 
           <%# 画像が有る場合 %>
           <% if user_group.image? %>
@@ -16,7 +16,7 @@
           <% end %>
 
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-8">
           <div class="card-body">
             <h4 class="card-title"><%= join_user.level %></h4>
             <p class="card-text"><%= join_user.content %></p>
