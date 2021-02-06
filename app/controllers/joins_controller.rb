@@ -11,7 +11,7 @@ class JoinsController < ApplicationController
     join = Join.new(join_params)
     join.user_id = current_user.id
     if join.save
-      flash[:notice] = "「参加申請処理」が完了しました"
+      flash[:notice] = "「参加申請」が完了しました"
       redirect_to group_path(@group)
     else
   #フォームの入力エラーを起こした際のエラー表示を取得するための処理
@@ -24,7 +24,7 @@ class JoinsController < ApplicationController
 
   def update
     if @join.update(join_params)
-      flash[:notice] = "「参加申請処理」を更新しました"
+      flash[:notice] = "「参加申請」を更新しました"
       redirect_to user_path(@join.user_id)
     else
   #フォームの入力エラーを起こした際のエラー表示を取得するための処理
