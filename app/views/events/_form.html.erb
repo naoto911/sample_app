@@ -2,7 +2,7 @@
 <%= render 'shared/error_messages' %>
 
 <%# ここから新規投稿フォーム %>
-<%= form_for [@group,event] do |f| %>
+<%= form_for [group,event] do |f| %>
   <div class="form-group mt-3">
     <%= f.label :date, '日付' %>
     <br>

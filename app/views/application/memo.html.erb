@@ -122,7 +122,8 @@ Private
 
 <%# ターミナル記述メモ %>
 docker-compose exec web rails g controller joins new edit show
-docker-compose run web bundle exec rails g model <モデル名> <カラム名>
+
+docker-compose run web bundle exec rails g model Join user:references group:references
 
 <div class="col-lg-1"><%= link_to '申請', join_group_path(@group) , class: 'btn btn-outline-info'%></div> 
 <%# %>
