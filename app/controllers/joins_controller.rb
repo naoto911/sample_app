@@ -32,6 +32,6 @@ class JoinsController < ApplicationController
   def destroy
   end
 
-Private
+private
 
 end
