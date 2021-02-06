@@ -4,9 +4,6 @@ class UsersController < ApplicationController
   before_action :master_user, only: %i[ edit update destroy] #自分自身でないと操作できないアクション
   before_action :check_guest, only: %i[update destroy] #ゲストユーザーは編集,削除不可
 
-  def index
-  end
-
   #アカウントがないので新規作成させる
   def new
     @user = User.new

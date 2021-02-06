@@ -13,9 +13,9 @@ class Group < ApplicationRecord
   validates :name, uniqueness: true       #nameは重複不可
 
 # ==============アソシエーション ================================
-  #user_group_relations用 (多対多)
-  has_many :user_group_relations, dependent: :destroy
-  has_many :users, through: :user_group_relations
+  #join用 (多対多)
+  has_many :joins, dependent: :destroy
+  has_many :users, through: :joins
   #event用(1対多) (Groupv対Event)
   has_many :events, dependent: :destroy
 end

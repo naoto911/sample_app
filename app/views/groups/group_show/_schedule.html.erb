@@ -10,7 +10,8 @@
         <th>場所</th>
         <th>備考</th>
         <th>○</th>
-        <% group.users.each_with_index do |group_user| %>
+        <% Join.where(group_id: group.id, level: 1).each_with_index do |join_user| %>
+        <% group_user = User.find(join_user.user_id) %>
           <th><%= link_to group_user.name, user_path(group_user) %></th> 
         <% end %>
       </tr>
@@ -18,15 +19,16 @@
     <tbody>
       <% group.events.each_with_index do |group_event| %>
         <tr>
-            <td><%= link_to group_event.date.strftime( "%-m/%-d" ), group_event_path(group,group_event)  %></td>
+            <td><%= link_to group_event.date.strftime( "%-m/%-d" ), group_event_path(group,group_event)  %></td> <%# 日付 %>
             <% time_s = group_event.starttime.strftime( "%H:%M" ) %> <%# 開始時間をtime_sに格納%>
             <% time_f = group_event.finishtime.strftime( "%H:%M" ) %> <%# 開始時間をtime_fに格納%>
-          <td><%= "#{time_s}~#{time_f}" %></td>
-          <td><%= group_event.place %></td>
-          <td><%= group_event.remarks %></td>
+          <td><%= "#{time_s}~#{time_f}" %></td> <%# 時間 %>
+          <td><%= group_event.place %></td> <%# 場所 %>
+          <td><%= group_event.remarks %></td> <%# 備考 %>
           <td><%= Answer.where(event_id: group_event, answer: "○").count %></td> <%# 参加可能の数をcount %>
           <%# eventとuserからAnswerオブジェクトを一意に収束させるための計算処理 %>
-            <% group.users.each_with_index do |group_user| %> 
+            <% Join.where(group_id: group.id, level: 1).each_with_index do |join_user| %>
+            <% group_user = User.find(join_user.user_id) %>
               <% answer = Answer.find_by(event_id: group_event.id, user_id: group_user) %>
                 <%# eventがない場合 %>
                 <% if answer == nil %>

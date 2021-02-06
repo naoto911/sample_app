@@ -28,7 +28,8 @@
 
 <!-- 幹事以外の紹介 -->
 <h3 class="my-3">メンバー</h3>
-<% group.users.each_with_index do |group_user| %>
+<% Join.where(group_id: group.id, level: 1).each_with_index do |join_user| %>
+<% group_user = User.find(join_user.user_id) %>
   <%= link_to user_path(group_user) do %>
 
     <%# 幹事の時はeach do を一回分進める%>

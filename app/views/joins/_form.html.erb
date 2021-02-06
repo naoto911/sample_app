@@ -10,7 +10,7 @@
   <div class="form-group">
     <%= f.label :level, '気になる or 参加希望' %>
     <br>
-    <%= f.select :level, [["参加希望", "参加希望"]], include_blank: "気になる" , class: 'form-control' %>
+    <%= f.select :level, [["気になる", 3],["参加希望", 2]], {}, class: 'form-control' %>
   </div>
 
   <%= f.submit '保存', class: 'btn btn-info' %>
