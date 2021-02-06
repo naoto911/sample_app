@@ -5,7 +5,7 @@
 
 <h3 class="my-3">マイページ</h3>
 
-<%#3個分のタブ%>
+<%#4個分のタブ%>
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">プロフィール</a>
@@ -16,20 +16,27 @@
   <li class="nav-item"> <%# 2/5 追記 %>
   <a class="nav-link" id="item3-tab" data-toggle="tab" href="#item3" role="tab" aria-controls="item3" aria-selected="false">参加event一覧</a>
   </li>
+  <li class="nav-item"> <%# 2/6 追記 %>
+  <a class="nav-link" id="item4-tab" data-toggle="tab" href="#item4" role="tab" aria-controls="item4" aria-selected="false">参加申請</a>
+  </li>
 </ul>
 
 <!-- タブ部分 (各tabをpartialでわけるべき?) -->
 <div class="tab-content">
-  <%#グループ紹介ページを表示%>
+  <%# グループ紹介ページを表示 %>
     <div class="tab-pane fade show active" id="item1" role="tabpanel" aria-labelledby="item1-tab">
       <%= render partial: 'users/user_show/profile', locals: { user: @user } %>
     </div>
-  <%#日程ページを表示%>
+  <%# 日程ページを表示 %>
     <div class="tab-pane fade" id="item2" role="tabpanel" aria-labelledby="item2-tab">
     <%= render partial: 'users/user_show/groups', locals: { user: @user } %>
     </div>
-  <%#イベントページを表示%>
+  <%# イベントページを表示 %> <%# 2/5 追記 %>
     <div class="tab-pane fade" id="item3" role="tabpanel" aria-labelledby="item3-tab">
     <%= render partial: 'users/user_show/events', locals: { user: @user } %>
+    </div>
+  <%# 参加申請を表示 %> <%# 2/6 追記 %>
+    <div class="tab-pane fade" id="item4" role="tabpanel" aria-labelledby="item4-tab">
+    <%= render partial: 'users/user_show/requests', locals: { user: @user } %>
     </div>
 </div>

@@ -1,0 +1,28 @@
+  <!-- 申請中のグループを情報を表示 -->
+<% Join.where(user_id: user.id).where.not(level: 1).each_with_index do |join_user| %>
+<% user_group = Group.find(join_user.group_id) %>
+
+  <%= link_to edit_group_join_path(user_group,join_user) do %>
+    <div class="card my-3" style="max-width: 500px;">
+      <div class="row no-gutters">
+        <div class="col-lg-6" style="max-width: 150px;">
+
+          <%# 画像が有る場合 %>
+          <% if user_group.image? %>
+            <%= image_tag user_group.image.thumb.url, class: "card-img", alt:"..." %>
+          <%# 画像が無い場合 %>
+          <% else %>
+            <img src= <%="/assets/group#{1}.png"%> class="card-img" alt="...">
+          <% end %>
+
+        </div>
+        <div class="col-lg-6">
+          <div class="card-body">
+            <h4 class="card-title"><%= join_user.level %></h4>
+            <p class="card-text"><%= join_user.content %></p>
+          </div>
+        </div>
+      </div>
+    </div>  
+  <% end %>
+<% end %>

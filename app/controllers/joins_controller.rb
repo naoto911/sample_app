@@ -1,6 +1,7 @@
 class JoinsController < ApplicationController
-  before_action :logged_in_user, only: %i[show new edit update destroy join] #このアクションはログイン後しか実行できない
-  before_action :set_target_group, only: %i[show new create edit update destroy join]
+  before_action :logged_in_user, only: %i[show new edit update destroy permit] #このアクションはログイン後しか実行できない
+  before_action :set_target_group, only: %i[show new create edit update destroy permit]
+  before_action :set_target_join, only: %i[show edit update destroy permit]
 
   def new
     @join = Join.new
@@ -22,6 +23,16 @@ class JoinsController < ApplicationController
   end
 
   def update
+    if @join.update(join_params)
+      flash[:notice] = "「参加申請処理」を更新しました"
+      redirect_to user_path(@join.user_id)
+    else
+  #フォームの入力エラーを起こした際のエラー表示を取得するための処理
+      redirect_to edit_group_join_path(@join), flash: {
+        join: @join,
+        error_messages: @join.errors.full_messages
+    }
+    end
   end
 
   def show
@@ -56,6 +67,10 @@ private
 
   def set_target_group
     @group = Group.find(params[:group_id])
+  end
+
+  def set_target_join
+    @join = Join.find_by(user_id: current_user.id, group_id: params[:group_id])
   end
 
 end
