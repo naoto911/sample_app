@@ -2,7 +2,7 @@
 <% Join.where(user_id: user.id).where.not(level: 1).each_with_index do |join_user| %>
 <% user_group = Group.find(join_user.group_id) %>
 
-  <%= link_to edit_group_join_path(user_group,join_user) do %>
+  <%#= link_to edit_group_join_path(user_group,join_user) do %>
     <div class="card my-3" style="max-width: 500px;">
       <div class="row no-gutters">
         <div class="col-lg-6" style="max-width: 150px;">
@@ -20,9 +20,16 @@
           <div class="card-body">
             <h4 class="card-title"><%= join_user.level %></h4>
             <p class="card-text"><%= join_user.content %></p>
+            <%#= link_to edit_group_join_path(user_group,join_user) %>
+            <%= link_to edit_group_join_path(user_group,join_user) do %>
+              <i class="fas fa-edit" style="font-size:2em"></i>
+            <% end %>
+            <%= link_to group_join_path(user_group,join_user), method: :delete do %>
+              <i class="far fa-trash-alt text-right" style="font-size:2em"></i>
+            <% end %>
           </div>
         </div>
       </div>
     </div>  
-  <% end %>
+  <%# end %>
 <% end %>
