@@ -18,7 +18,8 @@
         </div>
         <div class="col-lg-8">
           <div class="card-body">
-            <h4 class="card-title"><%= join_user.level %></h4>
+            <h4 class="card-title"><%= user_group.name %></h4>
+            <p class="card-text"><%= join_user.level %></p>
             <p class="card-text"><%= join_user.content %></p>
             <%#= link_to edit_group_join_path(user_group,join_user) %>
             <%= link_to edit_group_join_path(user_group,join_user) do %>

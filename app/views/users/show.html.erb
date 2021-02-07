@@ -19,6 +19,9 @@
   <li class="nav-item"> <%# 2/6 追記 %>
   <a class="nav-link" id="item4-tab" data-toggle="tab" href="#item4" role="tab" aria-controls="item4" aria-selected="false">申請待ち</a>
   </li>
+  <li class="nav-item"> <%# 2/7 追記 %>
+  <a class="nav-link" id="item5-tab" data-toggle="tab" href="#item5" role="tab" aria-controls="item5" aria-selected="false">承認依頼</a>
+  </li>
 </ul>
 
 <!-- タブ部分 (各tabをpartialでわけるべき?) -->
@@ -38,5 +41,9 @@
   <%# 参加申請を表示 %> <%# 2/6 追記 %>
     <div class="tab-pane fade" id="item4" role="tabpanel" aria-labelledby="item4-tab">
     <%= render partial: 'users/user_show/requests', locals: { user: @user } %>
+    </div>
+  <%# 参加申請を表示 %> <%# 2/7 追記 %>
+    <div class="tab-pane fade" id="item5" role="tabpanel" aria-labelledby="item5-tab">
+    <%= render partial: 'users/user_show/permits', locals: { user: @user } %>
     </div>
 </div>

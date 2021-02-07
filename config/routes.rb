@@ -14,7 +14,11 @@ Rails.application.routes.draw do
     #member do 2/6 削除 join controller に移行
       #get :join
     #end
-    resources :joins #2/6 join controller作成のため追記 
+    resources :joins do #2/6 join controller作成のため追記
+      member do 
+        get :permit
+      end 
+    end
     resources :events , :except => [:index ] 
   end
 
