@@ -35,13 +35,20 @@
   <%# ユーザー %>
     <% else %>
     <%# current_userをさらに判別して分岐 %>
-      <%# グループ所属済みなら %>
-      <% if @group.users.ids.include?(current_user.id) %>
+      <%# Join台帳に登録済み & 参加済み なら %>
+      <% join_group = Join.find_by(group_id: @group.id, user_id: current_user.id)%> <%# この後の処理で必要なので格納 %>
+      <% if @group.users.ids.include?(current_user.id) and join_group.level == 1 %>
         <div class="row form-group mt-3">
           <div class="col-lg-11"></div>
           <div class="col-lg-1"><%= link_to '退会', root_path , class: 'btn btn-outline-danger'%></div> 
         </div>
-      <%# グループ未所属なら %>
+      <%# グループ未所属 %>
+       <% elsif @group.users.ids.include?(current_user.id) %>
+        <div class="row form-group mt-3">
+          <div class="col-lg-11"></div>
+          <div class="col-lg-1"><%= link_to '申請編集', edit_group_join_path(@group,join_group) , class: 'btn btn-outline-info'%></div> 
+        </div>
+      <%# join台帳未登録なら %>
       <% else %>
         <div class="row form-group mt-3">
           <div class="col-lg-11"></div>
