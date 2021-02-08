@@ -3,6 +3,7 @@ class JoinsController < ApplicationController
   before_action :set_target_group, only: %i[show new create edit update destroy permit]
   before_action :set_target_join, only: %i[show edit update destroy permit]
   before_action :master_user, only: %i[ edit update destroy] #自分自身でないと操作できないアクション
+  before_action :admin_user, only: %i[ permit ] #幹事でないと操作できないアクション
 
   def new
     @join = Join.new
@@ -50,7 +51,7 @@ class JoinsController < ApplicationController
     #グループに新規参加の人の処理
     else 
       @join.level = 1 #joinのlevelを1(参加済)に変更　
-      @join.update
+      @join.save
       Event.where(group_id: @group.id).each_with_index do |group_event| #Eventを次々に取得 1/12編集
         group_event.users << current_user #Anserに(event_id,user_id)を紐付ける 1/12追記
       end
@@ -79,11 +80,18 @@ private
   end
 
   #master_user(自分のアカウント)でないと戻す処理
-    def master_user
-      @user = User.find(@join.user_id)
-      unless @user.id == current_user.id
-        redirect_back(fallback_location: root_path) #直接urlに入力してきたユーザーは戻す
-      end
+  def master_user
+    @user = User.find(@join.user_id)
+    unless @user.id == current_user.id
+      redirect_back(fallback_location: root_path) #直接urlに入力してきたユーザーは戻す
     end
+  end
 
+  #admin_userでないとrootに戻す処理
+  def admin_user
+    unless @group.adminuser_id == current_user.id
+      redirect_back(fallback_location: root_path) #直接urlに入力してきたユーザーはrootに戻す
+    end
+  end
+  
 end
