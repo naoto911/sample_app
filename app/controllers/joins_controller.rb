@@ -53,7 +53,7 @@ class JoinsController < ApplicationController
       @join.level = 1 #joinのlevelを1(参加済)に変更　
       @join.save
       Event.where(group_id: @group.id).each_with_index do |group_event| #Eventを次々に取得 1/12編集
-        group_event.users << current_user #Anserに(event_id,user_id)を紐付ける 1/12追記
+        group_event.users << User.find(@join.user_id) #Anserに(event_id,user_id)を紐付ける 1/12追記
       end
       redirect_to group_path(@group), flash: { notice: "「#{User.find(@join.user_id).name}が#{@group.name}に参加しました"}
     end
