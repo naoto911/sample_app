@@ -2,8 +2,9 @@ class JoinsController < ApplicationController
   before_action :logged_in_user, only: %i[show new edit update destroy permit] #このアクションはログイン後しか実行できない
   before_action :set_target_group, only: %i[show new create edit update destroy permit]
   before_action :set_target_join, only: %i[show edit update destroy permit]
-  before_action :master_user, only: %i[ edit update destroy] #自分自身でないと操作できないアクション
+  before_action :master_user, only: %i[ edit update ] #自分自身でないと操作できないアクション
   before_action :admin_user, only: %i[ permit ] #幹事でないと操作できないアクション
+  before_action :destroy_permition, only: %i[ destroy ] #自分自身or幹事でないと操作できないアクション
 
   def new
     @join = Join.new
@@ -94,4 +95,11 @@ private
     end
   end
   
+  def destroy_permition
+    @user = User.find(@join.user_id)
+    unless @user.id == current_user.id ||  @group.adminuser_id == current_user.id
+      redirect_back(fallback_location: root_path) #直接urlに入力してきたユーザーは戻す
+    end
+  end
+
 end
