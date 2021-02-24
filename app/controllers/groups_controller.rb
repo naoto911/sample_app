@@ -38,7 +38,7 @@ class GroupsController < ApplicationController
 
   def update
     if @group.update(group_params)
-      redirect_to groups_path
+      redirect_to group_path(@group)
     else
   #フォームの入力エラーを起こした際のエラー表示を取得するための処理
       redirect_to edit_group_path, flash: {
