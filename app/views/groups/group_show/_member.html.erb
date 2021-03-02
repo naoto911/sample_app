@@ -44,7 +44,7 @@
             <%# 画像が有る場合 %>
             <% if group_user.image? %>
               <%= image_tag group_user.image.thumb.url, class: "card-img", alt:"..." %>
-            <%# 画像が無い場合 %>
+           <%# 画像が無い場合 %> 
             <% else %>
               <img src= <%="/assets/gest.png"%> class="card-img" alt="...">
             <% end %>
@@ -56,9 +56,14 @@
               <p class="card-text"><%= group_user.email %></p>
             </div>
           </div>
-
+        
         </div>
       <% end %>
     </div>  
+
+  <% join_user = Join.find_by(group_id: group.id, user_id: group_user.id) %>
+  <div class="col-lg-1"> <%# 退会ボタン %> 
+    <%= link_to '退会', leave_group_join_path(group,join_user) , class: 'btn btn-outline-danger' , method: :delete %>
+  </div>
 
 <% end %>
