@@ -60,6 +60,9 @@ class JoinsController < ApplicationController
     end
   end 
 
+  def leave
+  end
+
   def destroy
     @join.destroy
     redirect_to user_path(current_user), flash: { notice: "「#{@group.name}」への参加申請が削除されました"}
@@ -95,6 +98,7 @@ private
     end
   end
   
+  #admin_user or master_user(自分のアカウント)でないと戻す処理
   def destroy_permition
     @user = User.find(@join.user_id)
     unless @user.id == current_user.id ||  @group.adminuser_id == current_user.id

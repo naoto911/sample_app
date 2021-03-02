@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :joins do #2/6 join controller作成のため追記
       member do 
         get :permit
+        #delete :leave
       end 
     end
     resources :events , :except => [:index ] 
