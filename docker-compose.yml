@@ -17,6 +17,9 @@ services:
       - log_data:/sample_app/log
     depends_on:
       - db
+    #binding.pry使用時に必要だがうまくいってない 3/2追記
+    #stdin_open: true
+    #tty: true
   db:
     build:
         context: .
