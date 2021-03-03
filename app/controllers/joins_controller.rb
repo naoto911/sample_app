@@ -4,7 +4,7 @@ class JoinsController < ApplicationController
   before_action :set_target_join, only: %i[show edit update destroy permit leave]
   before_action :master_user, only: %i[ edit update ] #自分自身でないと操作できないアクション
   before_action :admin_user, only: %i[ permit ] #幹事でないと操作できないアクション
-  before_action :destroy_permition, only: %i[ destroy ] #自分自身or幹事でないと操作できないアクション
+  before_action :destroy_permition, only: %i[ destroy leave ] #自分自身or幹事でないと操作できないアクション
 
   def new
     @join = Join.new

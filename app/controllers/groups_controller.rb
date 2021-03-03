@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :logged_in_user, only: %i[show new edit update destroy join] #このアクションはログイン後しか実行できない
+  before_action :logged_in_user, only: %i[show new edit update destroy join] #ログイン後しか実行できないアクション
   before_action :set_target_group, only: %i[show edit update destroy join]
   before_action :admin_user, only: %i[edit update destroy] #幹事でないと操作できないアクション
 
