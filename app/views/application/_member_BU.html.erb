@@ -1,0 +1,69 @@
+<!-- 幹事の紹介 -->
+<h3 class="my-3">幹事</h3>
+<div class="card my-3" style="max-width: 500px;">
+  <%= link_to user_path(group.users.find(@admin_user.id)) do %>
+
+  <div class="row no-gutters">
+    <%# 画像ファイルの有無で処理を分岐 %>
+    <div class="col-lg-6" style="max-width: 150px;">
+      <%# 有る場合 %>
+      <% if @admin_user.image? %>
+        <%= image_tag @admin_user.image.thumb.url, class: "card-img", alt:"..." %>
+      <%# 無い場合 %>
+      <% else %>
+          <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
+      <% end %>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card-body">
+          <h4 class="card-title"><%= @admin_user.name %></h4>
+          <p class="card-text"><%= @admin_user.email %></p>
+      </div>
+    </div>
+
+  </div>
+  <% end %>
+</div>
+
+<!-- 幹事以外の紹介 -->
+<h3 class="my-3">メンバー</h3>
+<% Join.where(group_id: group.id, level: 1).each_with_index do |join_user| %>
+<% group_user = User.find(join_user.user_id) %>
+
+    <%# 幹事の時はeach do を一回分進める%>
+    <% if group_user.id == @admin_user.id then %>
+    <% next %>
+    <% end %>
+    
+    <%# 幹事以外の処理 %>
+    <div class="card my-3" style="max-width: 500px;">
+      <%= link_to user_path(group_user) do %>
+        <div class="row no-gutters">
+          <div class="col-lg-6" style="max-width: 150px;">
+            <%# 画像が有る場合 %>
+            <% if group_user.image? %>
+              <%= image_tag group_user.image.thumb.url, class: "card-img", alt:"..." %>
+           <%# 画像が無い場合 %> 
+            <% else %>
+              <img src= <%="/assets/gest.png"%> class="card-img" alt="...">
+            <% end %>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card-body">
+              <h4 class="card-title"><%= group_user.name %></h4>
+              <p class="card-text"><%= group_user.email %></p>
+            </div>
+          </div>
+        
+        </div>
+      <% end %>
+    </div>  
+
+  <% join_user = Join.find_by(group_id: group.id, user_id: group_user.id) %>
+  <div class="col-lg-1"> <%# 退会ボタン %> 
+    <%= link_to '退会', leave_group_join_path(group,join_user) , class: 'btn btn-outline-danger' , method: :delete %>
+  </div>
+
+<% end %>
