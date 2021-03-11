@@ -16,6 +16,9 @@ RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - && \
 # imagemagickをインストール
 RUN apt-get update -qq && apt-get install -y imagemagick 
 
+# vimをインストール
+RUN apt-get install -y vim
+
 RUN mkdir /sample_app
 WORKDIR /sample_app
 COPY Gemfile /sample_app/Gemfile

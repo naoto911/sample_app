@@ -15,19 +15,19 @@ services:
       - public_data:/sample_app/public
       - tmp_data:/sample_app/tmp
       - log_data:/sample_app/log
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
     #binding.pry使用時に必要だがうまくいってない 3/2追記
     #stdin_open: true
     #tty: true
-  db:
-    build:
-        context: .
-        dockerfile: ./Docker/db/Dockerfile
-    environment:
-      - POSTGRES_PASSWORD=password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+  # db:
+  #   build:
+  #       context: .
+  #       dockerfile: ./Docker/db/Dockerfile
+  #   environment:
+  #     - POSTGRES_PASSWORD=password
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
   web:
     build:
       context: .
