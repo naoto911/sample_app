@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Syumix</title>
-    <link rel="icon" type="image/jpeg" href="/assets/cuba1.jpeg">
+    <link rel="icon" type="image/jpeg" href="/assets/cuba1.jpeg"o>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -15,6 +15,7 @@
     <div class="wrapper">
       <%= render 'layouts/header' %>
       <div class="main container mt-3">
+        <%= javascript_pack_tag 'hello_vue' %>
         <%= yield %>
       </div>
       <%= render 'layouts/footer' %>
