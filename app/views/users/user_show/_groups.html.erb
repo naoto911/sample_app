@@ -5,7 +5,7 @@
     <div class="card my-3" style="max-width: 500px;">
       <%= link_to group_path(user_group) do %>
         <div class="row no-gutters">
-          <div class="col-lg-6" style="max-width: 150px;">
+          <div class="col-6" style="max-width: 150px;">
 
             <%# 画像が有る場合 %>
             <% if user_group.image? %>
@@ -16,7 +16,7 @@
             <% end %>
 
           </div>
-          <div class="col-lg-6">
+          <div class="col-6">
             <div class="card-body">
               <h4 class="card-title"><%= user_group.name %></h4>
               <p class="card-text"><%= user_group.introduction %></p>

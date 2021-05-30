@@ -3,16 +3,17 @@
 <%# 紹介のフォーマット %>
 <div class="card mb-3">
   <div class="row no-gutters">
-    <div class="col-lg-6" style="max-width: 250px;">
+    <div class="col-6" style="max-width: 250px;"> <!-- style="max-width: 250px;"-->
       <%# 画像が有る場合 %>
       <% if @group.image? %>
-        <%= image_tag @group.image.thumb.url, class: "card-img", alt:"..." %>
+        <%#= image_tag @group.image.thumb.url, class: "card-img", alt:"..." %>
+        <%= image_tag @group.image.url, class: "card-img", alt:"..." %>
       <%# 画像が無い場合 %>
       <% else %>
         <img src= <%="/assets/cuba#{1}.jpeg"%> class="card-img" alt="...">
       <% end %>
     </div>
-    <div class="col-lg-6">
+    <div class="col-6">
       <div class="card-body">
         <h4 class="card-title"><%= @group.name %></h4>
         <p class="card-text"><%= @group.introduction %></p>

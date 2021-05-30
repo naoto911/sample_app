@@ -10,7 +10,7 @@
   <%#link_to image_を使用したい場合%>
   <div class="row row-eq-height">
     <% @groups.each_with_index do |group,i| %>
-    <div class="col-4 my-3">
+    <div class="col-lg-4 my-3">
       <div class="card">
         <%= link_to group_path(group) do %>
           <%# 画像が有る場合 %>

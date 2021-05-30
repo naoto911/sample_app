@@ -6,7 +6,7 @@
     <%= link_to user_path(group.users.find(@admin_user.id)) do %>
       <div class="row no-gutters">
         <%# 画像ファイルの有無で処理を分岐 %>
-        <div class="col-lg-6" style="max-width: 150px;">
+        <div class="col-6" style="max-width: 150px;">
           <%# 有る場合 %>
           <% if @admin_user.image? %>
             <%= image_tag @admin_user.image.thumb.url, class: "card-img", alt:"..." %>
@@ -16,7 +16,7 @@
           <% end %>
         </div>
         <%# card-body部分 %>
-        <div class="col-lg-6">
+        <div class="col-6">
           <div class="card-body">
             <h4 class="card-title"><%= @admin_user.name %></h4>
             <p class="card-text"><%= @admin_user.email %></p>
@@ -50,7 +50,7 @@
         <%= link_to user_path(group_user) do %>
           <div class="row no-gutters">
           <%# 画像ファイルの有無で処理を分岐 %>
-            <div class="col-lg-6" style="max-width: 150px;">
+            <div class="col-6" style="max-width: 150px;">
               <%# 画像が有る場合 %>
               <% if group_user.image? %>
                 <%= image_tag group_user.image.thumb.url, class: "card-img", alt:"..." %>
@@ -60,7 +60,7 @@
               <% end %>
             </div>
           <%# card-body部分 %>
-            <div class="col-lg-6">
+            <div class="col-6">
               <div class="card-body">
                 <h4 class="card-title"><%= group_user.name %></h4>
                 <p class="card-text"><%= group_user.email %></p>
