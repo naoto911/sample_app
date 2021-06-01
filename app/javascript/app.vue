@@ -1,22 +1,28 @@
 <template>
   <div id="app">
     <p>{{ message }}</p>
+     <Top/> //追記
   </div>
 </template>
 
 <script>
+import Top from "./components/Top"; //追記
+
 export default {
   data: function () {
     return {
-      message: "Hello Vue!"
+      message: "Hello Naoto911 for Vue!"
     }
+  },
+  components: {
+    Top //追記
   }
 }
 </script>
 
 <style scoped>
 p {
-  font-size: 10em;
+  font-size: 2em;
   text-align: center;
 }
 </style>
