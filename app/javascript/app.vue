@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <p>{{ message }}</p>
-     <Top/> //追記
+     <Top></Top> <!-- 追記 -->
   </div>
 </template>
 
