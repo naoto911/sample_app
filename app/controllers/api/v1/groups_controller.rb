@@ -1,4 +1,4 @@
-class GroupsController < ApplicationController
+class Api::V1::GroupsController < ApplicationController
   before_action :logged_in_user, only: %i[show new edit update destroy join] #ログイン後しか実行できないアクション
   before_action :set_target_group, only: %i[show edit update destroy join]
   before_action :admin_user, only: %i[edit update destroy] #幹事でないと操作できないアクション
@@ -6,11 +6,13 @@ class GroupsController < ApplicationController
   def index
     #@groups = Group.all
     @groups = Group.order(id: :asc) #idの昇順に表示
+    render json: @groups
   end
 
   def show
     @users = @group.users.all #groupに所属するuserを配列で取得
     @admin_user = @users.find_by(id: @group.adminuser_id) #管理者をgroupのadminuser_idから取得
+    render json: @group
   end
 
   def new
