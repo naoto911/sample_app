@@ -6,10 +6,10 @@
         <th>名前</th>
         <th>紹介</th>
       </tr>
-      <tr v-for="group in groups" :key="group.id">
-        <td>{{ group.id }}</td>
-        <td>{{ group.name }}</td>
-        <td>{{ group.introduction }}</td>
+      <tr>
+        <td>{{ groups.id }}</td>
+        <td>{{ groups.name }}</td>
+        <td>{{ groups.introduction }}</td>
       </tr>
     </tbody>
   </table>
@@ -30,8 +30,7 @@ export default {
   mounted() {
     axios
       //GETリクエストでRailsで作成したjsonを取得する
-      .get('/api/v1/groups.json')
-      // .get('/api/v1/groups.json')
+      .get(`/api/v1/groups/${this.$route.params.id}.json`)
       //response.data は RailsのUser.select(:id, :name, :email)
       //これをdata()で定義したusersに代入する
       .then(response => (this.groups = response.data))

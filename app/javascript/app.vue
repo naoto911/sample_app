@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <!-- <p>{{ message }}</p> -->
-     <Group></Group> <!-- 追記 -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Group from "./components/Group"; //追記
+import Group from "./components/Group";
+import GroupDetail from "./components/GroupDetail";
 
 export default {
   data: function () {
@@ -15,7 +15,8 @@ export default {
     }
   },
   components: {
-    Group //追記
+    Group,
+    GroupDetail
   }
 }
 </script>
