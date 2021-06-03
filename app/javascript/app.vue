@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import Home from "./components/Home";
 import Group from "./components/Group";
 import GroupDetail from "./components/GroupDetail";
 
@@ -15,6 +16,7 @@ export default {
     }
   },
   components: {
+    Home,
     Group,
     GroupDetail
   }

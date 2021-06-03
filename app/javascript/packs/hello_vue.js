@@ -12,6 +12,7 @@ import TurbolinksAdapter from 'vue-turbolinks';
 import Vue from 'vue';
 import App from '../app.vue';
 import router from '../router';
+import vuetify from './vty'
 
 Vue.use(TurbolinksAdapter)
 
@@ -29,5 +30,6 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
+  vuetify,
   render: h => h(App)
 }).$mount('#app');
