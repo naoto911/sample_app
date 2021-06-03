@@ -1,21 +1,3 @@
-<!--
-<template>
-  <v-bottom-navigation v-model="value">
-    <v-btn value="recent">
-      <span>Recent</span>
-    </v-btn>
- 
-    <v-btn value="favorites">
-      <span>Favorites</span>      
-    </v-btn>
- 
-    <v-btn value="nearby">
-      <span>Nearby</span>      
-    </v-btn>
-  </v-bottom-navigation>
-</template>
--->
-
 <template>
   <v-app id="inspire">
     <v-app-bar
@@ -33,31 +15,25 @@
       </v-btn>
     </v-app-bar>
 
-    <v-main>
-      <v-container>
-        <v-row>
-          <v-col
-            v-for="group in groups"
-            :key="group"
-            cols="4"
-          >
-            <v-card height="200">{{ group.name }}</v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
+          <!-- ここから -->
+          <GroupsCard :val="group" :vals="groups"></GroupsCard>
+          <!-- ここまで -->
   </v-app>
 </template>
 
 <script>
 // axiosを読み込む
 import axios from 'axios';
+import GroupsCard from './GroupsCard.vue';
 
 export default {
+  components: { GroupsCard },
   data() {
     return {
+      show: false,
       //axiosで取得するデータを入れるため、空でOK
-      groups: []
+      groups: [],
+      group: [],
     }
   },
   //mountedでVueインスタンスのDOM作成完了直後に読み込む
