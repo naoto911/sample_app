@@ -8,7 +8,12 @@
       </tr>
       <tr v-for="group in groups" :key="group.id">
         <td>{{ group.id }}</td>
-        <td>{{ group.name }}</td>
+        <router-link
+          :to=" 'groups/' + (Number(group.id))"
+          active-class="link--active"
+          exact
+          class="link"
+        ><td>{{ group.name }}</td></router-link>
         <td>{{ group.introduction }}</td>
       </tr>
     </tbody>
