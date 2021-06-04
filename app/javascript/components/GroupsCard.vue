@@ -16,7 +16,13 @@
             exact
             class="link"
           >
+            <v-hover 
+              v-slot="{ hover }"
+              close-delay="200"
+            >
               <v-card
+                :elevation="hover ? 16 : 2"
+                :class="{ 'on-hover': hover }"
                 class="mx-auto"
                 max-width="344"
               >
@@ -61,6 +67,7 @@
                   </div>
                 </v-expand-transition>
               </v-card>
+            </v-hover>
             </router-link>
             <!-- ここまで -->
           </v-col>
@@ -90,3 +97,7 @@ export default {
   } 
 };
 </script>
+
+<style scoped>
+
+</style>

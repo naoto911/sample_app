@@ -24,10 +24,12 @@
   @import '@fortawesome/fontawesome-free/scss/v4-shims';
  /* ここまで 21/1/6 */
 
-/* 全ぺージの文字色を灰色に*/
- * {
-   color: grey;
- }
+
+ /* ↓ vuetify導入により一旦機能をoffにする ↓*/
+// /* 全ぺージの文字色を灰色に*/
+//  * {
+//    color: grey;
+//  }
 
  /* link_toの青色の無効化*/
  a{
@@ -38,37 +40,39 @@
   }
 }
 
-/* body部分 */
-.wrapper {
-  width: 100%;
-  min-height: 100vh;
-  position: relative;
-  background-color: white;
-  padding-top: 20px;
-  padding-bottom:30px;
-}
+// /* body部分 */
+// .wrapper {
+//   width: 100%;
+//   min-height: 100vh;
+//   position: relative;
+//   background-color: white;
+//   padding-top: 20px;
+//   padding-bottom:30px;
+// }
 
-/* headerとfooterの間の部分 */
-.main {
-  padding-top: 60px; /* ここを 変えたらnavbarからの隙間を調整可能*/
-  position: relative;
-}
+// /* headerとfooterの間の部分 */
+// .main {
+//   padding-top: 60px; /* ここを 変えたらnavbarからの隙間を調整可能*/
+//   position: relative;
+// }
 
- /* footer部分 */
-footer{
-  background-color: #afeeee;
-  width: 100%;
-  height:30px;
-	position: absolute;
-	bottom: 0;
-}
+//  /* footer部分 */
+// footer{
+//   background-color: #afeeee;
+//   width: 100%;
+//   height:30px;
+// 	position: absolute;
+// 	bottom: 0;
+// }
 
- /* card部分 カーソルホバーで浮き上がる */
-.card {
-  transition:box-shadow 0.3s, transform 0.3s;
-}
+//  /* card部分 カーソルホバーで浮き上がる */
+// .card {
+//   transition:box-shadow 0.3s, transform 0.3s;
+// }
 
-.card:hover {
-  box-shadow:0 6px 14px rgba(0, 0, 0, 0.24);
-  transform:translate(0, -2px);
-}
+// .card:hover {
+//   box-shadow:0 6px 14px rgba(0, 0, 0, 0.24);
+//   transform:translate(0, -2px);
+// }
+
+ /* ↑ vuetify導入により一旦機能をoffにする ↑ */
