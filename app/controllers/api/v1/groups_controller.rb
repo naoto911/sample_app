@@ -12,7 +12,8 @@ class Api::V1::GroupsController < ApplicationController
   def show
     @users = @group.users.all #groupに所属するuserを配列で取得
     @admin_user = @users.find_by(id: @group.adminuser_id) #管理者をgroupのadminuser_idから取得
-    render json: @group
+    #render json: @group
+    render json: {group: @group, users: @users }
   end
 
   def new

@@ -1,18 +1,9 @@
 <template>
-  <table>
-    <tbody>
-      <tr>
-        <th>ID</th>
-        <th>名前</th>
-        <th>紹介</th>
-      </tr>
-      <tr>
-        <td>{{ groups.id }}</td>
-        <td>{{ groups.name }}</td>
-        <td>{{ groups.introduction }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div>
+    <ul>
+      <li v-for="user in users">{{ user.name }}</li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -23,7 +14,8 @@ export default {
   data() {
     return {
       //axiosで取得するデータを入れるため、空でOK
-      groups: []
+      group: [],
+      users: []
     }
   },
   //mountedでVueインスタンスのDOM作成完了直後に読み込む
@@ -33,7 +25,10 @@ export default {
       .get(`/api/v1/groups/${this.$route.params.id}.json`)
       //response.data は RailsのUser.select(:id, :name, :email)
       //これをdata()で定義したusersに代入する
-      .then(response => (this.groups = response.data))
+      .then(response => {
+        this.group = response.data.group;
+        this.users = response.data.users;
+      });
   }
 }
 

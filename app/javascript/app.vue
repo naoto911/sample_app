@@ -8,6 +8,7 @@
 import Home from "./components/Home";
 import Group from "./components/Group";
 import GroupDetail from "./components/GroupDetail";
+import Header from "./components/Header";
 
 export default {
   data: function () {
@@ -18,7 +19,8 @@ export default {
   components: {
     Home,
     Group,
-    GroupDetail
+    GroupDetail,
+    Header
   }
 }
 </script>
