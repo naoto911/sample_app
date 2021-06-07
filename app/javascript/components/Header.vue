@@ -1,6 +1,5 @@
 <template>
 <div>
-  <!-- <v-app> -->
     <v-app-bar
       app
       clipped-left
@@ -41,8 +40,6 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-
-  <!-- </v-app> -->
 </div>
 </template>
 

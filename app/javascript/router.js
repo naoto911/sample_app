@@ -10,7 +10,7 @@ export default new Router({
   mode: "history",
   routes: [
     { path: '/', component: Home}, 
-    { path: '/groups/', component: Group}, 
+    { path: '/groups/', component: Home}, 
     { path: '/groups/:id(\\d+)', component: GroupDetail},
     {
       path: '*', 

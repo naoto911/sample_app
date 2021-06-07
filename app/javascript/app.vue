@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <v-app>
+      <Header></Header>
+      <router-view></router-view>
+    </v-app>
   </div>
 </template>
 
@@ -29,5 +32,9 @@ export default {
 p {
   font-size: 2em;
   text-align: center;
+}
+
+head {
+  color: white;
 }
 </style>
