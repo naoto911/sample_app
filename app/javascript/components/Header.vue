@@ -10,7 +10,10 @@
       <v-btn icon>
         <v-icon>mdi-text-account</v-icon>
       </v-btn>
-      <v-spacer></v-spacer>
+      <v-btn icon>
+        <v-icon>mdi-account-search</v-icon>
+      </v-btn>
+      
     </v-app-bar>
 
     <v-navigation-drawer
