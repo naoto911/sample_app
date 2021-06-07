@@ -7,7 +7,7 @@
 <script>
 // axiosを読み込む
 import axios from 'axios';
-import GroupsCard from './GroupsCard.vue';
+import GroupsCard from '../components/GroupsCard.vue';
 
 export default {
   components: { 

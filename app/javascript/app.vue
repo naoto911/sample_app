@@ -2,16 +2,21 @@
   <div id="app">
     <v-app>
       <Header></Header>
-      <router-view></router-view>
+      <v-main>
+        <v-container>
+          <router-view></router-view>
+        </v-container>
+      </v-main>
     </v-app>
   </div>
 </template>
 
 <script>
-import Home from "./components/Home";
-import Group from "./components/Group";
-import GroupDetail from "./components/GroupDetail";
-import Header from "./components/Header";
+import Home from "./router/Home";
+import Group from "./router/Group";
+import GroupDetail from "./router/GroupDetail";
+import Header from "./router/Header";
+import GroupNew from "./router/GroupNew";
 
 export default {
   data: function () {
@@ -23,7 +28,8 @@ export default {
     Home,
     Group,
     GroupDetail,
-    Header
+    Header,
+    GroupNew
   }
 }
 </script>

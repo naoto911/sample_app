@@ -5,7 +5,12 @@
       clipped-left
     >
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <v-toolbar-title>Syumix</v-toolbar-title>
+      <router-link
+        to="/"
+        active-class="link--active"
+        exact
+        class="link"
+      ><v-toolbar-title>Syumix</v-toolbar-title></router-link>
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>mdi-text-account</v-icon>
@@ -69,5 +74,9 @@ export default {
 <style scoped>
 head {
   color: white;
+}
+
+a {
+  color: grey;
 }
 </style>

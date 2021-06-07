@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   root 'home#index' #'groups#index'
   get '/groups/:id', to: 'home#index'
   get '/groups/', to: 'home#index'
+  get '/groups/new', to: 'home#index'
 
   resources :users
   resources :answers #, :only => [:show, :edit ] 

@@ -1,8 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./components/Home";
-import Group from "./components/Group";
-import GroupDetail from "./components/GroupDetail";
+import Home from "./router/Home";
+import Group from "./router/Group";
+import GroupDetail from "./router/GroupDetail";
+import GroupNew from "./router/GroupNew";
 
 Vue.use(Router);
 
@@ -12,6 +13,7 @@ export default new Router({
     { path: '/', component: Home}, 
     { path: '/groups/', component: Home}, 
     { path: '/groups/:id(\\d+)', component: GroupDetail},
+    { path: '/groups/new', component: GroupNew},
     {
       path: '*', 
       redirect: '/'
