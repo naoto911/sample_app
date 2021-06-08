@@ -44,7 +44,7 @@
       </v-list-item>
       <v-divider />
       <v-list nav>
-        <v-list-item v-for="menu in menus" :key="menu.title" :to="menu.url">
+        <v-list-item v-for="menu in menus" :key="menu.title" :to="menu.url" exact>
           <v-list-item-icon>
             <v-icon>{{ menu.icon }}</v-icon>
           </v-list-item-icon>
@@ -66,8 +66,8 @@ export default {
     return {
       drawer: false,
       menus: [
-      { title: 'Top', icon: 'mdi-web', url: '/' },
       { title: 'Home', icon: 'mdi-home', url: '/groups' },
+      { title: 'Create', icon: 'mdi-account-multiple-plus', url: '/groups/new' },
       { title: 'Mypage', icon: 'mdi-text-account', url: '' },
       { title: 'About', icon: 'mdi-information-variant', url: '' }
     ]
