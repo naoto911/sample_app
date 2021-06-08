@@ -1,6 +1,6 @@
 <template>
   <div>
-    <GroupsCard :val="group" :vals="groups"></GroupsCard>
+    <GroupsCard :vals="groups"></GroupsCard> 
   </div>
 </template>
 
@@ -26,7 +26,6 @@ export default {
       // .then(response => (this.groups = response.data.groups))
       .then(response => {
         this.groups = response.data.groups
-        this.current_user = response.data.current_user;
       });
   }
 };

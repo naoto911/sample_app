@@ -19,10 +19,10 @@
         <v-icon>mdi-account-search</v-icon>
       </v-btn> -->
       <v-avatar>
-        <img
+        <v-img
           :src= "val.image.url"
           alt="John"
-        >
+        ></v-img>
       </v-avatar>
       
     </v-app-bar>
@@ -58,26 +58,23 @@
 </template>
 
 <script>
-import Header from './Header.vue';
-
 export default {
-  components: { Header },
   data() {
     return {
       drawer: false,
       menus: [
       { title: 'Home', icon: 'mdi-home', url: '/groups' },
       { title: 'Create', icon: 'mdi-account-multiple-plus', url: '/groups/new' },
-      { title: 'Mypage', icon: 'mdi-text-account', url: '' },
-      { title: 'About', icon: 'mdi-information-variant', url: '' }
+      { title: 'Mypage', icon: 'mdi-text-account', url: '/bar' },
+      { title: 'About', icon: 'mdi-information-variant', url: '/bar' }
     ]
     }
   },
   props: {
     val: {
-      type: Array
+      type: Object
     }
-  } 
+  }
 };
 
 </script>

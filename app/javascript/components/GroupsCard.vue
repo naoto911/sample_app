@@ -79,12 +79,10 @@ export default {
   data() {
     return {
       show: false,
+      val: []
     }
   },
   props: {
-    val: {
-      type: Array
-    },
     vals: {
       type: Array
     }

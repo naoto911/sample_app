@@ -18,14 +18,13 @@ import axios from 'axios';
 import Home from "./router/Home";
 import Group from "./router/Group";
 import GroupDetail from "./router/GroupDetail";
-import Header from "./router/Header";
+import Header from "./components/Header";
 import GroupNew from "./router/GroupNew";
 
 export default {
   data: function () {
     return {
-      message: "Hello Naoto911 for Vue!",
-      current_user: []
+      current_user: {}
     }
   },
   components: {
@@ -34,7 +33,7 @@ export default {
     GroupDetail,
     Header,
     GroupNew
-  },
+  },  
   //mountedでVueインスタンスのDOM作成完了直後に読み込む
   mounted() {
     axios
@@ -45,7 +44,7 @@ export default {
         this.current_user = response.data.current_user;
       });
   }
-}
+};
 </script>
 
 <style scoped>

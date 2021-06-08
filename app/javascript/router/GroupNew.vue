@@ -47,10 +47,25 @@
     <v-btn
       color="primary"
       class="mr-4"
+      dark
       @click="reset"
     >
       Create
+      <v-icon
+        dark
+        right
+      >
+        mdi-checkbox-marked-circle
+      </v-icon>
     </v-btn>
+
+    <!-- <v-btn
+      color="primary"
+      class="mr-4"
+      @click="reset"
+    >
+      Create
+    </v-btn> -->
 
     <v-btn
       color="error"
@@ -76,7 +91,12 @@ import axios from 'axios';
   export default {
     data: () => ({
       valid: true,
-      group: [],
+      group: {
+        name: '',
+        introduction: '',
+        image: ''
+      },
+      // group: [],
       name: '',
       nameRules: [
         v => !!v || 'Name is required',
@@ -94,7 +114,6 @@ import axios from 'axios';
         'Item 3',
         'Item 4',
       ],
-      checkbox: false,
     }),
 
     methods: {
@@ -107,8 +126,16 @@ import axios from 'axios';
       resetValidation () {
         this.$refs.form.resetValidation()
       },
+      createGroup () {
+        if (!this.book.title) return;
+        axios.post('/api/v1/groups/create', { book: this.book }).then((res) => {
+          this.$router.push({ path: '/' });
+        }, (error) => {
+          console.log(error);
+        });
+      }
     },
-  //mountedでVueインスタンスのDOM作成完了直後に読み込む
+  //mountedでVueインスタンスのDOM作成完了直後に読み込む 画面取得用
     mounted() {
       axios
         .get('/api/v1/groups/new.json')
@@ -116,30 +143,3 @@ import axios from 'axios';
     }
   }
 </script>
-
-<!--
-<script>
-// axiosを読み込む
-import axios from 'axios';
-
-export default {
-  components: { 
-  },
-  data() {
-    return {
-      group: null
-    }
-  },
-  //mountedでVueインスタンスのDOM作成完了直後に読み込む
-  mounted() {
-    axios
-      .get('/api/v1/groups/new.json')
-      .then(response => (this.group = response.data))
-  }
-}
-
-</script>
-
-<style scoped>
-</style>
--->
