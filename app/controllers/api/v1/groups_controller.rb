@@ -6,7 +6,8 @@ class Api::V1::GroupsController < ApplicationController
   def index
     #@groups = Group.all
     @groups = Group.order(id: :asc) #idの昇順に表示
-    render json: @groups
+    # render json: @groups
+    render json: {groups: @groups, current_user: current_user }
   end
 
   def show

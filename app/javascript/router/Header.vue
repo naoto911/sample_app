@@ -12,12 +12,18 @@
         class="link"
       ><v-toolbar-title>Syumix</v-toolbar-title></router-link>
       <v-spacer></v-spacer>
-      <v-btn icon>
+      <!-- <v-btn icon>
         <v-icon>mdi-text-account</v-icon>
-      </v-btn>
-      <v-btn icon>
+      </v-btn> -->
+      <!-- <v-btn icon>
         <v-icon>mdi-account-search</v-icon>
-      </v-btn>
+      </v-btn> -->
+      <v-avatar>
+        <img
+          :src= "val.image.url"
+          alt="John"
+        >
+      </v-avatar>
       
     </v-app-bar>
 
@@ -66,8 +72,13 @@ export default {
       { title: 'About', icon: 'mdi-information-variant', url: '' }
     ]
     }
-  }
-}
+  },
+  props: {
+    val: {
+      type: Array
+    }
+  } 
+};
 
 </script>
 

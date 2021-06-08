@@ -23,9 +23,13 @@ export default {
   mounted() {
     axios
       .get('/api/v1/groups.json')
-      .then(response => (this.groups = response.data))
+      // .then(response => (this.groups = response.data.groups))
+      .then(response => {
+        this.groups = response.data.groups
+        this.current_user = response.data.current_user;
+      });
   }
-}
+};
 
 </script>
 

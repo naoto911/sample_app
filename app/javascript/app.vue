@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <v-app>
-      <Header></Header>
+      <Header :val="current_user"></Header>
+      <!-- <Header></Header> -->
       <v-main>
         <v-container>
           <router-view></router-view>
@@ -12,6 +13,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 import Home from "./router/Home";
 import Group from "./router/Group";
 import GroupDetail from "./router/GroupDetail";
@@ -21,7 +24,8 @@ import GroupNew from "./router/GroupNew";
 export default {
   data: function () {
     return {
-      message: "Hello Naoto911 for Vue!"
+      message: "Hello Naoto911 for Vue!",
+      current_user: []
     }
   },
   components: {
@@ -30,6 +34,16 @@ export default {
     GroupDetail,
     Header,
     GroupNew
+  },
+  //mountedでVueインスタンスのDOM作成完了直後に読み込む
+  mounted() {
+    axios
+      .get('/api/v1/groups.json')
+      // .then(response => (this.groups = response.data.groups))
+      .then(response => {
+        // this.groups = response.data.groups
+        this.current_user = response.data.current_user;
+      });
   }
 }
 </script>
