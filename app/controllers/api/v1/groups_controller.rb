@@ -1,4 +1,5 @@
 class Api::V1::GroupsController < ApplicationController
+  protect_from_forgery #追記
   before_action :logged_in_user, only: %i[show new edit update destroy join] #ログイン後しか実行できないアクション
   before_action :set_target_group, only: %i[show edit update destroy join]
   before_action :admin_user, only: %i[edit update destroy] #幹事でないと操作できないアクション
@@ -18,7 +19,7 @@ class Api::V1::GroupsController < ApplicationController
 
   def new
     @group = Group.new
-    render json: @group
+    render json: {group: @group, current_user: current_user }
   end
 
   def create

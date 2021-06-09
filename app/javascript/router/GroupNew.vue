@@ -6,7 +6,7 @@
     lazy-validation
   >
     <v-text-field
-      v-model="name"
+      v-model="group.name"
       :counter="10"
       :rules="nameRules"
       label="Name"
@@ -14,9 +14,8 @@
     ></v-text-field>
 
     <v-text-field
-      v-model="email"
-      :rules="emailRules"
-      label="E-mail"
+      v-model="group.introduction"
+      label="Introduction"
       required
     ></v-text-field>
 
@@ -48,7 +47,7 @@
       color="primary"
       class="mr-4"
       dark
-      @click="reset"
+      @click="createGroup"
     >
       Create
       <v-icon
@@ -91,6 +90,7 @@ import axios from 'axios';
   export default {
     data: () => ({
       valid: true,
+      current_user: {},
       group: {
         name: '',
         introduction: '',
@@ -127,19 +127,33 @@ import axios from 'axios';
         this.$refs.form.resetValidation()
       },
       createGroup () {
-        if (!this.book.title) return;
-        axios.post('/api/v1/groups/create', { book: this.book }).then((res) => {
-          this.$router.push({ path: '/' });
-        }, (error) => {
-          console.log(error);
-        });
-      }
+        if (!this.group.name) return;
+        axios
+          .post('/api/v1/groups', {
+            group: this.group
+            // this.group: { name: this.name,
+            // name: this.name,
+          })
+          .then(response => {
+            console.log(OK);
+            this.$router.push({ path: '/' });
+          })        
+          .catch(error => {
+            console.error(error);
+            if(error.response.data && error.response.data.errors) {
+              this.errors = error.response.data.errors;
+            }
+          })
+      } 
     },
   //mountedでVueインスタンスのDOM作成完了直後に読み込む 画面取得用
     mounted() {
       axios
         .get('/api/v1/groups/new.json')
-        .then(response => (this.group = response.data))
+        .then(response => {
+        this.group = response.data.group;
+        this.current_user = response.data.current_user;
+      });
     }
   }
 </script>
