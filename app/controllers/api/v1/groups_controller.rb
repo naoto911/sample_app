@@ -25,6 +25,8 @@ class Api::V1::GroupsController < ApplicationController
 
   def create
     group = Group.new(group_params)
+    # join = Join.new(user_id: group.adminuser_id, group_id: group.id)
+    current_user = User.find(group.adminuser_id)
     # group.adminuser_id = current_user #group作成中のidをgroupモデルのaddminuser_idに格納
     group.users << current_user #group_user_relationsにidを格納させる
     if group.save

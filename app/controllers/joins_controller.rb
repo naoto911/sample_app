@@ -63,7 +63,7 @@ class JoinsController < ApplicationController
   def leave
     Event.where(group_id: @group.id).each_with_index do |group_event| #Eventを次々に取得
       leave_user_id = @join.user_id
-      binding.pry
+      # binding.pry
       Answer.find_by(event_id: group_event.id, user_id: leave_user_id).destroy
     end
     @join.destroy

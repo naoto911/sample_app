@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>{{ current_user.id }}</p>
   <v-form
     ref="form"
     v-model="valid"
@@ -20,13 +19,13 @@
       required
     ></v-text-field>
 
-    <v-select
+    <!-- <v-select
       v-model="select"
       :items="items"
       :rules="[v => !!v || 'Item is required']"
       label="Item"
       required
-    ></v-select>
+    ></v-select> -->
 
     <!-- <v-checkbox
       v-model="checkbox"
