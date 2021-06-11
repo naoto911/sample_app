@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     if user.save
       flash[:notice] = "「#{user.name}」を作成しました"
       log_in user #アカウント作成と同時にログインする
-      redirect_to user_path(user)
+      redirect_to  user_path(user)
     else
   #フォームの入力エラーを起こした際のエラー表示を取得するための処理
       redirect_to new_user_path, flash: {

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>{{ current_user.id }}</p>
   <v-form
     ref="form"
     v-model="valid"
@@ -93,6 +94,7 @@ import axios from 'axios';
       current_user: {},
       group: {
         name: '',
+        adminuser_id: '',
         introduction: '',
         image: ''
       },
@@ -130,15 +132,22 @@ import axios from 'axios';
         if (!this.group.name) return;
         axios
           .post('/api/v1/groups', {
-            group: this.group
+            // group: this.group,
+            // current_user: this.current_user
+            group: { name: this.group.name,
+                     adminuser_id: this.current_user.id, 
+                     introduction: this.group.introduction, 
+                     image: this.group.image
+                    }
             // this.group: { name: this.name,
             // name: this.name,
           })
           .then(response => {
-            console.log(OK);
+            console.log('OK');
             this.$router.push({ path: '/' });
           })        
           .catch(error => {
+            console.log('NG');
             console.error(error);
             if(error.response.data && error.response.data.errors) {
               this.errors = error.response.data.errors;
@@ -151,7 +160,7 @@ import axios from 'axios';
       axios
         .get('/api/v1/groups/new.json')
         .then(response => {
-        this.group = response.data.group;
+        // this.group = response.data.group;
         this.current_user = response.data.current_user;
       });
     }
