@@ -51,19 +51,24 @@ class Api::V1::GroupsController < ApplicationController
 
   def update
     if @group.update(group_params)
-      redirect_to group_path(@group)
+      render json: { status: 'SUCCESS', message: 'Updated the post', data: @group }
     else
-  #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-      redirect_to edit_group_path, flash: {
-      group: @group,
-      error_messages: @group.errors.full_messages
-    }
+      render json: { status: 'SUCCESS', message: 'Not updated', data: @group.errors }
     end
+  #     redirect_to group_path(@group)
+  #   else
+  # #フォームの入力エラーを起こした際のエラー表示を取得するための処理
+  #     redirect_to edit_group_path, flash: {
+  #     group: @group,
+  #     error_messages: @group.errors.full_messages
+  #   }
+  #   end
   end
 
   def destroy
     @group.destroy
-    redirect_to groups_path, flash: { notice: "「#{@group.name}」が削除されました"}
+    # redirect_to groups_path, flash: { notice: "「#{@group.name}」が削除されました"}
+    render json: { status: 'SUCCESS', message: 'Deleted the post', data: @group }
   end
 
 private

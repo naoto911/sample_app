@@ -4,6 +4,9 @@ import Home from "./router/Home";
 import Group from "./router/Group";
 import GroupDetail from "./router/GroupDetail";
 import GroupNew from "./router/GroupNew";
+import GroupEvent from "./router/GroupEvent";
+import GroupMember from "./router/GroupMember";
+
 
 Vue.use(Router);
 
@@ -12,8 +15,18 @@ export default new Router({
   routes: [
     { path: '/', component: Home}, 
     { path: '/groups/', component: Home}, 
-    { path: '/groups/:id(\\d+)', component: GroupDetail},
     { path: '/groups/new', component: GroupNew},
+    { path: '/groups/:id(\\d+)', component: Group},
+    //  { path: '/groups/:id', component: Group},
+    { 
+      path: '/groups/:id(\\d+)', 
+      component: Group, 
+      props: true,
+      children: [
+        { path: "event", component: GroupEvent },
+        { path: "member", component: GroupMember }
+      ]
+    },
     {
       path: '*', 
       redirect: '/'

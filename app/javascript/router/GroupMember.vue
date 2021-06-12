@@ -1,7 +1,7 @@
 <template>
   <div>
-    <!-- <v-main>
-      <v-container> -->
+    <h2>Member</h2>
+
         <v-card>
           <v-card-title class="indigo white--text text-h5">
             User Directory
@@ -109,8 +109,7 @@
             </v-col>
           </v-row>
         </v-card>
-      <!-- </v-container>
-    </v-main> -->
+        
   </div>
 </template>
 
@@ -172,29 +171,3 @@
     },
   }
 </script>
-
-<!--
-<script>
-// axiosを読み込む
-import axios from 'axios';
-
-export default {
-  data() {
-    return {
-      group: [],
-      users: []
-    }
-  },
-  //mountedでVueインスタンスのDOM作成完了直後に読み込む
-  mounted() {
-    axios
-      .get(`/api/v1/groups/${this.$route.params.id}.json`)
-      .then(response => {
-        this.group = response.data.group;
-        this.users = response.data.users;
-      });
-  }
-}
-
-</script>
--->
