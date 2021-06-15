@@ -18,30 +18,21 @@
       label="Introduction"
       required
     ></v-text-field>
+    
 
-    <!-- <v-select
-      v-model="select"
-      :items="items"
-      :rules="[v => !!v || 'Item is required']"
-      label="Item"
-      required
-    ></v-select> -->
+  <!-- 画像uploda -->
+    <!-- <v-file-input
+      v-model="group.image"
+      label="File input"
+      filled
+      prepend-icon="mdi-camera"
+      type="file" 
+      v-on:change="setImage"
+    ></v-file-input> -->
+      <!-- <p>{{ group.image }}</p> -->
 
-    <!-- <v-checkbox
-      v-model="checkbox"
-      :rules="[v => !!v || 'You must agree to continue!']"
-      label="Do you agree?"
-      required
-    ></v-checkbox> -->
-
-    <!-- <v-btn
-      :disabled="!valid"
-      color="success"
-      class="mr-4"
-      @click="validate"
-    >
-      Validate
-    </v-btn> -->
+    <input type="file" v-on:change="setImage" />
+  <!-- 画像uploda -->
 
     <v-btn
       color="primary"
@@ -58,14 +49,6 @@
       </v-icon>
     </v-btn>
 
-    <!-- <v-btn
-      color="primary"
-      class="mr-4"
-      @click="reset"
-    >
-      Create
-    </v-btn> -->
-
     <v-btn
       color="error"
       class="mr-4"
@@ -76,9 +59,9 @@
 
     <!-- <v-btn
       color="warning"
-      @click="resetValidation"
+      @click="create_file"
     >
-      Reset Validation
+      image confirm
     </v-btn> -->
   </v-form>
   </div>
@@ -97,24 +80,15 @@ import axios from 'axios';
         introduction: '',
         image: ''
       },
-      // group: [],
+      image: '',
+      // group: {},
+      uploadedImage: '',
       name: '',
       nameRules: [
         v => !!v || 'Name is required',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
-      email: '',
-      emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-      ],
       select: null,
-      items: [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
-      ],
     }),
 
     methods: {
@@ -127,22 +101,33 @@ import axios from 'axios';
       resetValidation () {
         this.$refs.form.resetValidation()
       },
+      setImage (e) {
+      this.image = e.target.files[0]
+      },
       createGroup () {
         if (!this.group.name) return;
-        axios
-          .post('/api/v1/groups', {
-            // group: this.group,
-            // current_user: this.current_user
-            group: { name: this.group.name,
-                     adminuser_id: this.current_user.id, 
-                     introduction: this.group.introduction, 
-                     image: this.group.image
-                    }
-            // this.group: { name: this.name,
-            // name: this.name,
-          })
+        const formData = new FormData()
+        formData.append('group[name]', this.group.name)
+        formData.append('group[adminuser_id]', this.current_user.id)
+        formData.append('group[introduction]', this.group.introduction)
+        formData.append('group[image]', this.image)
+          axios
+            .post('/api/v1/groups', formData)
+        // axios
+        //   .post('/api/v1/groups', {
+        //     group: formData
+
+        //     // group: { name: this.group.name,
+        //     //          adminuser_id: this.current_user.id, 
+        //     //          introduction: this.group.introduction, 
+        //     //          image: this.group.image,
+        //     //         }
+        //     // this.group: { name: this.name,
+        //     // name: this.name,
+        //   })
           .then(response => {
             console.log('OK');
+            console.log(this.group);
             this.$router.push({ path: '/' });
           })        
           .catch(error => {
