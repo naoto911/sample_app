@@ -22,6 +22,7 @@ import Header from "./components/Header";
 import GroupNew from "./router/GroupNew";
 import GroupEvent from "./router/GroupEvent";
 import GroupMember from "./router/GroupMember";
+import GroupEdit from "./router/GroupEdit";
 
 export default {
   data: function () {
@@ -36,7 +37,8 @@ export default {
     Header,
     GroupNew,
     GroupEvent,
-    GroupMember
+    GroupMember,
+    GroupEdit
   },  
   //mountedでVueインスタンスのDOM作成完了直後に読み込む
   mounted() {

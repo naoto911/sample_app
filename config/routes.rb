@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/groups/new', to: 'home#index'
   get '/groups/:id/event', to: 'home#index'
   get '/groups/:id/member', to: 'home#index'
+  get '/groups/:id/edit', to: 'home#index'
 
   resources :users
   resources :answers #, :only => [:show, :edit ] 

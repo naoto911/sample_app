@@ -2,10 +2,11 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./router/Home";
 import Group from "./router/Group";
-import GroupDetail from "./router/GroupDetail";
+// import GroupDetail from "./router/GroupDetail";
 import GroupNew from "./router/GroupNew";
 import GroupEvent from "./router/GroupEvent";
 import GroupMember from "./router/GroupMember";
+import GroupEdit from "./router/GroupEdit";
 
 
 Vue.use(Router);
@@ -24,7 +25,8 @@ export default new Router({
       props: true,
       children: [
         { path: "event", component: GroupEvent },
-        { path: "member", component: GroupMember }
+        { path: "member", component: GroupMember },
+        { path: "edit", component: GroupEdit },
       ]
     },
     {

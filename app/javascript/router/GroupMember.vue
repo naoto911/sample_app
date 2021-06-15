@@ -3,7 +3,7 @@
     <h2>Member</h2>
 
         <v-card>
-          <v-card-title class="indigo white--text text-h5">
+          <v-card-title class="blue white--text text-h5">
             User Directory
           </v-card-title>
           <v-row
@@ -35,6 +35,7 @@
               class="d-flex text-center"
             >
               <v-scroll-y-transition mode="out-in">
+              <!-- ①ここから誰も選んでないときの表示 -->
                 <div
                   v-if="!selected"
                   class="text-h6 grey--text text--lighten-1 font-weight-light"
@@ -42,6 +43,7 @@
                 >
                   Select a User
                 </div>
+              <!-- ①ここまで誰も選んでないときの表示 -->
                 <v-card
                   v-else
                   :key="selected.id"
@@ -55,21 +57,22 @@
                       size="88"
                     >
                       <v-img
-                        :src="`https://avataaars.io/${avatar}`"
+                        src="/uploads/user/image/3/FH000027.JPG"
                         class="mb-6"
                       ></v-img>
                     </v-avatar>
                     <h3 class="text-h5 mb-2">
                       {{ selected.name }}
                     </h3>
-                    <div class="blue--text mb-2">
+                    <!-- <div class="blue--text mb-2">
                       {{ selected.email }}
                     </div>
                     <div class="blue--text subheading font-weight-bold">
                       {{ selected.username }}
-                    </div>
+                    </div> -->
                   </v-card-text>
                   <v-divider></v-divider>
+                <!-- ②ここからユーザー情報 -->
                   <v-row
                     class="text-left"
                     tag="v-card-text"
@@ -79,7 +82,7 @@
                       tag="strong"
                       cols="5"
                     >
-                      Company:
+                      Age:
                     </v-col>
                     <v-col>{{ selected.company.name }}</v-col>
                     <v-col
@@ -87,7 +90,7 @@
                       tag="strong"
                       cols="5"
                     >
-                      Website:
+                      From:
                     </v-col>
                     <v-col>
                       <a
@@ -95,15 +98,16 @@
                         target="_blank"
                       >{{ selected.website }}</a>
                     </v-col>
-                    <v-col
+                    <!-- <v-col
                       class="text-right mr-4 mb-2"
                       tag="strong"
                       cols="5"
                     >
                       Phone:
                     </v-col>
-                    <v-col>{{ selected.phone }}</v-col>
+                    <v-col>{{ selected.phone }}</v-col> -->
                   </v-row>
+                <!-- ②ここまでユーザー情報 -->
                 </v-card>
               </v-scroll-y-transition>
             </v-col>
@@ -149,7 +153,7 @@
         return this.users.find(user => user.id === id)
       },
     },
-
+  // randomAvatorを実行する時だけselectedする
     watch: {
       selected: 'randomAvatar',
     },
