@@ -14,11 +14,14 @@ Rails.application.routes.draw do
   get '/groups/:id/member', to: 'home#index'
   get '/groups/:id/edit', to: 'home#index'
 
-  resources :users
+  get '/users/:id', to: 'home#index'
+
+  # resources :users
   resources :answers #, :only => [:show, :edit ] 
 
   namespace :api, {format: 'json'} do
     namespace :v1 do
+      resources :users
 
       resources :groups do #do
         #member do 2/6 削除 join controller に移行

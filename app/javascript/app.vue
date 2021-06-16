@@ -23,6 +23,7 @@ import GroupNew from "./router/GroupNew";
 import GroupEvent from "./router/GroupEvent";
 import GroupMember from "./router/GroupMember";
 import GroupEdit from "./router/GroupEdit";
+import Mypage from "./router/Mypage";
 
 export default {
   data: function () {
@@ -38,7 +39,8 @@ export default {
     GroupNew,
     GroupEvent,
     GroupMember,
-    GroupEdit
+    GroupEdit,
+    Mypage
   },  
   //mountedでVueインスタンスのDOM作成完了直後に読み込む
   mounted() {

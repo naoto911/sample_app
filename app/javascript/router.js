@@ -7,6 +7,7 @@ import GroupNew from "./router/GroupNew";
 import GroupEvent from "./router/GroupEvent";
 import GroupMember from "./router/GroupMember";
 import GroupEdit from "./router/GroupEdit";
+import Mypage from "./router/Mypage";
 
 
 Vue.use(Router);
@@ -29,6 +30,7 @@ export default new Router({
         { path: "edit", component: GroupEdit },
       ]
     },
+    { path: '/users/:id(\\d+)', component: Mypage},
     {
       path: '*', 
       redirect: '/'

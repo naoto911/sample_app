@@ -18,13 +18,20 @@
       <!-- <v-btn icon>
         <v-icon>mdi-account-search</v-icon>
       </v-btn> -->
-      <v-avatar>
-        <v-img
-          :src= "val.image.url"
-          alt="John"
-        ></v-img>
-      </v-avatar>
-      
+      <router-link
+        :to=" 'users/' + (Number(val.id))"
+        active-class="link--active"
+        exact
+        class="link"
+      >
+        <v-avatar>
+          <v-img
+            :src= "val.image.url"
+            alt="John"
+          ></v-img>
+        </v-avatar>
+      </router-link>
+
     </v-app-bar>
 
     <v-navigation-drawer

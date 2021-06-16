@@ -1,4 +1,5 @@
-class UsersController < ApplicationController
+class Api::V1::UsersController < ApplicationController
+  protect_from_forgery #追記
   before_action :logged_in_user, only: %i[ edit show update destroy ] #このアクションはログイン後しか実行できない
   before_action :set_target_user, only: %i[show edit update destroy]
   before_action :master_user, only: %i[ edit update destroy] #自分自身でないと操作できないアクション
@@ -25,6 +26,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    render json: {user: @user }
   end
 
   def edit
