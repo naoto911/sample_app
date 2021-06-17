@@ -16,14 +16,18 @@
 import axios from 'axios';
 
 import Home from "./router/Home";
-import Group from "./router/Group";
-import GroupDetail from "./router/GroupDetail";
 import Header from "./components/Header";
-import GroupNew from "./router/GroupNew";
-import GroupEvent from "./router/GroupEvent";
-import GroupMember from "./router/GroupMember";
-import GroupEdit from "./router/GroupEdit";
-import Mypage from "./router/Mypage";
+
+import Group from "./router/Group/Group";
+import GroupNew from "./router/Group/GroupNew";
+import GroupEdit from "./router/Group/GroupEdit";
+import GroupDetail from "./router/Group/GroupDetail";
+import GroupEvent from "./router/Group/GroupEvent";
+import GroupMember from "./router/Group/GroupMember";
+
+import Mypage from "./router/User/Mypage";
+import Login from "./router/User/Login";
+import UserNew from "./router/User/UserNew";
 
 export default {
   data: function () {
@@ -33,14 +37,18 @@ export default {
   },
   components: {
     Home,
-    Group,
-    GroupDetail,
     Header,
+
+    Group,
     GroupNew,
+    GroupEdit,
+    GroupDetail,
     GroupEvent,
     GroupMember,
-    GroupEdit,
-    Mypage
+
+    Mypage,
+    Login,
+    UserNew
   },  
   //mountedでVueインスタンスのDOM作成完了直後に読み込む
   mounted() {

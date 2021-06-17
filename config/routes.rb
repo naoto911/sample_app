@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
-  get '/login', to: 'sessions#new'
+  # get '/login', to: 'sessions#new'
+  get '/login', to: 'home#index'
+
+
   post '/login', to: 'sessions#create'
   delete '/login', to: 'sessions#destroy'
   get 'guest_login', to: "users#guest_login" #簡単ログイン用に追加 1/20
@@ -15,6 +18,7 @@ Rails.application.routes.draw do
   get '/groups/:id/edit', to: 'home#index'
 
   get '/users/:id', to: 'home#index'
+  get '/users/new', to: 'home#index'
 
   # resources :users
   resources :answers #, :only => [:show, :edit ] 

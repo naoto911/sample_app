@@ -1,69 +1,69 @@
 <template>
   <div>
-  <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
-  >
-    <v-text-field
-      v-model="group.name"
-      :counter="10"
-      :rules="nameRules"
-      label="Name"
-      required
-    ></v-text-field>
-
-    <v-text-field
-      v-model="group.introduction"
-      label="Introduction"
-      required
-    ></v-text-field>
-    
-
-  <!-- 画像uploda -->
-    <!-- <v-file-input
-      v-model="group.image"
-      label="File input"
-      filled
-      prepend-icon="mdi-camera"
-      type="file" 
-      v-on:change="setImage"
-    ></v-file-input> -->
-      <!-- <p>{{ group.image }}</p> -->
-
-    <input type="file" v-on:change="setImage" />
-  <!-- 画像uploda -->
-
-    <v-btn
-      color="primary"
-      class="mr-4"
-      dark
-      @click="createGroup"
+    <v-form
+      ref="form"
+      v-model="valid"
+      lazy-validation
     >
-      Create
-      <v-icon
+      <v-text-field
+        v-model="group.name"
+        :counter="10"
+        :rules="nameRules"
+        label="Name"
+        required
+      ></v-text-field>
+
+      <v-text-field
+        v-model="group.introduction"
+        label="Introduction"
+        required
+      ></v-text-field>
+      
+
+    <!-- 画像uploda -->
+      <!-- <v-file-input
+        v-model="group.image"
+        label="File input"
+        filled
+        prepend-icon="mdi-camera"
+        type="file" 
+        v-on:change="setImage"
+      ></v-file-input> -->
+        <!-- <p>{{ group.image }}</p> -->
+
+      <input type="file" v-on:change="setImage" />
+    <!-- 画像uploda -->
+
+      <v-btn
+        color="primary"
+        class="mr-4"
         dark
-        right
+        @click="createGroup"
       >
-        mdi-checkbox-marked-circle
-      </v-icon>
-    </v-btn>
+        Create
+        <v-icon
+          dark
+          right
+        >
+          mdi-checkbox-marked-circle
+        </v-icon>
+      </v-btn>
 
-    <v-btn
-      color="error"
-      class="mr-4"
-      @click="reset"
-    >
-      Reset Form
-    </v-btn>
+      <v-btn
+        color="error"
+        class="mr-4"
+        @click="reset"
+      >
+        Reset Form
+      </v-btn>
 
-    <!-- <v-btn
-      color="warning"
-      @click="create_file"
-    >
-      image confirm
-    </v-btn> -->
-  </v-form>
+      <!-- <v-btn
+        color="warning"
+        @click="create_file"
+      >
+        image confirm
+      </v-btn> -->
+    </v-form>
   </div>
 </template>
 

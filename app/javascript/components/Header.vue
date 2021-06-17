@@ -73,7 +73,8 @@ export default {
       { title: 'Home', icon: 'mdi-home', url: '/groups' },
       { title: 'Create', icon: 'mdi-account-multiple-plus', url: '/groups/new' },
       { title: 'Mypage', icon: 'mdi-text-account', url: '/bar' },
-      { title: 'About', icon: 'mdi-information-variant', url: '/bar' }
+      // { title: 'About', icon: 'mdi-information-variant', url: '/bar' },
+      { title: 'Login', icon: 'mdi-information-variant', url: '/login' }
     ]
     }
   },

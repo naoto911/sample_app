@@ -1,22 +1,29 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./router/Home";
-import Group from "./router/Group";
-// import GroupDetail from "./router/GroupDetail";
-import GroupNew from "./router/GroupNew";
-import GroupEvent from "./router/GroupEvent";
-import GroupMember from "./router/GroupMember";
-import GroupEdit from "./router/GroupEdit";
-import Mypage from "./router/Mypage";
 
+import Home from "./router/Home";
+import Header from "./components/Header";
+
+import Group from "./router/Group/Group";
+import GroupNew from "./router/Group/GroupNew";
+import GroupEdit from "./router/Group/GroupEdit";
+import GroupDetail from "./router/Group/GroupDetail";
+import GroupEvent from "./router/Group/GroupEvent";
+import GroupMember from "./router/Group/GroupMember";
+
+import Mypage from "./router/User/Mypage";
+import Login from "./router/User/Login";
+import UserNew from "./router/User/UserNew";
 
 Vue.use(Router);
 
 export default new Router({
   mode: "history",
   routes: [
+  // Main以外
     { path: '/', component: Home}, 
-    { path: '/groups/', component: Home}, 
+    { path: '/groups/', component: Home},
+  // グループ
     { path: '/groups/new', component: GroupNew},
     { path: '/groups/:id(\\d+)', component: Group},
     //  { path: '/groups/:id', component: Group},
@@ -30,7 +37,11 @@ export default new Router({
         { path: "edit", component: GroupEdit },
       ]
     },
+  // ユーザー
+    { path: '/users/new', component: UserNew},
     { path: '/users/:id(\\d+)', component: Mypage},
+    { path: '/login', component: Login},
+  // その他
     {
       path: '*', 
       redirect: '/'

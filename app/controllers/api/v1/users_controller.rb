@@ -8,6 +8,7 @@ class Api::V1::UsersController < ApplicationController
   #アカウントがないので新規作成させる
   def new
     @user = User.new
+    render json: {user: @user }
   end
 
   def create
