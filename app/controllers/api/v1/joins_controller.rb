@@ -1,4 +1,4 @@
-class JoinsController < ApplicationController
+class Api::V1::JoinsController < ApplicationController
   before_action :logged_in_user, only: %i[show new edit update destroy permit leave] #ログイン後しか実行できない
   before_action :set_target_group, only: %i[show new create edit update destroy permit leave]
   before_action :set_target_join, only: %i[show edit update destroy permit leave]
@@ -39,6 +39,7 @@ class JoinsController < ApplicationController
   end
 
   def show
+    render json: {group: @group, join: @join, current_user: current_user }
   end
 
   def edit

@@ -10,6 +10,7 @@ import GroupEdit from "./router/Group/GroupEdit";
 import GroupDetail from "./router/Group/GroupDetail";
 import GroupEvent from "./router/Group/GroupEvent";
 import GroupMember from "./router/Group/GroupMember";
+import Test from "./router/Group/Test";
 
 import Mypage from "./router/User/Mypage";
 import Login from "./router/User/Login";
@@ -35,6 +36,7 @@ export default new Router({
         { path: "event", component: GroupEvent },
         { path: "member", component: GroupMember },
         { path: "edit", component: GroupEdit },
+        { path: 'joins/:id(\\d+)', component: Test } //テスト
       ]
     },
   // ユーザー

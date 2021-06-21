@@ -24,6 +24,7 @@ import GroupEdit from "./router/Group/GroupEdit";
 import GroupDetail from "./router/Group/GroupDetail";
 import GroupEvent from "./router/Group/GroupEvent";
 import GroupMember from "./router/Group/GroupMember";
+import Test from "./router/Group/Test";
 
 import Mypage from "./router/User/Mypage";
 import Login from "./router/User/Login";
@@ -45,6 +46,7 @@ export default {
     GroupDetail,
     GroupEvent,
     GroupMember,
+    Test,
 
     Mypage,
     Login,
