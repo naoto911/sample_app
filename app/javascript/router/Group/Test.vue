@@ -1,7 +1,7 @@
 <template>
   <div>
-    <p>このリンク先にグループのイベント詳細を記載する</p>
-    <p>{{ join.id }}</p>
+    <p>{{ event.place }}</p>
+    <p>{{ answers[0].answer }}</p>
   </div>
 </template>
 
@@ -13,16 +13,18 @@ export default {
   data() {
     return {
       group: [],
-      join: [],
+      event: [],
+      answers: [],
     }
   },
   //mountedでVueインスタンスのDOM作成完了直後に読み込む
   mounted() {
     axios
-      .get(`/api/v1/groups/${this.$route.params.id}.json`)
+      .get(`/api/v1/groups/${this.$route.params.id}/events/${this.$route.params.id}.json`)
       .then(response => {
         this.group = response.data.group;
-        this.join = response.data.join;
+        this.event = response.data.event;
+        this.answers = response.data.answers;
       });
   }
 }

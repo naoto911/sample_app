@@ -36,7 +36,7 @@ export default new Router({
         { path: "event", component: GroupEvent },
         { path: "member", component: GroupMember },
         { path: "edit", component: GroupEdit },
-        { path: 'joins/:id(\\d+)', component: Test } //テスト
+        { path: 'events/:event_id(\\d+)', component: Test } //テスト
       ]
     },
   // ユーザー

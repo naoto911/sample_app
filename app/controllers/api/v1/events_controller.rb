@@ -1,4 +1,4 @@
-class EventsController < ApplicationController
+class Api::V1::EventsController < ApplicationController
   before_action :logged_in_user, only: %i[new edit update destroy ] #このアクションはログイン後しか実行できない
   before_action :set_target_event, only: %i[show edit update destroy ]
   before_action :set_target_group_id, only: %i[show new edit update destroy ]
@@ -8,6 +8,8 @@ class EventsController < ApplicationController
   end
 
   def show
+    @answers = Answer.where(event_id: @event.id)
+    render json: {group: @group, event: @event, current_user: current_user,answers: @answers }
   end
 
   def new

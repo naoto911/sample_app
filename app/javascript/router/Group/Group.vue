@@ -37,7 +37,8 @@ export default {
       { title: 'Member', icon: 'mdi-text-account', url: `/groups/${this.$route.params.id}/member` },
       // { title: 'About', icon: 'mdi-information-variant', url: '/bar' },
       { title: 'Event', icon: 'mdi-information-variant', url:`/groups/${this.$route.params.id}/event` }
-      ]
+      ],
+      value: 1 
     }
   },
   //mountedでVueインスタンスのDOM作成完了直後に読み込む
