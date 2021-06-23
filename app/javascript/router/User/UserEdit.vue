@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Create account</h1>
+    <h1>Edit account</h1>
     <v-form
       ref="form"
       v-model="valid"
@@ -82,10 +82,10 @@ export default {
       this.$refs.form.resetValidation()
     },
     setImage (e) {
-      this.image = e.target.files[0]
-    }
+    this.image = e.target.files[0]
+    },
   },
-
+  
   //mountedでVueインスタンスのDOM作成完了直後に読み込む
   mounted() {
     axios

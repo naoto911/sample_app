@@ -1,7 +1,7 @@
 <template>
   <div>
-    <p>{{ group.name }}</p>
-    <p>{{ group.introduction }}</p>
+    <h2>{{ group.name }}</h2>
+    <!-- <h2>{{ group.introduction }}</h2> -->
     <router-view></router-view>
     
     <v-bottom-navigation
@@ -36,7 +36,7 @@ export default {
       { title: 'Edit', icon: 'mdi-account-multiple-plus', url: `/groups/${this.$route.params.id}/edit` },
       { title: 'Member', icon: 'mdi-text-account', url: `/groups/${this.$route.params.id}/member` },
       // { title: 'About', icon: 'mdi-information-variant', url: '/bar' },
-      { title: 'Event', icon: 'mdi-information-variant', url:`/groups/${this.$route.params.id}/event` }
+      { title: 'Event', icon: 'mdi-information-variant', url:`/groups/${this.$route.params.id}/events` }
       ],
       value: 1 
     }

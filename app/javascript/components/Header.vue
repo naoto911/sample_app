@@ -10,7 +10,7 @@
         active-class="link--active"
         exact
         class="link"
-      ><v-toolbar-title>Syumix</v-toolbar-title></router-link>
+      ><v-toolbar-title color="warning">Syumix</v-toolbar-title></router-link>
       <v-spacer></v-spacer>
       <!-- <v-btn icon>
         <v-icon>mdi-text-account</v-icon>
@@ -72,7 +72,7 @@ export default {
       menus: [
       { title: 'Home', icon: 'mdi-home', url: '/groups' },
       { title: 'Create', icon: 'mdi-account-multiple-plus', url: '/groups/new' },
-      { title: 'Mypage', icon: 'mdi-text-account', url: '/bar' },
+      { title: 'Mypage', icon: 'mdi-text-account', url: '/' },
       // { title: 'About', icon: 'mdi-information-variant', url: '/bar' },
       { title: 'Login', icon: 'mdi-information-variant', url: '/login' }
     ]

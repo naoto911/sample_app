@@ -7,9 +7,9 @@
       lazy-validation
     >
       <v-text-field
-        v-model="user.name"
-        :counter="10"
-        label="Name"
+        v-model="user.email"
+        :counter="30"
+        label="E-mail"
         required
       ></v-text-field>
 
@@ -23,7 +23,7 @@
         color="primary"
         class="mr-4"
         dark
-        @click="reset"
+        @click="dologin"
       >
         Login
         <v-icon
@@ -63,7 +63,7 @@ import axios from 'axios';
       valid: true,
       current_user: {},
       user: {
-        name: '',
+        email: '',
         password: ''
       }
     }),
@@ -79,8 +79,26 @@ import axios from 'axios';
         this.$refs.form.resetValidation()
       },
       setImage (e) {
-      this.image = e.target.files[0]
+        this.image = e.target.files[0]
       },
+      dologin () {
+        axios
+          .post(`/api/v1/login`, {
+            email: this.user.email,
+            password: this.user.password
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+            .then((response) => {
+              this.$store.dispatch('doRegistrationToken', response.data.token)
+            })
+            .catch((e) => {
+              console.log(e)
+            })
+      }
   //     createGroup () {
   //       if (!this.group.name) return;
   //       const formData = new FormData()

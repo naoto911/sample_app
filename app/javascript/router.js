@@ -10,11 +10,15 @@ import GroupEdit from "./router/Group/GroupEdit";
 import GroupDetail from "./router/Group/GroupDetail";
 import GroupEvent from "./router/Group/GroupEvent";
 import GroupMember from "./router/Group/GroupMember";
-import Test from "./router/Group/Test";
+
+import EventNew from "./router/Event/EventNew";
+import EventDetail from "./router/Event/EventDetail";
+import EventEdit from "./router/Event/EventEdit";
 
 import Mypage from "./router/User/Mypage";
 import Login from "./router/User/Login";
 import UserNew from "./router/User/UserNew";
+import UserEdit from "./router/User/UserEdit";
 
 Vue.use(Router);
 
@@ -33,15 +37,19 @@ export default new Router({
       component: Group, 
       props: true,
       children: [
-        { path: "event", component: GroupEvent },
+        { path: "events", component: GroupEvent },
         { path: "member", component: GroupMember },
         { path: "edit", component: GroupEdit },
-        { path: 'events/:event_id(\\d+)', component: Test } //テスト
+        //ここからEvnet
+        { path: 'events/new', component: EventNew },
+        { path: 'events/:event_id(\\d+)', component: EventDetail },
+        { path: 'events/:event_id(\\d+)/edit', component: EventEdit }
       ]
     },
   // ユーザー
     { path: '/users/new', component: UserNew},
     { path: '/users/:id(\\d+)', component: Mypage},
+    { path: '/users/:id(\\d+)/edit', component: UserEdit},
     { path: '/login', component: Login},
   // その他
     {

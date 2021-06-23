@@ -24,11 +24,15 @@ import GroupEdit from "./router/Group/GroupEdit";
 import GroupDetail from "./router/Group/GroupDetail";
 import GroupEvent from "./router/Group/GroupEvent";
 import GroupMember from "./router/Group/GroupMember";
-import Test from "./router/Group/Test";
+
+import EventNew from "./router/Event/EventNew";
+import EventDetail from "./router/Event/EventDetail";
+import EventEdit from "./router/Event/EventEdit";
 
 import Mypage from "./router/User/Mypage";
 import Login from "./router/User/Login";
 import UserNew from "./router/User/UserNew";
+import UserEdit from "./router/User/UserEdit";
 
 export default {
   data: function () {
@@ -46,11 +50,15 @@ export default {
     GroupDetail,
     GroupEvent,
     GroupMember,
-    Test,
+
+    EventNew,
+    EventDetail,
+    EventEdit,
 
     Mypage,
     Login,
-    UserNew
+    UserNew,
+    UserEdit
   },  
   //mountedでVueインスタンスのDOM作成完了直後に読み込む
   mounted() {

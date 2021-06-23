@@ -14,16 +14,21 @@ class Api::V1::UsersController < ApplicationController
   def create
     user = User.new(user_params)
     if user.save
-      flash[:notice] = "「#{user.name}」を作成しました"
-      log_in user #アカウント作成と同時にログインする
-      redirect_to  user_path(user)
+      render json: user
     else
-  #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-      redirect_to new_user_path, flash: {
-        user: user,
-        error_messages: user.errors.full_messages
-      }
+      render json: { errors: user.errors.full_messages }, status: 400
     end
+  #   if user.save
+  #     flash[:notice] = "「#{user.name}」を作成しました"
+  #     log_in user #アカウント作成と同時にログインする
+  #     redirect_to  user_path(user)
+  #   else
+  # #フォームの入力エラーを起こした際のエラー表示を取得するための処理
+  #     redirect_to new_user_path, flash: {
+  #       user: user,
+  #       error_messages: user.errors.full_messages
+  #     }
+  #   end
   end
 
   def show

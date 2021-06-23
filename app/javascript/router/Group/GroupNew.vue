@@ -32,6 +32,8 @@
         <!-- <p>{{ group.image }}</p> -->
 
       <input type="file" v-on:change="setImage" />
+      <br>
+      <br>
     <!-- 画像uploda -->
 
       <v-btn
