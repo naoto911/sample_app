@@ -10,6 +10,7 @@
             class="pa-4"
             justify="space-between"
           >
+          <!-- ③ここから左のユーザー一覧 -->
             <v-col cols="5">
               <v-treeview
                 :active.sync="active"
@@ -28,6 +29,7 @@
                 </template>
               </v-treeview>
             </v-col>
+            <!-- ③ここから左のユーザー一覧 -->
 
             <v-divider vertical></v-divider>
 

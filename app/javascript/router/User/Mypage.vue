@@ -1,8 +1,84 @@
 <template>
   <div>
-    <p>Mypage</p>
-    <p>{{ user.name }}</p>
-    <p>{{ user.id }}</p>
+    <h1>Mypage</h1>
+
+    <v-card class="mt-8">
+      <v-row
+        class="pa-4"
+        justify="space-between"
+      >
+        <v-col
+          class="d-flex text-center"
+        >
+          <div
+            v-if="!user"
+            class="text-h6 grey--text text--lighten-1 font-weight-light"
+            style="align-self: center;"
+          >
+            Select a User
+          </div>
+          <v-card
+            v-else
+            :key="user.id"
+            class="pt-6 mx-auto"
+            flat
+            max-width="400"
+          >
+            <v-card-text>
+              <v-avatar
+                v-if="user.image"
+                size="88"
+              > 
+              <!-- :src= "val.image.url" -->
+                <v-img
+                  :src= "user.image.url"
+                  class="mb-6"
+                ></v-img>
+              </v-avatar>
+              <h3 class="text-h5 mb-2">
+                {{ user.name }}
+              </h3>
+              <!-- <div class="blue--text mb-2">
+                {{ selected.email }}
+              </div>
+              <div class="blue--text subheading font-weight-bold">
+                {{ selected.username }}
+              </div> -->
+            </v-card-text>
+            <v-divider></v-divider>
+          <!-- ②ここからユーザー情報 -->
+            <v-row
+              class="text-left"
+              tag="v-card-text"
+            >
+              <v-col
+                class="text-right mr-4 mb-2"
+                tag="strong"
+                cols="5"
+              >
+                Age:
+              </v-col>
+              <v-col>{{ user.id }}</v-col>
+              <v-col
+                class="text-right mr-4 mb-2"
+                tag="strong"
+                cols="5"
+              >
+                From:
+              </v-col>
+              <v-col>
+                <a
+                  :href="`//${user.id}`"
+                  target="_blank"
+                >{{ user.id }}</a>
+              </v-col>
+            </v-row>
+          <!-- ②ここまでユーザー情報 -->
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-card>
+
   </div>
 </template>
 
