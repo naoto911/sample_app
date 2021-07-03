@@ -11,7 +11,8 @@ class Api::V1::SessionsController < ApplicationController
       log_in user
       # redirect_to root_url #user_path(user) #root_url
       # render json: user
-      redirect_to  root_url #api_v1_user_path(user)
+      # redirect_to  root_url #api_v1_user_path(user)
+      render json: user, status: :created
     else
       render json: { errors: ['ログインに失敗しました'] }, status: 401
     end

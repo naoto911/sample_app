@@ -81,47 +81,47 @@ import axios from 'axios';
       setImage (e) {
         this.image = e.target.files[0]
       },
+      // dologin () {
+      //   axios
+      //     .post(`/api/v1/login`, {
+      //       email: this.user.email,
+      //       password: this.user.password
+      //     },
+      //     {
+      //       headers: {
+      //         'Content-Type': 'application/json'
+      //       }
+      //     })
+      //       .then((response) => {
+      //         this.$store.dispatch('doRegistrationToken', response.data.token)
+      //       })
+      //       .catch((e) => {
+      //         console.log(e)
+      //       })
+      // }
+      
       dologin () {
-        axios
-          .post(`/api/v1/login`, {
-            email: this.user.email,
-            password: this.user.password
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json'
+        if (!this.user.email) return;
+
+          axios
+            .post('/api/v1/login', {
+                email: this.user.email,
+                password: this.user.password
+            })
+
+          .then(response => {
+            console.log('OK');
+            console.log(this.user);
+            this.$router.push({ path: '/' });
+          })        
+          .catch(error => {
+            console.log('NG');
+            console.error(error);
+            if(error.response.data && error.response.data.errors) {
+              this.errors = error.response.data.errors;
             }
           })
-            .then((response) => {
-              this.$store.dispatch('doRegistrationToken', response.data.token)
-            })
-            .catch((e) => {
-              console.log(e)
-            })
       }
-  //     createGroup () {
-  //       if (!this.group.name) return;
-  //       const formData = new FormData()
-  //       formData.append('group[name]', this.group.name)
-  //       formData.append('group[adminuser_id]', this.current_user.id)
-  //       formData.append('group[introduction]', this.group.introduction)
-  //       formData.append('group[image]', this.image)
-  //         axios
-  //         .post('/api/v1/groups', formData)
-  //         .then(response => {
-  //           console.log('OK');
-  //           console.log(this.group);
-  //           this.$router.push({ path: '/' });
-  //         })        
-  //         .catch(error => {
-  //           console.log('NG');
-  //           console.error(error);
-  //           if(error.response.data && error.response.data.errors) {
-  //             this.errors = error.response.data.errors;
-  //           }
-  //         })
-  //     } 
-  //   },
   // //mountedでVueインスタンスのDOM作成完了直後に読み込む 画面取得用
   //   mounted() {
   //     axios
