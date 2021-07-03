@@ -30,13 +30,14 @@ export default new Router({
     { path: '/groups/', component: Home},
   // グループ
     { path: '/groups/new', component: GroupNew},
-    { path: '/groups/:id(\\d+)', component: Group},
+    // { path: '/groups/:id(\\d+)', component: Group},
     //  { path: '/groups/:id', component: Group},
     { 
       path: '/groups/:id(\\d+)', 
       component: Group, 
       props: true,
       children: [
+        { path: "detail", component: GroupDetail },
         { path: "events", component: GroupEvent },
         { path: "member", component: GroupMember },
         { path: "edit", component: GroupEdit },

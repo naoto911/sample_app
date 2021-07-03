@@ -8,7 +8,7 @@
       >
       <!-- ここから -->
       <router-link
-        :to=" 'groups/' + (Number(val.id))"
+        :to=" 'groups/' + (Number(val.id)) + '/detail'"
         active-class="link--active"
         exact
         class="link"

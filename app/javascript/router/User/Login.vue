@@ -78,9 +78,6 @@ import axios from 'axios';
       resetValidation () {
         this.$refs.form.resetValidation()
       },
-      setImage (e) {
-        this.image = e.target.files[0]
-      },
       // dologin () {
       //   axios
       //     .post(`/api/v1/login`, {
@@ -122,14 +119,7 @@ import axios from 'axios';
             }
           })
       }
-  // //mountedでVueインスタンスのDOM作成完了直後に読み込む 画面取得用
-  //   mounted() {
-  //     axios
-  //       .get('/api/v1/groups/new.json')
-  //       .then(response => {
-  //       // this.group = response.data.group;
-  //       this.current_user = response.data.current_user;
-  //     });
+
     }
   }
 </script>
