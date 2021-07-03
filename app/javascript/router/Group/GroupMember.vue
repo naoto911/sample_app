@@ -4,7 +4,7 @@
 
         <v-card>
           <v-card-title class="blue white--text text-h5">
-            User Directory
+            Group Members
           </v-card-title>
           <v-row
             class="pa-4"
@@ -14,7 +14,7 @@
             <v-col cols="5">
               <v-treeview
                 :active.sync="active"
-                :items="items"
+                :items="members"
                 :load-children="fetchUsers"
                 :open.sync="open"
                 activatable
@@ -22,14 +22,18 @@
                 open-on-click
                 transition
               >
+
+              <!-- ④ここからitemにアカウントアイコンを追加 -->
                 <template v-slot:prepend="{ item }">
                   <v-icon v-if="!item.children">
                     mdi-account
                   </v-icon>
                 </template>
+              <!-- ④ここまでitemにアカウントアイコンを追加 -->
+
               </v-treeview>
             </v-col>
-            <!-- ③ここから左のユーザー一覧 -->
+            <!-- ③ここまで左のユーザー一覧 -->
 
             <v-divider vertical></v-divider>
 
@@ -46,6 +50,8 @@
                   Select a User
                 </div>
               <!-- ①ここまで誰も選んでないときの表示 -->
+
+              <!-- ⑤ここから右側の表示 -->
                 <v-card
                   v-else
                   :key="selected.id"
@@ -111,6 +117,7 @@
                   </v-row>
                 <!-- ②ここまでユーザー情報 -->
                 </v-card>
+              <!-- ⑤ここまで右側の表示 -->
               </v-scroll-y-transition>
             </v-col>
           </v-row>
@@ -120,6 +127,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
   const avatars = [
     '?accessoriesType=Blank&avatarStyle=Circle&clotheColor=PastelGreen&clotheType=ShirtScoopNeck&eyeType=Wink&eyebrowType=UnibrowNatural&facialHairColor=Black&facialHairType=MoustacheMagnum&hairColor=Platinum&mouthType=Concerned&skinColor=Tanned&topType=Turban',
     '?accessoriesType=Sunglasses&avatarStyle=Circle&clotheColor=Gray02&clotheType=ShirtScoopNeck&eyeType=EyeRoll&eyebrowType=RaisedExcited&facialHairColor=Red&facialHairType=BeardMagestic&hairColor=Red&hatColor=White&mouthType=Twinkle&skinColor=DarkBrown&topType=LongHairBun',
@@ -136,6 +145,9 @@
       avatar: null,
       open: [],
       users: [],
+
+      members: [],
+
     }),
 
     computed: {
@@ -175,5 +187,16 @@
         this.avatar = avatars[Math.floor(Math.random() * avatars.length)]
       },
     },
+    
+  //mountedでVueインスタンスのDOM作成完了直後に読み込む
+    mounted() {
+      axios
+        .get(`/api/v1/groups/${this.$route.params.id}.json`)
+        .then(response => {
+          // this.group = response.data.group;
+          this.members = response.data.users;
+        });
+    },
+
   }
 </script>
