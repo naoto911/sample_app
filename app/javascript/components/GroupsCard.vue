@@ -7,66 +7,66 @@
         cols="4"
       >
       <!-- ここから -->
-      <router-link
-        :to=" 'groups/' + (Number(val.id)) + '/detail'"
-        active-class="link--active"
-        exact
-        class="link"
-      >
-        <v-hover 
-          v-slot="{ hover }"
-          close-delay="200"
+        <router-link
+          :to=" 'groups/' + (Number(val.id)) + '/detail'"
+          active-class="link--active"
+          exact
+          class="link"
         >
-          <v-card
-            :elevation="hover ? 16 : 2"
-            :class="{ 'on-hover': hover }"
-            class="mx-auto"
-            max-width="344"
+          <v-hover 
+            v-slot="{ hover }"
+            close-delay="200"
           >
-            <v-img
-              :src= "val.image.url"
-              height="200px"
-            ></v-img>
+            <v-card
+              :elevation="hover ? 16 : 2"
+              :class="{ 'on-hover': hover }"
+              class="mx-auto"
+              max-width="344"
+            >
+              <v-img
+                :src= "val.image.url"
+                height="200px"
+              ></v-img>
 
-            <v-card-title>
-              {{ val.name }}
-            </v-card-title>
+              <v-card-title>
+                {{ val.name }}
+              </v-card-title>
 
-            <v-card-subtitle>
-              {{ val.introduction }}
-            </v-card-subtitle>
+              <v-card-subtitle>
+                {{ val.introduction }}
+              </v-card-subtitle>
 
-            <v-card-actions>
-              <v-btn
-                color="orange lighten-2"
-                text
-              >
-                LEARN MORE
-              </v-btn>
+              <!-- <v-card-actions>
+                <v-btn
+                  color="orange lighten-2"
+                  text
+                >
+                  LEARN MORE
+                </v-btn>
 
-              <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
 
-              <v-btn
-                icon
-                @click="show = !show"
-              >
-                <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-              </v-btn>
-            </v-card-actions>
+                <v-btn
+                  icon
+                  @click="show = !show"
+                >
+                  <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                </v-btn>
+              </v-card-actions> -->
 
-            <v-expand-transition>
-              <div v-show="show">
-                <v-divider></v-divider>
+              <!-- <v-expand-transition>
+                <div v-show="show">
+                  <v-divider></v-divider>
 
-                <v-card-text>
-                  ここに,グループ説明を表示
-                </v-card-text>
-              </div>
-            </v-expand-transition>
-          </v-card>
-        </v-hover>
+                  <v-card-text>
+                    ここに,グループ説明を表示
+                  </v-card-text>
+                </div>
+              </v-expand-transition> -->
+            </v-card>
+          </v-hover>
         </router-link>
-        <!-- ここまで -->
+      <!-- ここまで -->
       </v-col>
     </v-row>
   </div>

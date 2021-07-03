@@ -33,7 +33,7 @@
 
               </v-treeview>
             </v-col>
-            <!-- ③ここまで左のユーザー一覧 -->
+          <!-- ③ここまで左のユーザー一覧 -->
 
             <v-divider vertical></v-divider>
 

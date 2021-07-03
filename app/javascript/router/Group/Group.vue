@@ -11,7 +11,8 @@
       <v-btn
         v-for="menu in menus" 
         :key="menu.title" 
-        :to="menu.url" exact
+        :to="menu.url" 
+        exact
       >
         <span>{{ menu.title }}</span>
         <v-icon>{{ menu.icon }}</v-icon>
@@ -23,7 +24,6 @@
 </template>
 
 <script>
-// axiosを読み込む
 import axios from 'axios';
 
 export default {
@@ -32,7 +32,7 @@ export default {
       group: [],
       users: [],
       menus: [
-      { title: 'Group', icon: 'mdi-home', url: `/groups/${this.$route.params.id}` },
+      { title: 'GroupDetail', icon: 'mdi-home', url: `/groups/${this.$route.params.id}/detail` },
       { title: 'Edit', icon: 'mdi-account-multiple-plus', url: `/groups/${this.$route.params.id}/edit` },
       { title: 'Member', icon: 'mdi-text-account', url: `/groups/${this.$route.params.id}/member` },
       // { title: 'About', icon: 'mdi-information-variant', url: '/bar' },
