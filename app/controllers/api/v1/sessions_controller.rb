@@ -1,5 +1,5 @@
 class Api::V1::SessionsController < ApplicationController
-  protect_from_forgery #追記
+  # protect_from_forgery #追記
 
   def new
   end
