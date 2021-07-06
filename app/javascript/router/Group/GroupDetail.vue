@@ -79,6 +79,11 @@
         >
           {{ group.introduction }}
         </p>
+      <!-- ここから削除ボタン -->
+        <v-btn dark v-on="on" @click="deleteBook(group.id)" style="margin-top: 8px">
+          <span class="material-icons" style="margin-right: 4px;">delete</span>
+        </v-btn>
+      <!-- ここから削除ボタン -->
       </v-row>
     <!-- ③ここまでグループ詳細 -->
 
@@ -109,15 +114,40 @@ import axios from 'axios';
           ? this.length - 1
           : this.onboarding - 1
       },
+      getGroup() {
+        axios
+          .get(`/api/v1/groups/${this.$route.params.id}.json`)
+          .then(response => {
+            this.group = response.data.group;
+            this.users = response.data.users;
+          });
+      },
+    //ここから削除ボタンのメソッド
+      deleteBook(id) {
+        axios.delete(`/api/v1/groups/${id}`)
+          .then(res => {
+            this.$router.push({ path: '/' });
+          })
+          .catch(error => {
+            console.log('NG');
+            console.error(error);
+            if(error.response.data && error.response.data.errors) {
+              this.errors = error.response.data.errors;
+            }
+          })
+      },
+    //ここから削除ボタンのメソッド
     },
+
   //mountedでVueインスタンスのDOM作成完了直後に読み込む
     mounted() {
-      axios
-        .get(`/api/v1/groups/${this.$route.params.id}.json`)
-        .then(response => {
-          this.group = response.data.group;
-          this.users = response.data.users;
-        });
+      this.getGroup();
+      // axios
+      //   .get(`/api/v1/groups/${this.$route.params.id}.json`)
+      //   .then(response => {
+      //     this.group = response.data.group;
+      //     this.users = response.data.users;
+      //   });
     },
   }
 </script>
