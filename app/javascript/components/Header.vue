@@ -12,13 +12,22 @@
         class="link"
       ><v-toolbar-title color="warning">Syumix</v-toolbar-title></router-link>
       <v-spacer></v-spacer>
-      <!-- <v-btn icon>
-        <v-icon>mdi-text-account</v-icon>
-      </v-btn> -->
-      <!-- <v-btn icon>
-        <v-icon>mdi-account-search</v-icon>
-      </v-btn> -->
+
+      <!-- ここからLogoutボタン -->
+        <v-btn 
+          dark v-on="on" 
+          @click="Logout(val.id)" 
+          style="margin-top: 8px"
+          v-if="val"
+        >
+          <span class="material-icons" style="margin-right: 4px;">
+            delete
+          </span>
+        </v-btn>
+      <!-- ここまでLogoutボタン -->
+
       <router-link
+        v-if="val"
         :to=" 'users/' + (Number(val.id))"
         active-class="link--active"
         exact
@@ -65,6 +74,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -82,7 +93,24 @@ export default {
     val: {
       type: Object
     }
-  }
+  },
+  methods: {
+  //ここからLogoutメソッド
+    Logout(id) {
+      axios.delete(`/api/v1/login`)
+        .then(res => {
+          this.$router.push({ path: '/' });
+        })
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        })
+    },
+  //ここまでLogoutメソッド
+  },
 };
 
 </script>
