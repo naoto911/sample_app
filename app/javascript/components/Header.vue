@@ -13,19 +13,6 @@
       ><v-toolbar-title color="warning">Syumix</v-toolbar-title></router-link>
       <v-spacer></v-spacer>
 
-      <!-- ここからLogoutボタン -->
-        <v-btn 
-          dark v-on="on" 
-          @click="Logout(val.id)" 
-          style="margin-top: 8px"
-          v-if="val"
-        >
-          <span class="material-icons" style="margin-right: 4px;">
-            delete
-          </span>
-        </v-btn>
-      <!-- ここまでLogoutボタン -->
-
       <router-link
         v-if="val"
         :to=" 'users/' + (Number(val.id))"
@@ -40,9 +27,56 @@
           ></v-img>
         </v-avatar>
       </router-link>
+      
+      <!-- ここから展開ボタン -->
+        <v-menu
+          bottom
+          left
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              dark
+              icon
+              v-bind="attrs"
+              v-on="on"
+            >
+              <!-- <v-icon>mdi-dots-vertical</v-icon> -->
+              <v-avatar>
+                <v-img
+                  v-if="val"
+                  :src= "val.image.url"
+                  alt="John"
+                ></v-img>
+              </v-avatar>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item
+              v-for="(item, i) in items"
+              :key="i"
+              :to="item.url" exact
+            >
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+
+            <v-list-tile-action>
+              <v-btn 
+                @click.stop="Logout(val.id)"
+                v-if="val"
+              >
+                <!-- <v-icon @click.stop="Logout(val.id)"> -->
+                  Logout
+                <!-- </v-icon> -->
+              </v-btn>
+            </v-list-tile-action>
+            
+          </v-list>
+        </v-menu>
+      <!-- ここまで展開ボタン -->
 
     </v-app-bar>
-
+  <!-- ここからサイドバー -->
     <v-navigation-drawer
       app
       v-model="drawer"
@@ -70,6 +104,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+  <!-- ここまでサイドバー -->
 </div>
 </template>
 
@@ -86,7 +121,14 @@ export default {
       { title: 'Mypage', icon: 'mdi-text-account', url: '/' },
       // { title: 'About', icon: 'mdi-information-variant', url: '/bar' },
       { title: 'Login', icon: 'mdi-information-variant', url: '/login' }
-    ]
+      ],
+      items: [
+          { title: 'Login', url: '/login' },
+          // { title: 'Logout' },
+          { title: 'Mypage', url: '/groups' },
+          // { title: 'UserEdit' },
+          // { title: 'Delete' },
+        ],
     }
   },
   props: {
