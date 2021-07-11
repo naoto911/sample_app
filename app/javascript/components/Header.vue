@@ -4,46 +4,36 @@
       app
       clipped-left
     >
+    
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+    <!-- ①ここからSyumixロゴ&ハンバーガーメニュー -->
       <router-link
         to="/"
         active-class="link--active"
         exact
         class="link"
       ><v-toolbar-title color="warning">Syumix</v-toolbar-title></router-link>
+    <!-- ①ここまでSyumixロゴ&ハンバーガーメニュー -->
       <v-spacer></v-spacer>
-
-      <router-link
-        v-if="val"
-        :to=" 'users/' + (Number(val.id))"
-        active-class="link--active"
-        exact
-        class="link"
-      >
-        <v-avatar>
-          <v-img
-            :src= "val.image.url"
-            alt="John"
-          ></v-img>
-        </v-avatar>
-      </router-link>
       
-      <!-- ここから展開ボタン -->
+      <!-- ②-1 ここからLogin時の展開ボタン -->
         <v-menu
+          v-if="val"
           bottom
-          left
+          min-width="200px"
+          rounded
+          offset-y
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template  v-slot:activator="{ on }">
             <v-btn
-              dark
               icon
-              v-bind="attrs"
+              x-large
               v-on="on"
             >
-              <!-- <v-icon>mdi-dots-vertical</v-icon> -->
-              <v-avatar>
+              <v-avatar
+                size="48"
+              >
                 <v-img
-                  v-if="val"
                   :src= "val.image.url"
                   alt="John"
                 ></v-img>
@@ -51,32 +41,71 @@
             </v-btn>
           </template>
 
-          <v-list>
-            <v-list-item
-              v-for="(item, i) in items"
-              :key="i"
-              :to="item.url" exact
-            >
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item>
+          <v-card>
+            <v-list-item-content class="justify-center">
+              <div class="mx-auto text-center">
 
-            <v-list-tile-action>
-              <v-btn 
-                @click.stop="Logout(val.id)"
-                v-if="val"
-              >
-                <!-- <v-icon @click.stop="Logout(val.id)"> -->
+              <!-- ここから②-1-1 Avatar -->
+                <v-avatar>
+                  <v-img
+                    :src= "val.image.url"
+                    alt="John"
+                  ></v-img>
+                </v-avatar>
+              <!-- ここまで②-1-1 Avatar -->
+
+                <h4 v-if="val">{{ val.name }}</h4> <!-- 名前 -->
+                <p v-if="val" class="text-caption mt-1">{{ val.email }}</p> <!-- E-mail -->
+                <v-divider class="my-3"></v-divider>
+              <!-- ここから②-1-2 Myapage -->
+                <router-link 
+                  :to=" 'users/' + (Number(val.id))"
+                  active-class="link--active"
+                  exact
+                  class="link"
+                >
+                  <v-btn
+                    depressed
+                    rounded
+                    text
+                  >
+                    Mypage
+                  </v-btn>
+                </router-link>
+              <!-- ここまで②-1-2 Myapage -->
+                <v-divider class="my-3"></v-divider>
+              <!-- ここから②-1-3 Logout -->
+                <v-btn
+                  depressed
+                  rounded
+                  text
+                  @click.stop="Logout(val.id)"
+                >
                   Logout
-                <!-- </v-icon> -->
-              </v-btn>
-            </v-list-tile-action>
+                </v-btn>
+              <!-- ここまで②-1-3 Logout -->
             
-          </v-list>
+              </div>
+            </v-list-item-content>
+          </v-card>
+
         </v-menu>
-      <!-- ここまで展開ボタン -->
+      <!-- ②-1 ここまでLogin時の展開ボタン -->
+
+      <!-- ②-2ここから非Login時 -->
+        <router-link
+          v-else
+          to="/login"
+          active-class="link--active"
+          exact
+          class="link"
+        >
+          Login
+        </router-link>
+      <!-- ②-2ここまで非Login時 -->
 
     </v-app-bar>
-  <!-- ここからサイドバー -->
+  <!-- ③ここからサイドバー -->
     <v-navigation-drawer
       app
       v-model="drawer"
@@ -104,7 +133,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-  <!-- ここまでサイドバー -->
+  <!-- ③ここまでサイドバー -->
 </div>
 </template>
 
@@ -118,17 +147,10 @@ export default {
       menus: [
       { title: 'Home', icon: 'mdi-home', url: '/groups' },
       { title: 'Create', icon: 'mdi-account-multiple-plus', url: '/groups/new' },
-      { title: 'Mypage', icon: 'mdi-text-account', url: '/' },
+      // { title: 'Mypage', icon: 'mdi-text-account', url: '/' },
       // { title: 'About', icon: 'mdi-information-variant', url: '/bar' },
       { title: 'Login', icon: 'mdi-information-variant', url: '/login' }
       ],
-      items: [
-          { title: 'Login', url: '/login' },
-          // { title: 'Logout' },
-          { title: 'Mypage', url: '/groups' },
-          // { title: 'UserEdit' },
-          // { title: 'Delete' },
-        ],
     }
   },
   props: {
@@ -157,6 +179,8 @@ export default {
 
 </script>
 
+
+<!--
 <style scoped>
 head {
   color: white;
@@ -165,4 +189,7 @@ head {
 a {
   color: grey;
 }
+
 </style>
+
+-->
