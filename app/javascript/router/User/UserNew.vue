@@ -29,7 +29,7 @@
 
       <v-text-field
         v-model="user.password_confirmation"
-        label="Password"
+        label="Password Confirmation"
         required
       ></v-text-field>
       
@@ -37,7 +37,7 @@
         color="primary"
         class="mr-4"
         dark
-        @click="reset"
+        @click="createUser"
       >
         Create
         <v-icon
@@ -83,6 +83,32 @@ export default {
     },
     setImage (e) {
       this.image = e.target.files[0]
+    },
+    createUser () {
+      if (!this.user.name) return;
+
+        axios
+          .post('/api/v1/users', {
+            user: {              
+              name: this.user.name,
+              email: this.user.email,
+              password: this.user.password,
+              password_confirmation: this.user.password_confirmation
+            }
+          })
+
+        .then(response => {
+          console.log('OK');
+          console.log(this.user);
+          this.$router.push({ path: '/' });
+        })        
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        })
     }
   },
 

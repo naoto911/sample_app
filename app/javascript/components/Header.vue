@@ -34,9 +34,11 @@
                 size="48"
               >
                 <v-img
+                  v-if="val.image"
                   :src= "val.image.url"
                   alt="John"
                 ></v-img>
+                <span v-else>G</span>
               </v-avatar>
             </v-btn>
           </template>
@@ -48,9 +50,11 @@
               <!-- ここから②-1-1 Avatar -->
                 <v-avatar>
                   <v-img
+                    v-if="val.image"
                     :src= "val.image.url"
                     alt="John"
                   ></v-img>
+                  <span v-else>G</span>
                 </v-avatar>
               <!-- ここまで②-1-1 Avatar -->
 
