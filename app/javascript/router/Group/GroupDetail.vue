@@ -1,5 +1,10 @@
 <template>
   <div>
+  <!-- ここから削除ボタン -->
+    <v-btn dark v-on="on" @click="deleteBook(group.id)" style="margin-top: 8px">
+      <span class="material-icons" style="margin-right: 4px;">delete</span>
+    </v-btn>
+  <!-- ここから削除ボタン -->
     <v-card
       flat
       tile
@@ -79,11 +84,6 @@
         >
           {{ group.introduction }}
         </p>
-      <!-- ここから削除ボタン -->
-        <v-btn dark v-on="on" @click="deleteBook(group.id)" style="margin-top: 8px">
-          <span class="material-icons" style="margin-right: 4px;">delete</span>
-        </v-btn>
-      <!-- ここから削除ボタン -->
       </v-row>
     <!-- ③ここまでグループ詳細 -->
 
