@@ -36,17 +36,21 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def edit
+    render json: {user: @user, current_user: current_user }
   end
 
   def update
     if @user.update(user_params)
-      redirect_to user_path(@user)
+      # redirect_to user_path(@user)
+      render json: @user, status: :created
+      # render json: user: @user, status: :created
     else
+      render json: { status: 'SUCCESS', message: 'Not updated', data: @user.errors }
   #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-      redirect_to edit_user_path, flash: {
-        user: @user,
-        error_messages: @user.errors.full_messages
-    }
+    #   redirect_to edit_user_path, flash: {
+    #     user: @user,
+    #     error_messages: @user.errors.full_messages
+    # }
     end
   end
 

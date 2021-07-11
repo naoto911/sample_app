@@ -7,6 +7,8 @@
         class="pa-4"
         justify="space-between"
       >
+
+      <!-- ①ここからUser詳細 -->
         <v-col
           class="d-flex text-center"
         >
@@ -76,6 +78,21 @@
           <!-- ②ここまでユーザー情報 -->
           </v-card>
         </v-col>
+      <!-- ①ここまでUser詳細 -->
+
+      <!-- ②ここからUserEditへのリンク -->
+        <router-link
+          :to="  (Number(user.id)) + '/edit'"
+          active-class="link--active"
+          exact
+          class="link"
+        >
+          <v-btn icon>
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+        </router-link>
+      <!-- ②ここまでUserEditへのリンク -->
+      
       </v-row>
     </v-card>
 

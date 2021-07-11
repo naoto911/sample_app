@@ -19,27 +19,14 @@
         label="Email"
         required
       ></v-text-field>
-
-      <v-text-field
-        v-model="user.password"
-        :counter="10"
-        label="Password"
-        required
-      ></v-text-field>
-
-      <v-text-field
-        v-model="user.password_confirmation"
-        label="Password"
-        required
-      ></v-text-field>
       
       <v-btn
         color="primary"
         class="mr-4"
         dark
-        @click="reset"
+        @click="UpdateEdit"
       >
-        Create
+        Update
         <v-icon
           dark
           right
@@ -84,17 +71,38 @@ export default {
     setImage (e) {
     this.image = e.target.files[0]
     },
+    UpdateEdit () {
+      if (!this.user.name) return;
+      axios
+        .patch(`/api/v1/users/${this.$route.params.id}`, {
+
+          user: {  name: this.user.name,
+                    email: this.user.email,
+                  }
+        })
+        .then(response => {
+          console.log('OK');
+          this.$router.push({ path: '/' });
+        })        
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        })
+    }
   },
   
-  //mountedでVueインスタンスのDOM作成完了直後に読み込む
-  mounted() {
-    axios
-      .get(`/api/v1/users/new.json`)
-      .then(response => {
-        // this.group = response.data.group;
+  //作成済のgroup情報を取得
+    mounted() {
+      axios
+        .get(`/api/v1/users/${this.$route.params.id}/edit.json`)
+        .then(response => {
         this.user = response.data.user;
+        // this.current_user = response.data.current_user;
       });
-  }
+    }
 }
 
 </script>
