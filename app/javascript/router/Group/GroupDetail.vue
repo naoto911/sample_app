@@ -1,10 +1,12 @@
 <template>
   <div>
+
   <!-- ここから削除ボタン -->
-    <v-btn dark v-on="on" @click="deleteBook(group.id)" style="margin-top: 8px">
+    <v-btn dark v-on="on" @click="deleteGroup(group.id)" style="margin-top: 8px">
       <span class="material-icons" style="margin-right: 4px;">delete</span>
     </v-btn>
-  <!-- ここから削除ボタン -->
+  <!-- ここまで削除ボタン -->
+
     <v-card
       flat
       tile
@@ -123,7 +125,7 @@ import axios from 'axios';
           });
       },
     //ここから削除ボタンのメソッド
-      deleteBook(id) {
+      deleteGroup(id) {
         axios.delete(`/api/v1/groups/${id}`)
           .then(res => {
             this.$router.push({ path: '/' });
