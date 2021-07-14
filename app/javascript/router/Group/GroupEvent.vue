@@ -1,6 +1,22 @@
 <template>
   <div>
-    <h2>Event</h2>
+
+  <!-- ここからイベント作成ボタン -->
+    <router-link 
+      :to=" '/groups/' + (Number(this.$route.params.id)) +'/events/new' "
+      active-class="link--active"
+      exact
+      class="link"
+    >
+      <v-btn
+        depressed
+        rounded
+        text
+      >
+        event作成
+      </v-btn>
+    </router-link>
+  <!-- ここまでイベント作成ボタン -->
 
     <v-row class="fill-height">
       <v-col>
@@ -93,6 +109,7 @@
             @change="updateRange"
           ></v-calendar>
         <!-- ③ここまでカレンダーのメインの部分 -->
+
         <!-- ④ここからイベントを触ると編集へのリンクが出せる -->
           <v-menu
             v-model="selectedOpen"
@@ -124,6 +141,7 @@
               <v-card-text>
                 <span v-html="selectedEvent.details"></span>
               </v-card-text>
+            <!-- ④-1 ここからCancelボタン -->
               <v-card-actions>
                 <v-btn
                   text
@@ -133,6 +151,7 @@
                   Cancel
                 </v-btn>
               </v-card-actions>
+            <!-- ④-1 ここまでCancelボタン -->
             </v-card>
           </v-menu>
         <!-- ④ここまでイベントを触ると編集へのリンクが出せる -->
@@ -158,8 +177,10 @@
       selectedElement: null,
       selectedOpen: false,
       events: [],
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-      names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
+      colors: ['deep-purple', 'green', 'orange'],
+      names: ['練習', '飲み', '試合'],
+      // colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
+      // names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     }),
     mounted () {
       this.$refs.calendar.checkChange()
@@ -197,6 +218,7 @@
 
         nativeEvent.stopPropagation()
       },
+      //画面変化毎に実行 (カレンダー周期変更毎にランダムにイベントを作成)
       updateRange ({ start, end }) {
         const events = []
 
@@ -212,6 +234,7 @@
           const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
           const second = new Date(first.getTime() + secondTimestamp)
 
+        //ここでランダムにeventsから取得
           events.push({
             name: this.names[this.rnd(0, this.names.length - 1)],
             start: first,
@@ -223,6 +246,7 @@
 
         this.events = events
       },
+      //ここでランダムにeventsから取得
       rnd (a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a
       },

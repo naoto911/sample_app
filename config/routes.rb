@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get '/groups/', to: 'home#index'
   get '/groups/new', to: 'home#index'
   get '/groups/:id/detail', to: 'home#index'
-  get '/groups/:id/event', to: 'home#index'
+  get '/groups/:id/events', to: 'home#index'
   get '/groups/:id/member', to: 'home#index'
   get '/groups/:id/edit', to: 'home#index'
 
