@@ -81,9 +81,6 @@ export default {
     resetValidation () {
       this.$refs.form.resetValidation()
     },
-    setImage (e) {
-      this.image = e.target.files[0]
-    },
     createUser () {
       if (!this.user.name) return;
 

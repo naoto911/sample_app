@@ -52,7 +52,7 @@ Rails.application.routes.draw do
             delete :leave #3/2 join leave処理の追加
           end 
         end
-        resources :events , :except => [:index ] 
+        resources :events # 7/15 GoupEventで一覧が必要なためコメントアウト, :except => [:index ] 
       end
 
     end
