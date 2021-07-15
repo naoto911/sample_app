@@ -1,7 +1,42 @@
 <template>
   <div>
+
+      <!-- ②ここからEventEditへのリンク -->
+        <router-link
+          :to="  $route.path + '/edit'"
+          active-class="link--active"
+          exact
+          class="link"
+        >
+          <v-btn icon>
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+        </router-link>
+      <!-- ②ここまでUserEditへのリンク -->
+
+    <p>{{ event.date }}</p>
     <p>{{ event.place }}</p>
-    <p>{{ answers[0].answer }}</p>
+
+    <ul>    
+      <li
+        v-for="val in users"
+        :key="val.id"
+        cols="4"
+       >
+        <p>{{ val.name }}</p>
+      </li>
+    </ul>
+
+    <ul>    
+      <li
+        v-for="val in answers"
+        :key="val.id"
+        cols="4"
+       >
+        <p>{{ val.answer }}</p>
+      </li>
+    </ul>
+
   </div>
 </template>
 
@@ -15,6 +50,7 @@ export default {
       group: [],
       event: [],
       answers: [],
+      users: [],
     }
   },
   //mountedでVueインスタンスのDOM作成完了直後に読み込む
@@ -25,6 +61,7 @@ export default {
         this.group = response.data.group;
         this.event = response.data.event;
         this.answers = response.data.answers;
+        this.users = response.data.users;
       });
   }
 }
