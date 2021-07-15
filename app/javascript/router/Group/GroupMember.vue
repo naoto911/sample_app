@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Member</h2>
+    <!-- <h2>Member</h2> -->
 
         <v-card>
           <v-card-title class="blue white--text text-h5">

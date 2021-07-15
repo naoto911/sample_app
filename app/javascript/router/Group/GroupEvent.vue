@@ -1,6 +1,6 @@
 <template>
   <div>
-
+ 
   <!-- ここからイベント作成ボタン -->
     <router-link 
       :to=" '/groups/' + (Number(this.$route.params.id)) +'/events/new' "
