@@ -12,9 +12,7 @@
     <!-- ①-1 ここから日付 -->
       <v-col
         cols="12"
-        sm="6"
-        md="4"
-      > -->
+      >
         <v-menu
           v-model="menu1"
           :close-on-content-click="false"
@@ -96,7 +94,7 @@
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
               v-model="event.finishtime"
-              label="開始時刻"
+              label="終了時刻"
               prepend-icon="mdi-clock-time-four-outline"
               readonly
               v-bind="attrs"
@@ -211,7 +209,7 @@ export default {
       .then(response => {
         console.log('OK');
         console.log(this.user);
-        this.$router.push({ path: '/' });
+        this.$router.push({ path: `/api/v1/groups/${this.$route.params.id}/events` });
       })        
       .catch(error => {
         console.log('NG');

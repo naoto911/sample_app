@@ -11,8 +11,18 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def show
+    #ここはうまくいってる
+    # @answers = Answer.where(event_id: @event.id)
+    # render json: {group: @group, event: @event, current_user: current_user,answers: @answers }
+  
+    #ここからテスト
     @answers = Answer.where(event_id: @event.id)
-    render json: {group: @group, event: @event, current_user: current_user,answers: @answers }
+    @users = []
+      for @answer in @answers do
+          @user = User.find_by(id: @answer.user_id)
+          @users.push(@user)
+      end
+      render json: {group: @group, event: @event, current_user: current_user,answers: @answers, users: @users }
   end
 
   def new
@@ -46,14 +56,20 @@ class Api::V1::EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      redirect_to group_path(@event.group_id)
+      # render json: { status: 'SUCCESS', message: 'Updated the group', data: @group }
+      render json: @event, status: :created
     else
-  #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-      redirect_to edit_group_event_path, flash: {
-      event: @event,
-      error_messages: @event.errors.full_messages
-    }
+      render json: { status: 'SUCCESS', message: 'Not updated', data: @event.errors }
     end
+  #   if @event.update(event_params)
+  #     redirect_to group_path(@event.group_id)
+  #   else
+  # #フォームの入力エラーを起こした際のエラー表示を取得するための処理
+  #     redirect_to edit_group_event_path, flash: {
+  #     event: @event,
+  #     error_messages: @event.errors.full_messages
+  #   }
+  #   end
   end
 
   def destroy
