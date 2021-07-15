@@ -63,7 +63,7 @@
                 <v-divider class="my-3"></v-divider>
               <!-- ここから②-1-2 Myapage -->
                 <router-link 
-                  :to=" 'users/' + (Number(val.id))"
+                  :to=" '/' + 'users/' + (Number(val.id))"
                   active-class="link--active"
                   exact
                   class="link"
