@@ -74,7 +74,8 @@ class Api::V1::EventsController < ApplicationController
 
   def destroy
     @event.destroy
-    redirect_to group_path(@group), flash: { notice: "予定が削除されました"}
+    # redirect_to group_path(@group), flash: { notice: "予定が削除されました"}
+    render json: { status: 'SUCCESS', message: 'Deleted the post', data: @event }
   end
 
 private
@@ -84,7 +85,7 @@ private
   end
 
   def set_target_event
-    @event = Event.find(params[:id])
+    @event = Event.find(params[:event_id])
   end
 
   def set_target_group_id

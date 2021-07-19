@@ -46,13 +46,13 @@ Rails.application.routes.draw do
         #member do 2/6 削除 join controller に移行
           #get :join
         #end
-        resources :joins do #2/6 join controller作成のため追記
+        resources :joins, param: :join_id do #2/6 join controller作成のため追記
           member do 
             get :permit
             delete :leave #3/2 join leave処理の追加
           end 
         end
-        resources :events # 7/15 GoupEventで一覧が必要なためコメントアウト, :except => [:index ] 
+        resources :events, param: :event_id # 7/15 GoupEventで一覧が必要なためコメントアウト, :except => [:index ] 
       end
 
     end
