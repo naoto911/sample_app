@@ -1,20 +1,19 @@
 <template>
   <div>
 
+  <!-- ①ここから ボタン類 -->
     <v-row>
-      <v-col cols="10"></v-col>
-      <!-- <v-col
-        cols="1"
-      > -->
-      <v-col cols="2">
-        <v-spacer></v-spacer>
-        <!-- ①ここから 削除ボタン -->
+      <v-col></v-col>
+      <v-spacer></v-spacer>
+      <v-col class="text-right">
+        
+        <!-- ①-1 ここから 削除ボタン -->
           <v-btn @click="deleteGroup(group.id)" icon>
             <v-icon>mdi-delete</v-icon>
           </v-btn>
-        <!-- ①ここまで 削除ボタン -->
+        <!-- ①-1 ここまで 削除ボタン -->
 
-        <!-- ②ここから UserEditへのリンク -->
+        <!-- ②-2 ここから UserEditへのリンク -->
           <router-link
             :to=" '/groups/' + (Number(group.id)) + '/edit'"
             active-class="link--active"
@@ -25,13 +24,11 @@
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </router-link>
-        <!-- ②ここまで UserEditへのリンク -->
-        <!-- </v-col> -->
-        <!-- <v-col cols="2"></v-col> -->
+        <!-- ②-2 ここまで UserEditへのリンク -->
+
       </v-col>
     </v-row>
-
-    <v-spacer></v-spacer>
+  <!-- ①ここまで ボタン類 -->
 
     <v-card
       flat
