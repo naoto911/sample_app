@@ -271,11 +271,13 @@ export default {
     updateRange ({ start, end }) {
       const events = []
 
-      const min = new Date(`${start.date}T00:00:00`)
-      const max = new Date(`${end.date}T23:59:59`)
-      const days = (max.getTime() - min.getTime()) / 86400000
-      const eventCount = this.rnd(days, days + 20)
+      const min = new Date(`${start.date}T00:00:00`) //min = 開始日の00:00:00
+      const max = new Date(`${end.date}T23:59:59`) //min = 終了日の00:00:00
+      const days = (max.getTime() - min.getTime()) / 86400000 //max-min (秒→日換算)
+      const eventCount = this.rnd(days, days + 20) //表示期間(日)+20を最大としたランダム値を取得し,これをイベント生成個とする
 
+      //上で定まったイベント生成個分for文を回す
+      //後で配列へ追加するための定数を毎loop算出
       for (let i = 0; i < eventCount; i++) {
         const allDay = this.rnd(0, 3) === 0
         const firstTimestamp = this.rnd(min.getTime(), max.getTime())
@@ -283,13 +285,13 @@ export default {
         const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
         const second = new Date(first.getTime() + secondTimestamp)
 
-      //ここでeventsの配列にname,start,end,color,timedを追加
+      //上で求めた定数を用いて,配列にname,start,end,color,timedを追加
         events.push({
-          name: this.names[this.rnd(0, this.names.length - 1)],
-          start: first,
-          end: second,
-          color: this.colors[this.rnd(0, this.colors.length - 1)],
-          timed: !allDay,
+          name: this.names[this.rnd(0, this.names.length - 1)],// namesからランダムに値を選定
+          start: first, //表示期間中からランダムに日付+時間を選定 (イベント開始時刻)
+          end: second, //表示期間中からランダムに日付+時間を選定 (イベント終了時刻)
+          color: this.colors[this.rnd(0, this.colors.length - 1)], //colorsからランダムに値を選定
+          timed: !allDay, //0~3の乱数が0になったら(this.rnd(0, 3) === 0 ) true
         })
       }
 
@@ -298,6 +300,8 @@ export default {
     //ここでランダムにeventsから取得
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a
+      // Math.floor(n) = nを切り捨て
+      // Math.rondom() = 0以上1未満のランダムな浮動小数点を作成
     },
 
     getEvent() {

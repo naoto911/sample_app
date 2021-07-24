@@ -199,8 +199,10 @@ export default {
         .post(`/api/v1/groups/${this.$route.params.id}/events`, {
           event: {           
             date: this.event.date,   
-            starttime: this.event.starttime,
-            finishtime: this.event.finishtime,
+            // starttime: this.event.starttime,
+            starttime: this.event.date + "T" +this.event.starttime,
+            // finishtime: this.event.finishtime,
+            finishtime: `${this.event.date}T${this.event.finishtime}`,
             place: this.event.place,
             remarks: this.event.remarks
           }
