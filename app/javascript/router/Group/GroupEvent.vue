@@ -171,22 +171,45 @@
                 :color="selectedEvent.color"
                 dark
               >
-                <v-btn icon>
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
+
+              <!-- ④-1 ここから EvnetEditへのリンク -->
+                <router-link
+                  :to=" $route.path + '/' + (Number(selectedEvent.id)) + '/edit'"
+                  active-class="link--active"
+                  exact
+                  class="link"
+                >
+                  <v-btn icon>
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
+                </router-link>
+              <!-- ④-1 ここまで EvnetEditへのリンク -->
+
                 <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn icon>
                   <v-icon>mdi-heart</v-icon>
                 </v-btn>
-                <v-btn icon>
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
+
+              <!-- ④-2 ここから EvnetDetaileへのリンク -->
+                <router-link
+                  :to=" $route.path + '/' + (Number(selectedEvent.id)) "
+                  active-class="link--active"
+                  exact
+                  class="link"
+                >
+                  <v-btn icon>
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </router-link>
+              <!-- ④-2 ここまで EvnetDetaileへのリンク -->
+
               </v-toolbar>
               <v-card-text>
                 <span v-html="selectedEvent.details"></span>
               </v-card-text>
-            <!-- ④-1 ここからCancelボタン -->
+
+            <!-- ④-3 ここからCancelボタン -->
               <v-card-actions>
                 <v-btn
                   text
@@ -196,7 +219,8 @@
                   Cancel
                 </v-btn>
               </v-card-actions>
-            <!-- ④-1 ここまでCancelボタン -->
+            <!-- ④-3 ここまでCancelボタン -->
+
             </v-card>
           </v-menu>
         <!-- ④ここまでイベントを触ると編集へのリンクが出せる -->
@@ -230,6 +254,11 @@ export default {
     // colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
     // names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
   }),
+
+  // beforeMount() {
+  //   this.getEvent();
+  // },
+
   mounted () {
     this.getEvent();
     this.$refs.calendar.checkChange();
@@ -275,28 +304,21 @@ export default {
       const min = new Date(`${start.date}T00:00:00`) //min = 開始日の00:00:00
       const max = new Date(`${end.date}T23:59:59`) //min = 終了日の00:00:00
       const days = (max.getTime() - min.getTime()) / 86400000 //max-min (秒→日換算)
-      //① const eventCount = this.rnd(days, days + 20) //表示期間(日)+20を最大としたランダム値を取得し,これをイベント生成個とする
-
-      const eventCount = this.events2.length //追加①
-
-      const modifyDate = (new Date('2000-01-01')).getTime()
-        console.log(modifyDate)
-      const timezoneDifference = 9*3600*100 //9時間をミリsecondに変換したもの
+      // const eventCount = this.rnd(days, days + 20) //表示期間(日)+20を最大としたランダム値を取得し,これをイベント生成個とする
+      const eventCount = this.events2.length
 
       //上で定まったイベント生成個分for文を回す
       //後で配列へ追加するための定数を毎loop算出
 
-
     //パターンA (作業実施箇所)
+      const modifyDate = (new Date('2000-01-01')).getTime()
+
       for (let i = 0; i < eventCount; i++) {
         const dateTime = (new Date(this.events2[i].date)).getTime()
-          console.log(dateTime)
         const firstTimestamp = (new Date(this.events2[i].starttime)).getTime()
         const first = new Date(firstTimestamp - modifyDate + dateTime)
-          console.log(first)
         const secondTimestamp = (new Date(this.events2[i].finishtime)).getTime()
         const second = new Date(secondTimestamp - modifyDate + dateTime)
-          console.log(second)
     //
 
     //パターンB (defaultの設定)
@@ -316,7 +338,8 @@ export default {
           end: second, //表示期間中からランダムに日付+時間を選定 (イベント終了時刻)
           color: this.colors[this.rnd(0, this.colors.length - 1)], //colorsからランダムに値を選定
           // timed: !allDay, //0~3の乱数が0になったら(this.rnd(0, 3) === 0 ) true
-          timed: true //true で時間までcarenderに反映 (day,4 days, week のみ)
+          timed: true, //true で時間までcarenderに反映 (day,4 days, week のみ)
+          id: this.events2[i].id,
         })
       }
 
