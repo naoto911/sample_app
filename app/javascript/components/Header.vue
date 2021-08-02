@@ -162,12 +162,12 @@ export default {
       type: Object
     }
   },
+
   methods: {
-  //ここからLogoutメソッド
     Logout(id) {
       axios.delete(`/api/v1/login`)
         .then(res => {
-          this.$router.push({ path: '/' });
+          this.$router.push({ path: '/login' });
         })
         .catch(error => {
           console.log('NG');
@@ -177,23 +177,15 @@ export default {
           }
         })
     },
-  //ここまでLogoutメソッド
+    getEvent() {
+      axios
+        .get('/api/v1/groups.json')
+        .then(response => {
+          this.current_user = response.data.current_user;
+        });
+    },
   },
+
 };
 
 </script>
-
-
-<!--
-<style scoped>
-head {
-  color: white;
-}
-
-a {
-  color: grey;
-}
-
-</style>
-
--->

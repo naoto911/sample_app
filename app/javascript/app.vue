@@ -60,16 +60,31 @@ export default {
     UserNew,
     UserEdit
   },  
-  //mountedでVueインスタンスのDOM作成完了直後に読み込む
-  mounted() {
-    axios
-      .get('/api/v1/groups.json')
-      // .then(response => (this.groups = response.data.groups))
-      .then(response => {
-        // this.groups = response.data.groups
-        this.current_user = response.data.current_user;
-      });
-  }
+
+  created () {
+    this.getEvent();
+    // console.log("createdが実行された");
+  },
+
+  mounted () {
+    // this.getEvent();
+  },
+
+  beforeUpdate() {
+    // this.getEvent();
+    // console.log("befoerUpdateが実行された");
+  },
+
+  methods: {
+    getEvent() {
+      axios
+        .get('/api/v1/groups.json')
+        .then(response => {
+          this.current_user = response.data.current_user;
+        });
+    },
+  },
+
 };
 </script>
 

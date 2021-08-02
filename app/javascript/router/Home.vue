@@ -16,16 +16,18 @@ export default {
   data() {
     return {
       groups: [],
-      group: null
+      group: null,
+      current_user: [],
     }
   },
   //mountedでVueインスタンスのDOM作成完了直後に読み込む
-  mounted() {
+  created() {
     axios
       .get('/api/v1/groups.json')
       // .then(response => (this.groups = response.data.groups))
       .then(response => {
         this.groups = response.data.groups
+        this.current_user = response.data.current_user
       });
   }
 };

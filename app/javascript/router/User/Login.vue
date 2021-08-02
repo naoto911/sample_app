@@ -83,25 +83,6 @@ axios.defaults.headers.common = {
       resetValidation () {
         this.$refs.form.resetValidation()
       },
-      // dologin () {
-      //   axios
-      //     .post(`/api/v1/login`, {
-      //       email: this.user.email,
-      //       password: this.user.password
-      //     },
-      //     {
-      //       headers: {
-      //         'Content-Type': 'application/json'
-      //       }
-      //     })
-      //       .then((response) => {
-      //         this.$store.dispatch('doRegistrationToken', response.data.token)
-      //       })
-      //       .catch((e) => {
-      //         console.log(e)
-      //       })
-      // }
-      
       dologin () {
         if (!this.user.email) return;
 
