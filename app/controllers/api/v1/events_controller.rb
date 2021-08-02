@@ -7,7 +7,12 @@ class Api::V1::EventsController < ApplicationController
 
   def index
     @events = Event.where(group_id: @group.id)
-    render json: {events: @events } #, events: @events, current_user: current_user }
+    @answers = []
+    for @event in @events do
+        @answer = Answer.find_by(event_id: @event.id)
+        @answers.push(@answer)
+    end
+    render json: {events: @events, answers: @answers } #, events: @events, current_user: current_user }
   end
 
   def show
