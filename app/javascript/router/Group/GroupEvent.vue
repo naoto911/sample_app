@@ -220,7 +220,24 @@
                 </v-btn>
               </v-card-actions>
             <!-- ④-3 ここまでCancelボタン -->
-
+              
+            <!-- ④-4 ここからAnswer -->
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="4"
+                  md="4"
+                >
+                  <v-checkbox
+                    v-model="answer"
+                    label="success"
+                    color="success"
+                    hide-details
+                  ></v-checkbox>
+                </v-col>
+                <!-- <v-col><p>{{ eventAnswer[0].answer }}</p></v-col> -->
+              </v-row>
+            <!-- ④-4 ここまでAnswer -->
             </v-card>
           </v-menu>
         <!-- ④ここまでイベントを触ると編集へのリンクが出せる -->
@@ -251,9 +268,19 @@ export default {
     events2: [],
     colors: ['deep-purple', 'green', 'orange'],
     names: ['練習', '飲み', '試合'],
+    answer: [],
+    answers: [],
     // colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
     // names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
   }),
+
+  computed: {
+    eventAnswer(){
+        const data = this.answers;
+        const result = data.filter(x => x.event_id === this.selectedEvent.id);
+        return result;
+    }
+  },
 
   // beforeMount() {
   //   this.getEvent();
@@ -357,7 +384,7 @@ export default {
         .get(`/api/v1/groups/${this.$route.params.id}/events.json`)
         .then(response => {
           this.events2 = response.data.events;
-          // this.users = response.data.users;
+          this.answers = response.data.answers;
         });
     },
 
