@@ -33,7 +33,7 @@ export default {
       users: [],
       menus: [
       { title: 'GroupDetail', icon: 'mdi-home', url: `/groups/${this.$route.params.id}/detail` },
-      { title: 'Edit', icon: 'mdi-account-multiple-plus', url: `/groups/${this.$route.params.id}/edit` },
+      // { title: 'Edit', icon: 'mdi-account-multiple-plus', url: `/groups/${this.$route.params.id}/edit` },
       { title: 'Member', icon: 'mdi-text-account', url: `/groups/${this.$route.params.id}/member` },
       // { title: 'About', icon: 'mdi-information-variant', url: '/bar' },
       { title: 'Event', icon: 'mdi-information-variant', url:`/groups/${this.$route.params.id}/events` }
