@@ -1,21 +1,19 @@
 <template>
   <div>
-    <!-- <h2>Member</h2> -->
 
         <v-card>
-          <v-card-title class="blue white--text text-h5">
+          <v-card-title class="orange white--text text-h5">
             Group Members
           </v-card-title>
           <v-row
             class="pa-4"
             justify="space-between"
           >
-          <!-- ③ここから左のユーザー一覧 -->
+          <!-- ③ここから左のユーザー一覧                 :load-children="fetchUsers"-->
             <v-col cols="5">
               <v-treeview
                 :active.sync="active"
-                :items="members"
-                :load-children="fetchUsers"
+                :items="users"
                 :open.sync="open"
                 activatable
                 color="warning"
@@ -25,9 +23,23 @@
 
               <!-- ④ここからitemにアカウントアイコンを追加 -->
                 <template v-slot:prepend="{ item }">
-                  <v-icon v-if="!item.children">
+                  <!-- <v-icon v-if="!item.children">
                     mdi-account
-                  </v-icon>
+                  </v-icon> -->
+                  <v-layout justify-center>
+                    <v-avatar>
+                    <!-- <v-avatar size="50"> -->
+                      <!-- <v-icon v-if="!item.children">
+                        mdi-account
+                      </v-icon> -->
+                      <v-img
+                        v-if="item.image"
+                        :src= "item.image.url"
+                        class="mb-6"
+                      ></v-img>
+                      <v-icon v-else>mdi-account</v-icon>
+                    </v-avatar>
+                  </v-layout>
                 </template>
               <!-- ④ここまでitemにアカウントアイコンを追加 -->
 
@@ -61,11 +73,11 @@
                 >
                   <v-card-text>
                     <v-avatar
-                      v-if="avatar"
+                      v-if="selected.image"
                       size="88"
                     >
                       <v-img
-                        src="/uploads/user/image/3/FH000027.JPG"
+                        :src= "selected.image.url"
                         class="mb-6"
                       ></v-img>
                     </v-avatar>
@@ -74,6 +86,9 @@
                     </h3>
                     <!-- <div class="blue--text mb-2">
                       {{ selected.email }}
+
+                      //src="/uploads/user/image/3/FH000027.JPG"
+
                     </div>
                     <div class="blue--text subheading font-weight-bold">
                       {{ selected.username }}
@@ -92,7 +107,7 @@
                     >
                       Age:
                     </v-col>
-                    <v-col>{{ selected.company.name }}</v-col>
+                    <v-col>{{ selected.name }}</v-col>
                     <v-col
                       class="text-right mr-4 mb-2"
                       tag="strong"
@@ -102,9 +117,9 @@
                     </v-col>
                     <v-col>
                       <a
-                        :href="`//${selected.website}`"
+                        :href="`//${selected.id}`"
                         target="_blank"
-                      >{{ selected.website }}</a>
+                      >{{ selected.id }}</a>
                     </v-col>
                     <!-- <v-col
                       class="text-right mr-4 mb-2"
@@ -129,20 +144,20 @@
 <script>
 import axios from 'axios';
 
-  const avatars = [
-    '?accessoriesType=Blank&avatarStyle=Circle&clotheColor=PastelGreen&clotheType=ShirtScoopNeck&eyeType=Wink&eyebrowType=UnibrowNatural&facialHairColor=Black&facialHairType=MoustacheMagnum&hairColor=Platinum&mouthType=Concerned&skinColor=Tanned&topType=Turban',
-    '?accessoriesType=Sunglasses&avatarStyle=Circle&clotheColor=Gray02&clotheType=ShirtScoopNeck&eyeType=EyeRoll&eyebrowType=RaisedExcited&facialHairColor=Red&facialHairType=BeardMagestic&hairColor=Red&hatColor=White&mouthType=Twinkle&skinColor=DarkBrown&topType=LongHairBun',
-    '?accessoriesType=Prescription02&avatarStyle=Circle&clotheColor=Black&clotheType=ShirtVNeck&eyeType=Surprised&eyebrowType=Angry&facialHairColor=Blonde&facialHairType=Blank&hairColor=Blonde&hatColor=PastelOrange&mouthType=Smile&skinColor=Black&topType=LongHairNotTooLong',
-    '?accessoriesType=Round&avatarStyle=Circle&clotheColor=PastelOrange&clotheType=Overall&eyeType=Close&eyebrowType=AngryNatural&facialHairColor=Blonde&facialHairType=Blank&graphicType=Pizza&hairColor=Black&hatColor=PastelBlue&mouthType=Serious&skinColor=Light&topType=LongHairBigHair',
-    '?accessoriesType=Kurt&avatarStyle=Circle&clotheColor=Gray01&clotheType=BlazerShirt&eyeType=Surprised&eyebrowType=Default&facialHairColor=Red&facialHairType=Blank&graphicType=Selena&hairColor=Red&hatColor=Blue02&mouthType=Twinkle&skinColor=Pale&topType=LongHairCurly',
-  ]
+  // const avatars = [
+  //   '?accessoriesType=Blank&avatarStyle=Circle&clotheColor=PastelGreen&clotheType=ShirtScoopNeck&eyeType=Wink&eyebrowType=UnibrowNatural&facialHairColor=Black&facialHairType=MoustacheMagnum&hairColor=Platinum&mouthType=Concerned&skinColor=Tanned&topType=Turban',
+  //   '?accessoriesType=Sunglasses&avatarStyle=Circle&clotheColor=Gray02&clotheType=ShirtScoopNeck&eyeType=EyeRoll&eyebrowType=RaisedExcited&facialHairColor=Red&facialHairType=BeardMagestic&hairColor=Red&hatColor=White&mouthType=Twinkle&skinColor=DarkBrown&topType=LongHairBun',
+  //   '?accessoriesType=Prescription02&avatarStyle=Circle&clotheColor=Black&clotheType=ShirtVNeck&eyeType=Surprised&eyebrowType=Angry&facialHairColor=Blonde&facialHairType=Blank&hairColor=Blonde&hatColor=PastelOrange&mouthType=Smile&skinColor=Black&topType=LongHairNotTooLong',
+  //   '?accessoriesType=Round&avatarStyle=Circle&clotheColor=PastelOrange&clotheType=Overall&eyeType=Close&eyebrowType=AngryNatural&facialHairColor=Blonde&facialHairType=Blank&graphicType=Pizza&hairColor=Black&hatColor=PastelBlue&mouthType=Serious&skinColor=Light&topType=LongHairBigHair',
+  //   '?accessoriesType=Kurt&avatarStyle=Circle&clotheColor=Gray01&clotheType=BlazerShirt&eyeType=Surprised&eyebrowType=Default&facialHairColor=Red&facialHairType=Blank&graphicType=Selena&hairColor=Red&hatColor=Blue02&mouthType=Twinkle&skinColor=Pale&topType=LongHairCurly',
+  // ]
 
-  const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
+  // const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
 
   export default {
     data: () => ({
       active: [],
-      avatar: null,
+      // avatar: null,
       open: [],
       users: [],
 
@@ -160,42 +175,57 @@ import axios from 'axios';
         ]
       },
       selected () {
-        if (!this.active.length) return undefined
-
+        //active = 左のユーザーから誰かを選択したらその人がactive
+        if (!this.active.length) return undefined //非activeだとselectedはundefined
+      
         const id = this.active[0]
 
-        return this.users.find(user => user.id === id)
+        return this.users.find(user => user.id === id) //usersからuser.idがidと等しいuserを探す
       },
     },
-  // randomAvatorを実行する時だけselectedする
-    watch: {
-      selected: 'randomAvatar',
+
+    // watch: {
+    // // selectedが変更されたらrandomAvatorを実行する
+    // //左の一覧からユーザーを選択するたびに,avatarをランダムに定義する
+    // //同じユーザーでもn回目の選択ごとにavatar = アイコンが更新される 
+    //   selected: 'randomAvatar',
+    // },
+
+    mounted() {
+      this.getUsers();
     },
 
     methods: {
-      async fetchUsers (item) {
-        // Remove in 6 months and say
-        // you've made optimizations! :)
-        await pause(1500)
+      
 
-        return fetch('https://jsonplaceholder.typicode.com/users')
-          .then(res => res.json())
-          .then(json => (item.children.push(...json)))
-          .catch(err => console.warn(err))
+      // async fetchUsers (item) {
+      //   //非同期でユーザー一覧を取得してくる処理
+      //   //バックエンドのAPIを自分で作っているので
+
+      //   // Remove in 6 months and say
+      //   // you've made optimizations! :)
+      //   await pause(1500)
+
+      //   return fetch('https://jsonplaceholder.typicode.com/users')
+      //     .then(res => res.json())
+      //     .then(json => (item.children.push(...json)))
+      //     .catch(err => console.warn(err))
+      // },
+
+      //アバター画像をAPIからランダムに取得するためのコード
+      // randomAvatar () {
+      //   this.avatar = avatars[Math.floor(Math.random() * avatars.length)]
+      // },
+
+      getUsers() {
+        axios
+          .get(`/api/v1/groups/${this.$route.params.id}.json`)
+          .then(response => {
+            // this.group = response.data.group;
+            // this.members = response.data.users;
+            this.users = response.data.users;
+          });
       },
-      randomAvatar () {
-        this.avatar = avatars[Math.floor(Math.random() * avatars.length)]
-      },
-    },
-    
-  //mountedでVueインスタンスのDOM作成完了直後に読み込む
-    mounted() {
-      axios
-        .get(`/api/v1/groups/${this.$route.params.id}.json`)
-        .then(response => {
-          // this.group = response.data.group;
-          this.members = response.data.users;
-        });
     },
 
   }
