@@ -17,8 +17,24 @@
         <span>{{ menu.title }}</span>
         <v-icon>{{ menu.icon }}</v-icon>
       </v-btn>
-
+      
     </v-bottom-navigation>
+
+  <!-- ①ここから ボタン類 -->
+    <v-row>
+      <v-col></v-col>
+      <v-spacer></v-spacer>
+      <v-col class="text-right">
+          <h4>申請ボタンを設置</h4>
+        <!-- ①-1 ここから 申請ボタン -->
+          <v-btn @click="application()" icon>
+            <v-icon>mdi-file-document-multiple-outline</v-icon>
+          </v-btn>
+        <!-- ①-1 ここまで 申請ボタン -->
+
+      </v-col>
+    </v-row>
+  <!-- ①ここまで ボタン類 -->
 
   </div>
 </template>
@@ -41,6 +57,11 @@ export default {
       value: 1 
     }
   },
+  methods: {
+    application() {
+    },
+  },
+
   //mountedでVueインスタンスのDOM作成完了直後に読み込む
   mounted() {
     axios
