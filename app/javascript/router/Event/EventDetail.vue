@@ -30,23 +30,37 @@
     </v-row>
   <!-- ①ここまで ボタン類 -->
 
-  <!-- ①-1 ここから イベント詳細 -->
+  <!-- ②-1 ここから イベント詳細 -->
     <p>日付 : {{ event.date }}</p>
     <p>イベント名 : {{ event.place }}</p>
-  <!-- ①-1 ここまで イベント詳細 -->    
+  <!-- ②-1 ここまで イベント詳細 -->    
 
-  <!-- ①-2 ここから 参加ユーザー一覧 -->
+  <!-- ②-2 ここから 参加ユーザー一覧 -->
     <h3>参加</h3>
-      <p
+    <!-- ここから②-2-1 Avatar -->
+      <router-link
         v-for="val in participantUsers()"
         :key="val.id"
-        cols="4"
-       >
-        {{ val.name }}
-      </p>
-  <!-- ①-2 ここまで 参加ユーザー一覧 -->
+        :to=" '/users/' + (Number(val.id)) "
+        active-class="link--active"
+        exact
+        class="link"
+      >
+        <v-avatar
+          cols="4"
+        >
+          <v-img
+            v-if="val.image"
+            :src= "val.image.url"
+            alt="John"
+          ></v-img>
+          <span v-else>G</span>
+        </v-avatar>
+      </router-link>
+    <!-- ここまで②-2-1 Avatar -->
+  <!-- ②-2 ここまで 参加ユーザー一覧 -->
 
-  <!-- ①-3 ここから 不参加ユーザー一覧 -->
+  <!-- ②-3 ここから 不参加ユーザー一覧 -->
     <h3>不参加</h3>
       <!-- <p
         v-for="val in participantUsers()"
@@ -55,7 +69,7 @@
        >
         {{ val.name }}
       </p> -->
-  <!-- ①-3 ここまで 不参加ユーザー一覧 -->
+  <!-- ②-3 ここまで 不参加ユーザー一覧 -->
 
   </div>
 </template>
@@ -83,32 +97,17 @@ export default {
 
   created () {
     this.getEvent();
-    // this.pushEvent();
-    // console.log(this.events2);
-    // console.log("createdが実行された");
   },
 
   mounted () {
-    // this.getEvent();
-    // console.log(this.events2);
-    // console.log("mountedが実行された");
-
-    // this.pushEvent();
-    // this.$refs.calendar.checkChange();
   },
 
   beforeUpdate(){
-    // console.log(this.events2);
-    // this.participantUsers();
     this.participantUsers();
-    // console.log();
-    // console.log(this.eventAnswers);
-    console.log("beforeUpdateが実行された");
+    // console.log("beforeUpdateが実行された");
   },
 
   updated(){
-    // console.log(this.events2);
-    // console.log("updatedが実行された");
   },
 
   methods: {
@@ -126,6 +125,7 @@ export default {
           }
         })
     },
+
     getEvent() {
       axios
       .get(`/api/v1/groups/${this.$route.params.id}/events/${this.$route.params.event_id}.json`)
@@ -141,8 +141,6 @@ export default {
       var result2 = [];
       const data2 = this.eventAnswers;
       const data3 = this.users;
-      // var val = [];
-      // var user =[];
       for (var val in data2) {
         // console.log(data2[val]);
         for (var user in data3 ) {
