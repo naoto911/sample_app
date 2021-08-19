@@ -80,7 +80,13 @@
         </v-col>
       <!-- ①ここまでUser詳細 -->
 
-      <!-- ②ここからUserEditへのリンク -->
+      <!-- ①-1 ここから 削除ボタン -->
+        <v-btn @click="deleteUser(user.id)" icon>
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+      <!-- ①-1 ここまで 削除ボタン -->
+
+      <!-- ①-2 ここから UserEditへのリンク -->
         <router-link
           :to="  (Number(user.id)) + '/edit'"
           active-class="link--active"
@@ -91,7 +97,7 @@
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
         </router-link>
-      <!-- ②ここまでUserEditへのリンク -->
+      <!-- ①-2 ここまで UserEditへのリンク -->
       
       </v-row>
     </v-card>
@@ -110,15 +116,43 @@ export default {
       user: {}
     }
   },
-  //mountedでVueインスタンスのDOM作成完了直後に読み込む
-  mounted() {
-    axios
+  methods: {
+    getUser() {
+      axios
       .get(`/api/v1/users/${this.$route.params.id}.json`)
       .then(response => {
         this.group = response.data.group;
         this.user = response.data.user;
       });
-  }
+    },
+  //ここから削除ボタンのメソッド
+    deleteUser(id) {
+      axios.delete(`/api/v1/users/${id}`)
+        .then(res => {
+          this.$router.push({ path: '/' });
+        })
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        })
+    },
+  //ここまで削除ボタンのメソッド
+  },
+
+    created () {
+    this.getUser();
+    // axios
+    //   .get(`/api/v1/users/${this.$route.params.id}.json`)
+    //   .then(response => {
+    //     this.group = response.data.group;
+    //     this.user = response.data.user;
+    //   });
+  },
+  mounted() {
+  },
 }
 
 </script>

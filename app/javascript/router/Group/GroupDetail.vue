@@ -13,7 +13,7 @@
           </v-btn>
         <!-- ①-1 ここまで 削除ボタン -->
 
-        <!-- ②-2 ここから UserEditへのリンク -->
+        <!-- ①-2 ここから UserEditへのリンク -->
           <router-link
             :to=" '/groups/' + (Number(group.id)) + '/edit'"
             active-class="link--active"
@@ -24,7 +24,7 @@
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </router-link>
-        <!-- ②-2 ここまで UserEditへのリンク -->
+        <!-- ①-2 ここまで UserEditへのリンク -->
 
       </v-col>
     </v-row>
@@ -34,7 +34,7 @@
       flat
       tile
     >
-    <!-- ①ここからスライド部分 -->
+    <!-- ②-1ここからスライド部分 -->
       <v-window
         v-model="onboarding"
       >
@@ -59,9 +59,9 @@
           </v-card>
         </v-window-item>
       </v-window>
-    <!-- ①ここからスライド部分 -->
+    <!-- ②-1 ここからスライド部分 -->
 
-    <!-- ②ここからスライド下のボタン類 -->
+    <!-- ②-2 ここからスライド下のボタン類 -->
       <v-card-actions class="justify-space-between">
         <v-btn
           text
@@ -95,7 +95,7 @@
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
       </v-card-actions>
-    <!-- ②ここまでスライド下のボタン類 -->
+    <!-- ②-2 ここまでスライド下のボタン類 -->
 
     <!-- ③ここからグループ詳細 -->
       <v-row
@@ -161,7 +161,7 @@ import axios from 'axios';
             }
           })
       },
-    //ここから削除ボタンのメソッド
+    //ここまで削除ボタンのメソッド
     },
 
   //mountedでVueインスタンスのDOM作成完了直後に読み込む

@@ -63,7 +63,8 @@ class Api::V1::UsersController < ApplicationController
     end
 
     @user.destroy
-    redirect_to groups_path, flash: { notice: "「#{@user.name}」が削除されました"}
+    render json: { status: 'SUCCESS', message: 'Deleted the user', data: @user }
+    # redirect_to groups_path, flash: { notice: "「#{@user.name}」が削除されました"}
   end
 
   #ゲストユーザーログイン機能 1/20追記
