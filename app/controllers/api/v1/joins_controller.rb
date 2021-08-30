@@ -56,6 +56,12 @@ class Api::V1::JoinsController < ApplicationController
   def edit
   end
 
+  def destroy
+    @join.destroy
+    render json: { status: 'SUCCESS', message: 'Deleted the post', data: @join }
+    # redirect_to user_path(current_user), flash: { notice: "「#{@group.name}」への参加申請が削除されました"}
+  end
+
   #グループ参加申請処理
   def permit
     #グループに参加済みの人の処理
@@ -80,11 +86,6 @@ class Api::V1::JoinsController < ApplicationController
     end
     @join.destroy
     redirect_to group_path(@group), flash: { notice: "「」が退会しました"}
-  end
-
-  def destroy
-    @join.destroy
-    redirect_to user_path(current_user), flash: { notice: "「#{@group.name}」への参加申請が削除されました"}
   end
 
 private

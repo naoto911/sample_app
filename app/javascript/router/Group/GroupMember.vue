@@ -35,7 +35,6 @@
                       <v-img
                         v-if="item.image"
                         :src= "item.image.url"
-                        class="mb-6"
                       ></v-img>
                       <v-icon v-else>mdi-account</v-icon>
                     </v-avatar>
@@ -78,7 +77,6 @@
                     >
                       <v-img
                         :src= "selected.image.url"
-                        class="mb-6"
                       ></v-img>
                     </v-avatar>
                     <h3 class="text-h5 mb-2">

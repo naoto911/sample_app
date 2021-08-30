@@ -34,7 +34,7 @@
               <!-- :src= "val.image.url" -->
                 <v-img
                   :src= "user.image.url"
-                  class="mb-6"
+                  
                 ></v-img>
               </v-avatar>
               <h3 class="text-h5 mb-2">
