@@ -16,6 +16,7 @@ import EventDetail from "./router/Event/EventDetail";
 import EventEdit from "./router/Event/EventEdit";
 
 import JoinNew from "./router/Join/JoinNew";
+import JoinEdit from "./router/Join/JoinEdit";
 
 import Mypage from "./router/User/Mypage";
 import Login from "./router/User/Login";
@@ -49,6 +50,7 @@ export default new Router({
         { path: 'events/:event_id(\\d+)/edit', component: EventEdit },
         //ここからJoin
         { path: 'joins/new', component: JoinNew },
+        { path: 'joins/:join_id(\\d+)/edit', component: JoinEdit },
       ]
     },
   // ユーザー

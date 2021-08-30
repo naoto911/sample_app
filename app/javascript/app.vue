@@ -30,6 +30,7 @@ import EventDetail from "./router/Event/EventDetail";
 import EventEdit from "./router/Event/EventEdit";
 
 import JoinNew from "./router/Join/JoinNew";
+import JoinEdit from "./router/Join/JoinEdit";
 
 import Mypage from "./router/User/Mypage";
 import Login from "./router/User/Login";
@@ -58,6 +59,7 @@ export default {
     EventEdit,
 
     JoinNew,
+    JoinEdit,
 
     Mypage,
     Login,

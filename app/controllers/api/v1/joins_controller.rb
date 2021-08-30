@@ -14,30 +14,39 @@ class Api::V1::JoinsController < ApplicationController
 
   def create
     join = Join.new(join_params)
-    join.user_id = current_user.id
-    if join.save
-      flash[:notice] = "「参加申請」が完了しました"
-      redirect_to group_path(@group)
-    else
-  #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-      redirect_to new_group_join_path, flash: {
-        join: join,
-        error_messages: join.errors.full_messages
-      }
-    end
+    # join.user_id = current_user.id
+      if join.save
+        render json: join, status: :created
+      else
+        render json: join.errors, status: :unprocessable_entity
+      end
+  #   if join.save
+  #     flash[:notice] = "「参加申請」が完了しました"
+  #     redirect_to group_path(@group)
+  #   else
+  # #フォームの入力エラーを起こした際のエラー表示を取得するための処理
+  #     redirect_to new_group_join_path, flash: {
+  #       join: join,
+  #       error_messages: join.errors.full_messages
+  #     }
+  #   end
   end
 
   def update
     if @join.update(join_params)
-      flash[:notice] = "「参加申請」を更新しました"
-      redirect_to user_path(current_user)
+      render json: @join, status: :created
     else
-  #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-      redirect_to edit_group_join_path(@join), flash: {
-        join: @join,
-        error_messages: @join.errors.full_messages
-    }
+      render json: { status: 'SUCCESS', message: 'Not updated', data: @join.errors }
     end
+  #     flash[:notice] = "「参加申請」を更新しました"
+  #     redirect_to user_path(current_user)
+  #   else
+  # #フォームの入力エラーを起こした際のエラー表示を取得するための処理
+  #     redirect_to edit_group_join_path(@join), flash: {
+  #       join: @join,
+  #       error_messages: @join.errors.full_messages
+  #   }
+  #   end
   end
 
   def show
@@ -82,7 +91,7 @@ private
 
   def join_params
     # params.require(:join).permit(:content, :level).merge(group_id: params[:group_id])
-    params.require(:join).permit(:content, :level, :group_id)
+    params.require(:join).permit(:content, :level, :group_id, :user_id)
   end
 
   def set_target_group
@@ -90,7 +99,7 @@ private
   end
 
   def set_target_join
-    @join = Join.find(params[:id])
+    @join = Join.find(params[:join_id])
     #@join = Join.find_by(user_id: current_user.id, group_id: params[:group_id]) /paarms[:id]で拾えない場合の処理 多分消す
   end
 

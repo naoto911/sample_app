@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   #join関連
   get '/groups/:id/joins/new', to: 'home#index'
+  get '/groups/:id/joins/:id/edit', to: 'home#index'
 
   #user関連
   get '/login', to: 'home#index'
