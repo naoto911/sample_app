@@ -1,4 +1,5 @@
-class JoinsController < ApplicationController
+class Api::V1::JoinsController < ApplicationController
+  protect_from_forgery #追記
   before_action :logged_in_user, only: %i[show new edit update destroy permit leave] #ログイン後しか実行できない
   before_action :set_target_group, only: %i[show new create edit update destroy permit leave]
   before_action :set_target_join, only: %i[show edit update destroy permit leave]
@@ -8,6 +9,7 @@ class JoinsController < ApplicationController
 
   def new
     @join = Join.new
+    render json: {join: @join, current_user: current_user }
   end
 
   def create
@@ -79,7 +81,8 @@ class JoinsController < ApplicationController
 private
 
   def join_params
-    params.require(:join).permit(:content, :level).merge(group_id: params[:group_id])
+    # params.require(:join).permit(:content, :level).merge(group_id: params[:group_id])
+    params.require(:join).permit(:content, :level, :group_id)
   end
 
   def set_target_group

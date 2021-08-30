@@ -26,11 +26,33 @@
       <v-spacer></v-spacer>
       <v-col class="text-right">
           <h4>申請ボタンを設置</h4>
+
         <!-- ①-1 ここから 申請ボタン -->
-          <v-btn @click="application()" icon>
+          <!-- <v-btn @click="application()" icon>
+            <v-icon>mdi-file-document-multiple-outline</v-icon>
+          </v-btn> -->
+        <!-- ①-1 ここまで 申請ボタン -->
+
+        <!-- ① ここからイベント作成ボタン -->
+          <router-link 
+            :to=" '/groups/' + (Number(this.$route.params.id)) +'/joins/new' "
+            active-class="link--active"
+            exact
+            class="link"
+          >
+          <v-btn icon>
             <v-icon>mdi-file-document-multiple-outline</v-icon>
           </v-btn>
-        <!-- ①-1 ここまで 申請ボタン -->
+
+            <!-- <v-btn
+              depressed
+              rounded
+              text
+            >
+              event作成
+            </v-btn> -->
+          </router-link>
+        <!-- ① ここまでイベント作成ボタン -->
 
       </v-col>
     </v-row>

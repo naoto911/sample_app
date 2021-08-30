@@ -15,6 +15,8 @@ import EventNew from "./router/Event/EventNew";
 import EventDetail from "./router/Event/EventDetail";
 import EventEdit from "./router/Event/EventEdit";
 
+import JoinNew from "./router/Join/JoinNew";
+
 import Mypage from "./router/User/Mypage";
 import Login from "./router/User/Login";
 import UserNew from "./router/User/UserNew";
@@ -44,7 +46,9 @@ export default new Router({
         //ここからEvnet
         { path: 'events/new', component: EventNew },
         { path: 'events/:event_id(\\d+)', component: EventDetail },
-        { path: 'events/:event_id(\\d+)/edit', component: EventEdit }
+        { path: 'events/:event_id(\\d+)/edit', component: EventEdit },
+        //ここからJoin
+        { path: 'joins/new', component: JoinNew },
       ]
     },
   // ユーザー

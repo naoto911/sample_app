@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   get '/groups/:id/events/:event_id', to: 'home#index'
   get '/groups/:id/events/:event_id/edit', to: 'home#index'
 
+  #join関連
+  get '/groups/:id/joins/new', to: 'home#index'
+
   #user関連
   get '/login', to: 'home#index'
 
