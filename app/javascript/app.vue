@@ -37,6 +37,8 @@ import Login from "./router/User/Login";
 import UserNew from "./router/User/UserNew";
 import UserEdit from "./router/User/UserEdit";
 
+import Application from "./router/User/Application";
+
 export default {
   data: function () {
     return {
@@ -64,7 +66,9 @@ export default {
     Mypage,
     Login,
     UserNew,
-    UserEdit
+    UserEdit,
+
+    Application,
   },  
 
   created () {

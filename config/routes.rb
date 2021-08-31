@@ -29,7 +29,9 @@ Rails.application.routes.draw do
   get '/users/:id', to: 'home#index'
   get '/users/new', to: 'home#index'
   get '/users/:id/edit', to: 'home#index'
-
+  
+  #application関連
+  get '/users/:id/application', to: 'home#index'
 
   #「API用のrouting」
 

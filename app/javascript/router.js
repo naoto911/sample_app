@@ -23,6 +23,8 @@ import Login from "./router/User/Login";
 import UserNew from "./router/User/UserNew";
 import UserEdit from "./router/User/UserEdit";
 
+import Application from "./router/User/Application";
+
 Vue.use(Router);
 
 export default new Router({
@@ -58,6 +60,8 @@ export default new Router({
     { path: '/users/:id(\\d+)', component: Mypage},
     { path: '/users/:id(\\d+)/edit', component: UserEdit},
     { path: '/login', component: Login},
+  // 申請関連
+    { path: '/users/:id(\\d+)/application', component: Application},
   // その他
     {
       path: '*', 

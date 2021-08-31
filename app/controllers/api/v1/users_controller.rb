@@ -32,7 +32,26 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
-    render json: {user: @user }
+    #ここまで元々記載内容
+    # render json: {user: @user }
+
+    #ここから追記
+    @joins = Join.where(user_id: @user.id)
+    @applications = []
+      for @join in @joins do
+          @applications.push(@join) if @join.level == 2
+      end
+
+    #参考に載せる
+    #   @events = Event.where(group_id: @group.id)
+    #   @answers = []
+    #   for @event in @events do
+    #       @answer = Answer.find_by(event_id: @event.id)
+    #       @answers.push(@answer)
+    #   end
+    #   render json: {events: @events, answers: @answers }
+
+    render json: {user: @user, applications: @applications }
   end
 
   def edit

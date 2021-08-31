@@ -102,6 +102,19 @@
       </v-row>
     </v-card>
 
+      <!-- ②-1 ここから 申請一覧へのリンク -->
+        <router-link
+          :to="  (Number(user.id)) + '/application'"
+          active-class="link--active"
+          exact
+          class="link"
+        >
+          <v-btn icon>
+            <v-icon>mdi-email-newsletter</v-icon>
+          </v-btn>
+        </router-link>
+      <!-- ②-1 ここまで 申請一覧へのリンク -->
+
   </div>
 </template>
 
@@ -142,15 +155,10 @@ export default {
   //ここまで削除ボタンのメソッド
   },
 
-    created () {
+  created () {
     this.getUser();
-    // axios
-    //   .get(`/api/v1/users/${this.$route.params.id}.json`)
-    //   .then(response => {
-    //     this.group = response.data.group;
-    //     this.user = response.data.user;
-    //   });
   },
+  
   mounted() {
   },
 }
