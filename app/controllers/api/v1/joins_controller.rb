@@ -14,22 +14,11 @@ class Api::V1::JoinsController < ApplicationController
 
   def create
     join = Join.new(join_params)
-    # join.user_id = current_user.id
       if join.save
         render json: join, status: :created
       else
         render json: join.errors, status: :unprocessable_entity
       end
-  #   if join.save
-  #     flash[:notice] = "「参加申請」が完了しました"
-  #     redirect_to group_path(@group)
-  #   else
-  # #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-  #     redirect_to new_group_join_path, flash: {
-  #       join: join,
-  #       error_messages: join.errors.full_messages
-  #     }
-  #   end
   end
 
   def update
@@ -38,15 +27,6 @@ class Api::V1::JoinsController < ApplicationController
     else
       render json: { status: 'SUCCESS', message: 'Not updated', data: @join.errors }
     end
-  #     flash[:notice] = "「参加申請」を更新しました"
-  #     redirect_to user_path(current_user)
-  #   else
-  # #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-  #     redirect_to edit_group_join_path(@join), flash: {
-  #       join: @join,
-  #       error_messages: @join.errors.full_messages
-  #   }
-  #   end
   end
 
   def show
@@ -59,7 +39,6 @@ class Api::V1::JoinsController < ApplicationController
   def destroy
     @join.destroy
     render json: { status: 'SUCCESS', message: 'Deleted the post', data: @join }
-    # redirect_to user_path(current_user), flash: { notice: "「#{@group.name}」への参加申請が削除されました"}
   end
 
   #グループ参加申請処理
@@ -91,7 +70,6 @@ class Api::V1::JoinsController < ApplicationController
 private
 
   def join_params
-    # params.require(:join).permit(:content, :level).merge(group_id: params[:group_id])
     params.require(:join).permit(:content, :level, :group_id, :user_id)
   end
 

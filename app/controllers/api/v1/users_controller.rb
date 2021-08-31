@@ -21,12 +21,28 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
-    @joins = Join.where(user_id: @user.id)
-    @applications = []
-      for @join in @joins do
-          @applications.push(@join) if @join.level == 2
+    # #申請中のデータ
+    @applications = Join.where(user_id: @user.id).where(level: '2')
+
+    #承認中のデータ
+    @groups = Group.where(adminuser_id: @user.id)
+    @approvals = []
+      for @group in @groups do
+        @joins = Join.where(group_id: @group.id).where(level: '2')
+        # if @joins != []
+        #   @approvals.push(@joins)
+        # end
+
+        for @join in @joins do
+          if @join != nil
+            @approvals.push(@join)
+          end
+        end
       end
-    render json: {user: @user, applications: @applications }
+
+      @length = @approvals.length == 0
+    # render json: {user: @user, applications: @applications }
+    render json: {user: @user, applications: @applications, approvals: @approvals, length: @length }
   end
 
   def edit

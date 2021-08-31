@@ -2,16 +2,16 @@
   <div>
     <h1>Application list</h1>
 
-  <!-- ① ここから 申請中のデータ -->
-    <p>申請中</p>
     <v-row justify="space-between">
+    <!-- ① ここから 申請中のデータ -->
+      <p>申請中</p>
       <v-col>
         <div
-          v-if="!applications"
+          v-if="applications.length == 0"
           class="text-h6 grey--text text--lighten-1 font-weight-light"
           style="align-self: center;"
         >
-          You Don`t have any application
+          You Don`t have any applications
         </div>
       <!-- ここから -->
         <v-card
@@ -46,18 +46,56 @@
         </v-card>
       <!-- ここまで -->
       </v-col>
+    <!-- ① ここまで 申請中のデータ -->
     </v-row>
-  <!-- ① ここまで 申請中のデータ -->
 
-  <!-- ② ここから 申請中のデータ -->
-    <p>承認依頼</p>
-      <div
-        class="text-h6 text--lighten-1 font-weight-light"
-        style="align-self: center;"
-      >
-        You Don`t have any application
-      </div>
-  <!-- ② ここまで 申請中のデータ -->
+    <v-row justify="space-between">
+    <!-- ② ここから 申請中のデータ -->
+      <p>承認依頼</p>
+      <v-col>
+        <div
+          v-if="approvals.length == 0"
+          class="text-h6 text--lighten-1 font-weight-light"
+          style="align-self: center;"
+        >
+          You Don`t have any approvals
+        </div>
+      <!-- ここから -->
+        <v-card
+          v-else
+          v-for="approval in approvals"
+          :key="approval.id"
+          class="mx-auto"
+        >
+          <v-card-title>
+            {{ approval.content }}
+          </v-card-title>
+
+          <!-- ①-1 ここから 削除ボタン -->
+            <v-btn @click="deleteApplication(approval.id)" icon>
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          <!-- ①-1 ここまで 削除ボタン -->
+
+          <!-- ①-2 ここから 申請Editへのリンク -->
+            <router-link
+              :to=" '/groups/' + (Number(approval.group_id)) + '/joins/' + (Number(approval.id)) +'/edit'"
+              active-class="link--active"
+              exact
+              class="link"
+            >
+              <v-btn icon>
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </router-link>
+          <!-- ①-2 ここまで 申請Editへのリンク -->
+
+        </v-card>
+      <!-- ここまで -->
+      </v-col>
+    <!-- ② ここまで 申請中のデータ -->
+
+    </v-row>
   </div>
 </template>
 
@@ -70,6 +108,8 @@ export default {
     return {
       application: [],
       applications: [],
+      approval: [],
+      approvals: [],
       user: {}
     }
   },
@@ -79,6 +119,7 @@ export default {
       .get(`/api/v1/users/${this.$route.params.id}.json`)
       .then(response => {
         this.applications = response.data.applications;
+        this.approvals = response.data.approvals;
         this.user = response.data.user;
       });
     },
