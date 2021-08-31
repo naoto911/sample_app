@@ -18,39 +18,14 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: { errors: user.errors.full_messages }, status: 400
     end
-  #   if user.save
-  #     flash[:notice] = "「#{user.name}」を作成しました"
-  #     log_in user #アカウント作成と同時にログインする
-  #     redirect_to  user_path(user)
-  #   else
-  # #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-  #     redirect_to new_user_path, flash: {
-  #       user: user,
-  #       error_messages: user.errors.full_messages
-  #     }
-  #   end
   end
 
   def show
-    #ここまで元々記載内容
-    # render json: {user: @user }
-
-    #ここから追記
     @joins = Join.where(user_id: @user.id)
     @applications = []
       for @join in @joins do
           @applications.push(@join) if @join.level == 2
       end
-
-    #参考に載せる
-    #   @events = Event.where(group_id: @group.id)
-    #   @answers = []
-    #   for @event in @events do
-    #       @answer = Answer.find_by(event_id: @event.id)
-    #       @answers.push(@answer)
-    #   end
-    #   render json: {events: @events, answers: @answers }
-
     render json: {user: @user, applications: @applications }
   end
 
@@ -60,16 +35,9 @@ class Api::V1::UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      # redirect_to user_path(@user)
       render json: @user, status: :created
-      # render json: user: @user, status: :created
     else
       render json: { status: 'SUCCESS', message: 'Not updated', data: @user.errors }
-  #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-    #   redirect_to edit_user_path, flash: {
-    #     user: @user,
-    #     error_messages: @user.errors.full_messages
-    # }
     end
   end
 
@@ -83,7 +51,6 @@ class Api::V1::UsersController < ApplicationController
 
     @user.destroy
     render json: { status: 'SUCCESS', message: 'Deleted the user', data: @user }
-    # redirect_to groups_path, flash: { notice: "「#{@user.name}」が削除されました"}
   end
 
   #ゲストユーザーログイン機能 1/20追記

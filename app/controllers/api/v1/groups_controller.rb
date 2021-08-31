@@ -5,17 +5,22 @@ class Api::V1::GroupsController < ApplicationController
   before_action :admin_user, only: %i[edit update destroy] #幹事でないと操作できないアクション
 
   def index
-    #@groups = Group.all
     @groups = Group.order(id: :asc) #idの昇順に表示
-    # render json: @groups
     render json: {groups: @groups, current_user: current_user }
-    # render json: current_user.id
   end
 
   def show
-    @users = @group.users.all #groupに所属するuserを配列で取得
-    @admin_user = @users.find_by(id: @group.adminuser_id) #管理者をgroupのadminuser_idから取得
-    render json: {group: @group, users: @users }
+    @joins = Join.where(group_id: @group.id)
+    @users = []
+      for @join in @joins do
+          if @join.level == 1
+            @user = User.find_by(id: @join.user_id)
+            @users.push(@user)
+          end
+      end
+    @admin_user = User.find_by(id: @group.adminuser_id) #管理者をgroupのadminuser_idから取得
+    render json: {group: @group, users: @users, admin_user: @admin_user }
+
   end
 
   def new
@@ -25,25 +30,13 @@ class Api::V1::GroupsController < ApplicationController
 
   def create
     group = Group.new(group_params)
-    # join = Join.new(user_id: group.adminuser_id, group_id: group.id)
     current_user = User.find(group.adminuser_id)
-    # group.adminuser_id = current_user #group作成中のidをgroupモデルのaddminuser_idに格納
     group.users << current_user #group_user_relationsにidを格納させる
     if group.save
       render json: group, status: :created
     else
       render json: group.errors, status: :unprocessable_entity
     end
-  #   if group.save
-  #     flash[:notice] = "「#{group.name}」を作成しました"
-  #     redirect_to api_v1_groups_path
-  #   else
-  # #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-  #     redirect_to new_api_v1_group_path, flash: {
-  #       group: group,
-  #       error_messages: group.errors.full_messages
-  #     }
-  #   end
   end
 
   def edit
@@ -52,31 +45,20 @@ class Api::V1::GroupsController < ApplicationController
 
   def update
     if @group.update(group_params)
-      # render json: { status: 'SUCCESS', message: 'Updated the group', data: @group }
       render json: @group, status: :created
     else
       render json: { status: 'SUCCESS', message: 'Not updated', data: @group.errors }
     end
-  #     redirect_to group_path(@group)
-  #   else
-  # #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-  #     redirect_to edit_group_path, flash: {
-  #     group: @group,
-  #     error_messages: @group.errors.full_messages
-  #   }
-  #   end
   end
 
   def destroy
     @group.destroy
-    # redirect_to groups_path, flash: { notice: "「#{@group.name}」が削除されました"}
     render json: { status: 'SUCCESS', message: 'Deleted the post', data: @group }
   end
 
 private
 
   def group_params
-    # params.require(:group).permit(:name, :introduction, :image, :image_cache)
     params.require(:group).permit(:name,:adminuser_id, :introduction, :image, :image_cache)
   end
 
