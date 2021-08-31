@@ -189,7 +189,7 @@ import axios from 'axios';
     //   selected: 'randomAvatar',
     // },
 
-    mounted() {
+    created() {
       this.getUsers();
     },
 

@@ -164,15 +164,9 @@ import axios from 'axios';
     //ここまで削除ボタンのメソッド
     },
 
-  //mountedでVueインスタンスのDOM作成完了直後に読み込む
-    mounted() {
+    created() {
+      // console.log("createdを実行")
       this.getGroup();
-      // axios
-      //   .get(`/api/v1/groups/${this.$route.params.id}.json`)
-      //   .then(response => {
-      //     this.group = response.data.group;
-      //     this.users = response.data.users;
-      //   });
     },
   }
 </script>

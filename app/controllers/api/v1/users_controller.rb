@@ -23,6 +23,11 @@ class Api::V1::UsersController < ApplicationController
   def show
     # #申請中のデータ
     @applications = Join.where(user_id: @user.id).where(level: '2')
+    @applicaiton_groups = []
+    for @application in @applications do
+      @applicaiton_group = Group.find_by(id: @application.group_id)
+      @applicaiton_groups.push(@applicaiton_group)
+    end
 
     #承認中のデータ
     @groups = Group.where(adminuser_id: @user.id)
@@ -40,9 +45,8 @@ class Api::V1::UsersController < ApplicationController
         end
       end
 
-      @length = @approvals.length == 0
     # render json: {user: @user, applications: @applications }
-    render json: {user: @user, applications: @applications, approvals: @approvals, length: @length }
+    render json: {user: @user, applications: @applications, approvals: @approvals, applicaiton_groups: @applicaiton_groups }
   end
 
   def edit

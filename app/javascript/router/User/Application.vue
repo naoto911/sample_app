@@ -4,8 +4,8 @@
 
     <v-row justify="space-between">
     <!-- ① ここから 申請中のデータ -->
-      <p>申請中</p>
       <v-col>
+        <p>申請中</p>
         <div
           v-if="applications.length == 0"
           class="text-h6 grey--text text--lighten-1 font-weight-light"
@@ -23,6 +23,31 @@
           <v-card-title>
             {{ application.content }}
           </v-card-title>
+
+          <p>ここにアイコンが表示されて欲しい</p>
+          <!-- ここから②-2-1 Avatar -->
+            <router-link
+              v-for="application_group in applicaiton_group(application.group_id)"
+              :key="application_group.id"
+              :to=" '/groups/' + (Number(application_group.id)) + '/detail' "
+              active-class="link--active"
+              exact
+              class="link"
+            >
+              <v-avatar
+                cols="4"
+              >
+                <v-img
+                  v-if="application_group"
+                  :src= "application_group.image.url"
+                  alt="John"
+                ></v-img>
+                <span v-else>G</span>
+              </v-avatar>
+            </router-link>
+          <!-- ここまで②-2-1 Avatar -->
+
+          <!-- <p>{{ applicaiton_group(application.group_id)[0].name }}</p> -->
 
           <!-- ①-1 ここから 削除ボタン -->
             <v-btn @click="deleteApplication(application.id)" icon>
@@ -49,53 +74,6 @@
     <!-- ① ここまで 申請中のデータ -->
     </v-row>
 
-    <v-row justify="space-between">
-    <!-- ② ここから 申請中のデータ -->
-      <p>承認依頼</p>
-      <v-col>
-        <div
-          v-if="approvals.length == 0"
-          class="text-h6 text--lighten-1 font-weight-light"
-          style="align-self: center;"
-        >
-          You Don`t have any approvals
-        </div>
-      <!-- ここから -->
-        <v-card
-          v-else
-          v-for="approval in approvals"
-          :key="approval.id"
-          class="mx-auto"
-        >
-          <v-card-title>
-            {{ approval.content }}
-          </v-card-title>
-
-          <!-- ①-1 ここから 削除ボタン -->
-            <v-btn @click="deleteApplication(approval.id)" icon>
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-          <!-- ①-1 ここまで 削除ボタン -->
-
-          <!-- ①-2 ここから 申請Editへのリンク -->
-            <router-link
-              :to=" '/groups/' + (Number(approval.group_id)) + '/joins/' + (Number(approval.id)) +'/edit'"
-              active-class="link--active"
-              exact
-              class="link"
-            >
-              <v-btn icon>
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-            </router-link>
-          <!-- ①-2 ここまで 申請Editへのリンク -->
-
-        </v-card>
-      <!-- ここまで -->
-      </v-col>
-    <!-- ② ここまで 申請中のデータ -->
-
-    </v-row>
   </div>
 </template>
 
@@ -110,9 +88,23 @@ export default {
       applications: [],
       approval: [],
       approvals: [],
-      user: {}
+      user: {},
+      application_group: {},
+      applicaiton_groups: {},
     }
   },
+
+  // computed: {
+  //   applicaiton_group(){
+  //     const data = this.applicaiton_groups;
+  //     console.log(data);
+  //     const result = data.filter(x => x.id === this.application.group_id);
+  //     console.log(this);
+  //     console.log(this.application.group_id);
+  //     return result;
+  //   },
+  // },
+
   methods: {
     getUser() {
       axios
@@ -121,6 +113,7 @@ export default {
         this.applications = response.data.applications;
         this.approvals = response.data.approvals;
         this.user = response.data.user;
+        this.applicaiton_groups = response.data.applicaiton_groups;
       });
     },
   //ここから削除ボタンのメソッド
@@ -138,6 +131,15 @@ export default {
         })
     },
   //ここまで削除ボタンのメソッド
+    applicaiton_group(key_id){
+      const data = this.applicaiton_groups;
+      console.log(data);
+      const result = data.filter(x => x.id === key_id);
+      console.log(key_id);
+      console.log(result);
+      console.log(result[0].name);
+      return result;
+    },
   },
 
   created () {

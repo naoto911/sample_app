@@ -1,34 +1,35 @@
+
+    <!-- ② ここから 申請中のデータ -->
     <v-row justify="space-between">
-    <!-- ① ここから 申請中のデータ -->
-      <p>申請中</p>
+      <p>承認依頼</p>
       <v-col>
         <div
-          v-if="applications.length == 0"
-          class="text-h6 grey--text text--lighten-1 font-weight-light"
+          v-if="approvals.length == 0"
+          class="text-h6 text--lighten-1 font-weight-light"
           style="align-self: center;"
         >
-          You Don`t have any applications
+          You Don`t have any approvals
         </div>
       <!-- ここから -->
         <v-card
           v-else
-          v-for="application in applications"
-          :key="application.id"
+          v-for="approval in approvals"
+          :key="approval.id"
           class="mx-auto"
         >
           <v-card-title>
-            {{ application.content }}
+            {{ approval.content }}
           </v-card-title>
 
           <!-- ①-1 ここから 削除ボタン -->
-            <v-btn @click="deleteApplication(application.id)" icon>
+            <v-btn @click="deleteApplication(approval.id)" icon>
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           <!-- ①-1 ここまで 削除ボタン -->
 
           <!-- ①-2 ここから 申請Editへのリンク -->
             <router-link
-              :to=" '/groups/' + (Number(application.group_id)) + '/joins/' + (Number(application.id)) +'/edit'"
+              :to=" '/groups/' + (Number(approval.group_id)) + '/joins/' + (Number(approval.id)) +'/edit'"
               active-class="link--active"
               exact
               class="link"
@@ -42,5 +43,5 @@
         </v-card>
       <!-- ここまで -->
       </v-col>
-    <!-- ① ここまで 申請中のデータ -->
     </v-row>
+    <!-- ② ここまで 申請中のデータ -->
