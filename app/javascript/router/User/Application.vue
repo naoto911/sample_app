@@ -2,9 +2,7 @@
   <div>
     <h1>Application list</h1>
 
-    <v-row justify="space-between">
     <!-- ① ここから 申請中のデータ -->
-      <v-col>
         <p>申請中</p>
         <div
           v-if="applications.length == 0"
@@ -18,61 +16,67 @@
           v-else
           v-for="application in applications"
           :key="application.id"
-          class="mx-auto"
+          class="my-8"
         >
-          <v-card-title>
-            {{ application.content }}
-          </v-card-title>
+        <v-container>
+          <v-row 
+            justify="space-around"
+            align="center"
+          >
+            <v-col cols=2>
+              <!-- ここから②-2-1 Avatar justify="space-around"      -->
+                <router-link
+                  v-for="application_group in applicaiton_group(application.group_id)"
+                  :key="application_group.id"
+                  :to=" '/groups/' + (Number(application_group.id)) + '/detail' "
+                  active-class="link--active"
+                  exact
+                  class="link"
+                >
+                  <v-avatar>
+                    <v-img
+                      v-if="application_group"
+                      :src= "application_group.image.url"
+                      alt="John"
+                    ></v-img>
+                    <span v-else>G</span>
+                  </v-avatar>
+                </router-link>
+              <!-- ここまで②-2-1 Avatar -->
+            </v-col>
 
-          <p>ここにアイコンが表示されて欲しい</p>
-          <!-- ここから②-2-1 Avatar -->
-            <router-link
-              v-for="application_group in applicaiton_group(application.group_id)"
-              :key="application_group.id"
-              :to=" '/groups/' + (Number(application_group.id)) + '/detail' "
-              active-class="link--active"
-              exact
-              class="link"
-            >
-              <v-avatar
-                cols="4"
-              >
-                <v-img
-                  v-if="application_group"
-                  :src= "application_group.image.url"
-                  alt="John"
-                ></v-img>
-                <span v-else>G</span>
-              </v-avatar>
-            </router-link>
-          <!-- ここまで②-2-1 Avatar -->
+            <v-col cols=8>
+              <v-card-title>
+                {{ application.content }}
+              </v-card-title>
+            </v-col>
 
-          <!-- <p>{{ applicaiton_group(application.group_id)[0].name }}</p> -->
+            <v-col cols=2>
+              <!-- ①-1 ここから 削除ボタン -->
+                <v-btn @click="deleteApplication(application.id)" icon>
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+              <!-- ①-1 ここまで 削除ボタン -->
 
-          <!-- ①-1 ここから 削除ボタン -->
-            <v-btn @click="deleteApplication(application.id)" icon>
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-          <!-- ①-1 ここまで 削除ボタン -->
-
-          <!-- ①-2 ここから 申請Editへのリンク -->
-            <router-link
-              :to=" '/groups/' + (Number(application.group_id)) + '/joins/' + (Number(application.id)) +'/edit'"
-              active-class="link--active"
-              exact
-              class="link"
-            >
-              <v-btn icon>
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-            </router-link>
-          <!-- ①-2 ここまで 申請Editへのリンク -->
-
+              <!-- ①-2 ここから 申請Editへのリンク -->
+                <router-link
+                  :to=" '/groups/' + (Number(application.group_id)) + '/joins/' + (Number(application.id)) +'/edit'"
+                  active-class="link--active"
+                  exact
+                  class="link"
+                >
+                  <v-btn icon>
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
+                </router-link>
+              <!-- ①-2 ここまで 申請Editへのリンク -->
+            </v-col>
+          </v-row>
+                </v-container>
         </v-card>
+
       <!-- ここまで -->
-      </v-col>
     <!-- ① ここまで 申請中のデータ -->
-    </v-row>
 
   </div>
 </template>
@@ -93,17 +97,6 @@ export default {
       applicaiton_groups: {},
     }
   },
-
-  // computed: {
-  //   applicaiton_group(){
-  //     const data = this.applicaiton_groups;
-  //     console.log(data);
-  //     const result = data.filter(x => x.id === this.application.group_id);
-  //     console.log(this);
-  //     console.log(this.application.group_id);
-  //     return result;
-  //   },
-  // },
 
   methods: {
     getUser() {

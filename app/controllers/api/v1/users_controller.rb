@@ -29,24 +29,25 @@ class Api::V1::UsersController < ApplicationController
       @applicaiton_groups.push(@applicaiton_group)
     end
 
-    #承認中のデータ
-    @groups = Group.where(adminuser_id: @user.id)
-    @approvals = []
-      for @group in @groups do
-        @joins = Join.where(group_id: @group.id).where(level: '2')
-        # if @joins != []
-        #   @approvals.push(@joins)
-        # end
+    # #承認中のデータ
+    # @groups = Group.where(adminuser_id: @user.id)
+    # @approvals = []
+    #   for @group in @groups do
+    #     @joins = Join.where(group_id: @group.id).where(level: '2')
+    #     # if @joins != []
+    #     #   @approvals.push(@joins)
+    #     # end
 
-        for @join in @joins do
-          if @join != nil
-            @approvals.push(@join)
-          end
-        end
-      end
+    #     for @join in @joins do
+    #       if @join != nil
+    #         @approvals.push(@join)
+    #       end
+    #     end
+    #   end
 
     # render json: {user: @user, applications: @applications }
-    render json: {user: @user, applications: @applications, approvals: @approvals, applicaiton_groups: @applicaiton_groups }
+    # render json: {user: @user, applications: @applications, approvals: @approvals, applicaiton_groups: @applicaiton_groups }
+    render json: {user: @user, applications: @applications, applicaiton_groups: @applicaiton_groups }
   end
 
   def edit
