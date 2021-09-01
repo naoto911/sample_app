@@ -63,49 +63,50 @@ axios.defaults.headers.common = {
     'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 };
 
-  export default {
-    data: () => ({
+export default {
+  data() {
+    return {
       valid: true,
       current_user: {},
       user: {
         email: '',
         password: ''
       }
-    }),
-
-    methods: {
-      validate () {
-        this.$refs.form.validate()
-      },
-      reset () {
-        this.$refs.form.reset()
-      },
-      resetValidation () {
-        this.$refs.form.resetValidation()
-      },
-      dologin () {
-        if (!this.user.email) return;
-
-          axios
-            .post('/api/v1/login', {
-                email: this.user.email,
-                password: this.user.password
-            })
-
-          .then(response => {
-            console.log('OK');
-            console.log(this.user);
-            this.$router.push({ path: '/' });
-          })        
-          .catch(error => {
-            console.log('NG');
-            console.error(error);
-            if(error.response.data && error.response.data.errors) {
-              this.errors = error.response.data.errors;
-            }
-          })
-      }
-
     }
+  },
+
+  methods: {
+    validate () {
+      this.$refs.form.validate()
+    },
+    reset () {
+      this.$refs.form.reset()
+    },
+    resetValidation () {
+      this.$refs.form.resetValidation()
+    },
+    dologin () {
+      if (!this.user.email) return;
+
+      axios
+        .post('/api/v1/login', {
+            email: this.user.email,
+            password: this.user.password
+        })
+      .then(response => {
+        console.log('OK');
+        console.log(this.user);
+        this.$router.push({ path: '/' });
+      })        
+      .catch(error => {
+        console.log('NG');
+        console.error(error);
+        if(error.response.data && error.response.data.errors) {
+          this.errors = error.response.data.errors;
+        }
+      })
+    }
+
   }
+}
 </script>

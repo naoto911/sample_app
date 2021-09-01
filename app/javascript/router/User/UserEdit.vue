@@ -48,7 +48,6 @@
 </template>
 
 <script>
-// axiosを読み込む
 import axios from 'axios';
 
 export default {
@@ -56,6 +55,10 @@ export default {
     return {
       user: {}
     }
+  },
+
+  created() {
+    this.getUser();
   },
 
   methods: {
@@ -71,11 +74,17 @@ export default {
     setImage (e) {
     this.image = e.target.files[0]
     },
+    getUser() {
+      axios
+        .get(`/api/v1/users/${this.$route.params.id}/edit.json`)
+        .then(response => {
+        this.user = response.data.user;
+      });
+    },
     UpdateEdit () {
       if (!this.user.name) return;
       axios
         .patch(`/api/v1/users/${this.$route.params.id}`, {
-
           user: {  name: this.user.name,
                     email: this.user.email,
                   }
@@ -94,15 +103,5 @@ export default {
     }
   },
   
-  //作成済のgroup情報を取得
-    mounted() {
-      axios
-        .get(`/api/v1/users/${this.$route.params.id}/edit.json`)
-        .then(response => {
-        this.user = response.data.user;
-        // this.current_user = response.data.current_user;
-      });
-    }
 }
-
 </script>

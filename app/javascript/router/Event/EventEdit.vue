@@ -158,7 +158,6 @@
 </template>
 
 <script>
-
 import axios from 'axios';
 
 export default {
@@ -173,13 +172,15 @@ export default {
         remarks: '',
       },
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-      // menu: false,
-      // modal: false,
       time: null,
       menu1: false,
       menu2: false,
       menu3: false,
     }
+  },
+  
+  created() {
+    this.getEvent();
   },
 
   methods: {
@@ -226,11 +227,6 @@ export default {
           this.event = response.data.event;
         });
     },
-  },
-
-//mountedでVueインスタンスのDOM作成完了直後に読み込む
-  mounted() {
-    this.getEvent();
   },
 
 }

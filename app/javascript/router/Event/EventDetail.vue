@@ -111,7 +111,6 @@ export default {
   },
 
   methods: {
-
     deleteEvent(id) {
       axios.delete(`/api/v1/groups/${this.$route.params.id}/events/${id}`)
         .then( (res) => {
@@ -125,7 +124,6 @@ export default {
           }
         })
     },
-
     getEvent() {
       axios
       .get(`/api/v1/groups/${this.$route.params.id}/events/${this.$route.params.event_id}.json`)
@@ -136,7 +134,6 @@ export default {
         this.users = response.data.users;
         });
     },
-
     participantUsers() {
       var result2 = [];
       const data2 = this.eventAnswers;
@@ -152,7 +149,6 @@ export default {
       console.log(result2);
       return result2;
     },
-
   },
 
 }

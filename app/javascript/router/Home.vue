@@ -5,7 +5,6 @@
 </template>
 
 <script>
-// axiosを読み込む
 import axios from 'axios';
 import GroupsCard from '../components/GroupsCard.vue';
 
@@ -13,6 +12,7 @@ export default {
   components: { 
     GroupsCard 
   },
+
   data() {
     return {
       groups: [],
@@ -20,19 +20,21 @@ export default {
       current_user: [],
     }
   },
-  //mountedでVueインスタンスのDOM作成完了直後に読み込む
+
   created() {
-    axios
-      .get('/api/v1/groups.json')
-      // .then(response => (this.groups = response.data.groups))
-      .then(response => {
-        this.groups = response.data.groups
-        this.current_user = response.data.current_user
-      });
-  }
-};
+    this.getGroup();
+  },
 
+  methods: {
+    getGroup(){
+      axios
+        .get('/api/v1/groups.json')
+        .then(response => {
+          this.groups = response.data.groups
+          this.current_user = response.data.current_user
+        });
+    }
+  },
+
+}
 </script>
-
-<style scoped>
-</style>

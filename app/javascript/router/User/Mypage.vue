@@ -119,7 +119,6 @@
 </template>
 
 <script>
-// axiosを読み込む
 import axios from 'axios';
 
 export default {
@@ -129,6 +128,11 @@ export default {
       user: {}
     }
   },
+
+  created () {
+    this.getUser();
+  },
+
   methods: {
     getUser() {
       axios
@@ -138,7 +142,6 @@ export default {
         this.user = response.data.user;
       });
     },
-  //ここから削除ボタンのメソッド
     deleteUser(id) {
       axios.delete(`/api/v1/users/${id}`)
         .then(res => {
@@ -152,15 +155,8 @@ export default {
           }
         })
     },
-  //ここまで削除ボタンのメソッド
   },
 
-  created () {
-    this.getUser();
-  },
-  
-  mounted() {
-  },
 }
 
 </script>

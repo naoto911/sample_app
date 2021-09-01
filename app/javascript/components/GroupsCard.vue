@@ -6,7 +6,7 @@
         :key="val.id"
         cols="4"
       >
-      <!-- ここから -->
+      <!-- ここから ① Group-card一覧 -->
         <router-link
           :to=" 'groups/' + (Number(val.id)) + '/detail'"
           active-class="link--active"
@@ -23,6 +23,7 @@
               class="mx-auto"
               max-width="344"
             >
+
               <v-img
                 :src= "val.image.url"
                 height="200px"
@@ -36,37 +37,10 @@
                 {{ val.introduction }}
               </v-card-subtitle>
 
-              <!-- <v-card-actions>
-                <v-btn
-                  color="orange lighten-2"
-                  text
-                >
-                  LEARN MORE
-                </v-btn>
-
-                <v-spacer></v-spacer>
-
-                <v-btn
-                  icon
-                  @click="show = !show"
-                >
-                  <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                </v-btn>
-              </v-card-actions> -->
-
-              <!-- <v-expand-transition>
-                <div v-show="show">
-                  <v-divider></v-divider>
-
-                  <v-card-text>
-                    ここに,グループ説明を表示
-                  </v-card-text>
-                </div>
-              </v-expand-transition> -->
             </v-card>
           </v-hover>
         </router-link>
-      <!-- ここまで -->
+      <!-- ここまで ① Group-card一覧 -->
       </v-col>
     </v-row>
   </div>
@@ -89,7 +63,3 @@ export default {
   } 
 };
 </script>
-
-<style scoped>
-
-</style>

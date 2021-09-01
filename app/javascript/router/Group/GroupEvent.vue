@@ -251,32 +251,31 @@
 import axios from 'axios';
 
 export default {
-  data: () => ({
-    focus: '',
-    type: 'month',
-    typeToLabel: {
-      month: 'Month',
-      week: 'Week',
-      day: 'Day',
-      '4day': '4 Days',
-    },
-    selectedEvent: {},
-    selectedElement: null,
-    selectedOpen: false,
-    events: [],
-    events2: [],
-    colors: ['deep-purple', 'green', 'orange'],
-    names: ['練習', '飲み', '試合'],
-    answer: [],
-    answers: [],
-    // colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
-    // names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
-  }),
+  data() {
+    return {
+      focus: '',
+      type: 'month',
+      typeToLabel: {
+        month: 'Month',
+        week: 'Week',
+        day: 'Day',
+        '4day': '4 Days',
+      },
+      selectedEvent: {},
+      selectedElement: null,
+      selectedOpen: false,
+      events: [],
+      events2: [],
+      colors: ['deep-purple', 'green', 'orange'],
+      names: ['練習', '飲み', '試合'],
+      answer: [],
+      answers: [],
+    }
+  },
 
   computed: {
     eventAnswer(){
         const data = this.answers;
-        // return this.answer = data.filter(x => x.event_id === this.selectedEvent.id);
         const result = data.filter(x => x.event_id === this.selectedEvent.id);
         return result;
     }
@@ -284,29 +283,10 @@ export default {
 
   created () {
     this.getEvent();
-    // this.pushEvent();
-    // console.log(this.events2);
-    // console.log("createdが実行された");
-  },
-
-  mounted () {
-    // this.getEvent();
-    // console.log(this.events2);
-    // console.log("mountedが実行された");
-
-    // this.pushEvent();
-    // this.$refs.calendar.checkChange();
   },
 
   beforeUpdate(){
-    // console.log(this.events2);
     this.pushEvent();
-    // console.log("beforeUpdateが実行された");
-  },
-
-  updated(){
-    // console.log(this.events2);
-    // console.log("updatedが実行された");
   },
 
   methods: {
@@ -332,23 +312,19 @@ export default {
         this.selectedElement = nativeEvent.target
         requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
       }
-
-      if (this.selectedOpen) {
-        this.selectedOpen = false
-        requestAnimationFrame(() => requestAnimationFrame(() => open()))
-      } else {
-        open()
-      }
-
+        if (this.selectedOpen) {
+          this.selectedOpen = false
+          requestAnimationFrame(() => requestAnimationFrame(() => open()))
+        } else {
+          open()
+        }
       nativeEvent.stopPropagation()
     },
-
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a
       // Math.floor(n) = nを切り捨て
       // Math.rondom() = 0以上1未満のランダムな浮動小数点を作成
     },
-
     getEvent() {
       axios
         .get(`/api/v1/groups/${this.$route.params.id}/events.json`)
@@ -357,7 +333,6 @@ export default {
           this.answers = response.data.answers;
         });
     },
-
     pushEvent() {
       const events = []
       const eventCount = this.events2.length
@@ -384,7 +359,6 @@ export default {
       // console.log(this.events);
       this.events = events
     },
-
   },
 }
 </script>

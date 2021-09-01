@@ -2,7 +2,6 @@
   <div id="app">
     <v-app>
       <Header :val="current_user"></Header>
-      <!-- <Header></Header> -->
       <v-main>
         <v-container>
           <router-view></router-view>
@@ -77,11 +76,9 @@ export default {
   },
 
   mounted () {
-    // this.getEvent();
   },
 
   beforeUpdate() {
-    // this.getEvent();
     // console.log("befoerUpdateが実行された");
   },
 
@@ -95,16 +92,16 @@ export default {
     },
   },
 
-};
+}
 </script>
 
 <style scoped>
-p {
-  font-size: 2em;
-  text-align: center;
-}
+  p {
+    font-size: 2em;
+    text-align: center;
+  }
 
-head {
-  color: white;
-}
+  head {
+    color: white;
+  }
 </style>

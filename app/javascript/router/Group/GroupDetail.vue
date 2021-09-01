@@ -119,54 +119,54 @@
 <script>
 import axios from 'axios';
 
-  export default {
-    data: () => ({
+export default {
+  data() {
+    return {
       length: 3,
       onboarding: 0,
 
       group: [],
       users: [],
-    }),
+    }
+  },
 
-    methods: {
-      next () {
-        this.onboarding = this.onboarding + 1 === this.length
-          ? 0
-          : this.onboarding + 1
-      },
-      prev () {
-        this.onboarding = this.onboarding - 1 < 0
-          ? this.length - 1
-          : this.onboarding - 1
-      },
-      getGroup() {
-        axios
-          .get(`/api/v1/groups/${this.$route.params.id}.json`)
-          .then(response => {
-            this.group = response.data.group;
-            this.users = response.data.users;
-          });
-      },
-    //ここから削除ボタンのメソッド
-      deleteGroup(id) {
-        axios.delete(`/api/v1/groups/${id}`)
-          .then(res => {
-            this.$router.push({ path: '/' });
-          })
-          .catch(error => {
-            console.log('NG');
-            console.error(error);
-            if(error.response.data && error.response.data.errors) {
-              this.errors = error.response.data.errors;
-            }
-          })
-      },
-    //ここまで削除ボタンのメソッド
-    },
+  created() {
+    this.getGroup();
+  },
 
-    created() {
-      // console.log("createdを実行")
-      this.getGroup();
+  methods: {
+    next () {
+      this.onboarding = this.onboarding + 1 === this.length
+        ? 0
+        : this.onboarding + 1
     },
-  }
+    prev () {
+      this.onboarding = this.onboarding - 1 < 0
+        ? this.length - 1
+        : this.onboarding - 1
+    },
+    getGroup() {
+      axios
+        .get(`/api/v1/groups/${this.$route.params.id}.json`)
+        .then(response => {
+          this.group = response.data.group;
+          this.users = response.data.users;
+        });
+    },
+    deleteGroup(id) {
+      axios.delete(`/api/v1/groups/${id}`)
+        .then(res => {
+          this.$router.push({ path: '/' });
+        })
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        })
+    },
+  },
+
+}
 </script>

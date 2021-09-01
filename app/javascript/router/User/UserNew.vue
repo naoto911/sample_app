@@ -61,7 +61,6 @@
 </template>
 
 <script>
-// axiosを読み込む
 import axios from 'axios';
 
 export default {
@@ -69,6 +68,10 @@ export default {
     return {
       user: {}
     }
+  },
+
+  created() {
+    this.getUser();
   },
 
   methods: {
@@ -80,6 +83,13 @@ export default {
     },
     resetValidation () {
       this.$refs.form.resetValidation()
+    },
+    getUser(){
+      axios
+        .get(`/api/v1/users/new.json`)
+        .then(response => {
+          this.user = response.data.user;
+        });
     },
     createUser () {
       if (!this.user.name) return;
@@ -93,7 +103,6 @@ export default {
               password_confirmation: this.user.password_confirmation
             }
           })
-
         .then(response => {
           console.log('OK');
           console.log(this.user);
@@ -109,15 +118,6 @@ export default {
     }
   },
 
-  //mountedでVueインスタンスのDOM作成完了直後に読み込む
-  mounted() {
-    axios
-      .get(`/api/v1/users/new.json`)
-      .then(response => {
-        // this.group = response.data.group;
-        this.user = response.data.user;
-      });
-  }
 }
 
 </script>
