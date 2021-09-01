@@ -38,29 +38,27 @@ class Api::V1::JoinsController < ApplicationController
 
   def destroy
     @join.destroy
-    render json: { status: 'SUCCESS', message: 'Deleted the post', data: @join }
+    render json: { status: 'SUCCESS', message: 'Deleted the join', data: @join }
   end
 
-  #グループ参加申請処理
-  def permit
-    #グループに参加済みの人の処理
+  def permit #申請承認
     if @join.level == 1 then
-      redirect_back(fallback_location: root_path) #, flash: { notice: "#{@group.name}にすでに参加済みです"}
-    #グループに新規参加の人の処理
+      #すでに所属済みの場合,何もせず,API処理を終了させる
     else 
-      @join.level = 1 #joinのlevelを1(参加済)に変更　
+      @join.level = 1
       @join.save
-      Event.where(group_id: @group.id).each_with_index do |group_event| #Eventを次々に取得 1/12編集
+      #参加するUser用にAnswerを作成するための処理 
+      #(このGroupのEventの数だけ,Answerを新規作成)
+      Event.where(group_id: @join.group_id).each_with_index do |group_event| #Eventを次々に取得 1/12編集
         group_event.users << User.find(@join.user_id) #Anserに(event_id,user_id)を紐付ける 1/12追記
       end
-      redirect_to group_path(@group), flash: { notice: "「#{User.find(@join.user_id).name}が#{@group.name}に参加しました"}
     end
+    render json: { status: 'SUCCESS', message: 'Permit the Application', data: @join }
   end 
 
-  def leave
+  def leave #申請拒否
     Event.where(group_id: @group.id).each_with_index do |group_event| #Eventを次々に取得
       leave_user_id = @join.user_id
-      # binding.pry
       Answer.find_by(event_id: group_event.id, user_id: leave_user_id).destroy
     end
     @join.destroy

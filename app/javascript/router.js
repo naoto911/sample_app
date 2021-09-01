@@ -11,6 +11,8 @@ import GroupDetail from "./router/Group/GroupDetail";
 import GroupEvent from "./router/Group/GroupEvent";
 import GroupMember from "./router/Group/GroupMember";
 
+import Approval from "./router/Group/Approval";
+
 import EventNew from "./router/Event/EventNew";
 import EventDetail from "./router/Event/EventDetail";
 import EventEdit from "./router/Event/EventEdit";
@@ -46,6 +48,8 @@ export default new Router({
         { path: "events", component: GroupEvent },
         { path: "member", component: GroupMember },
         { path: "edit", component: GroupEdit },
+        //承認関連
+        { path: "approval", component: Approval },
         //ここからEvnet
         { path: 'events/new', component: EventNew },
         { path: 'events/:event_id(\\d+)', component: EventDetail },

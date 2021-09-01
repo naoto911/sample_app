@@ -24,6 +24,8 @@ import GroupDetail from "./router/Group/GroupDetail";
 import GroupEvent from "./router/Group/GroupEvent";
 import GroupMember from "./router/Group/GroupMember";
 
+import Approval from "./router/Group/Approval";
+
 import EventNew from "./router/Event/EventNew";
 import EventDetail from "./router/Event/EventDetail";
 import EventEdit from "./router/Event/EventEdit";
@@ -54,6 +56,8 @@ export default {
     GroupDetail,
     GroupEvent,
     GroupMember,
+
+    Approval,
 
     EventNew,
     EventDetail,

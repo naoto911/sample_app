@@ -14,6 +14,10 @@ Rails.application.routes.draw do
   get '/groups/:id/member', to: 'home#index'
   get '/groups/:id/edit', to: 'home#index'
 
+  #approval関連
+  get '/groups/:id/approval', to: 'home#index'
+  get '/groups/:id/joins/:join_id/permit', to: 'home#index'
+
   #evnet関連
   get '/groups/:id/events/new', to: 'home#index'
   get '/groups/:id/events/:event_id', to: 'home#index'
@@ -21,7 +25,7 @@ Rails.application.routes.draw do
 
   #join関連
   get '/groups/:id/joins/new', to: 'home#index'
-  get '/groups/:id/joins/:id/edit', to: 'home#index'
+  get '/groups/:id/joins/:join_id/edit', to: 'home#index'
 
   #user関連
   get '/login', to: 'home#index'
