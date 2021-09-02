@@ -60,6 +60,7 @@ Rails.application.routes.draw do
           member do 
             get :permit
             delete :leave #3/2 join leave処理の追加
+            delete :deny #9/2 申請拒否の追加
           end 
         end
         resources :events, param: :event_id # 7/15 GoupEventで一覧が必要なためコメントアウト, :except => [:index ] 

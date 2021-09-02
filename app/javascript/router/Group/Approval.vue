@@ -51,7 +51,7 @@
 
         <v-col cols=2>
           <!-- ①-1 ここから 拒否ボタン -->
-            <v-btn @click="denyApplication(approval.id)" icon>
+            <v-btn @click="denyApproval(approval.id)" icon>
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           <!-- ①-1 ここまで 拒否ボタン -->
@@ -60,16 +60,6 @@
             <v-btn @click="permitApproval(approval.id)" icon>
               <v-icon>mdi-account-multiple-check</v-icon>
             </v-btn>  
-            <!-- <router-link
-              :to=" '/groups/' + (Number(approval.group_id)) + '/joins/' + (Number(approval.id)) +'/permit'"
-              active-class="link--active"
-              exact
-              class="link"
-            >
-              <v-btn icon>
-                <v-icon>mdi-account-multiple-check</v-icon>
-              </v-btn>
-            </router-link> -->
           <!-- ①-2 ここまで 承認ボタン -->
         </v-col>
         
@@ -124,10 +114,8 @@ export default {
             }
           })
     },
-    denyApplication() {
-    },
-    deleteApplication(id) {
-      axios.delete(`/api/v1/groups/${this.$route.params.id}/joins/${id}`)
+    denyApproval(id) {
+      axios.delete(`/api/v1/groups/${this.$route.params.id}/joins/${id}/deny`)
         .then(res => {
           this.$router.push({ path: '/' });
         })

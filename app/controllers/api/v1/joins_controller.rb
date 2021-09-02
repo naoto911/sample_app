@@ -1,11 +1,11 @@
 class Api::V1::JoinsController < ApplicationController
   protect_from_forgery #追記
-  before_action :logged_in_user, only: %i[show new edit update destroy permit leave] #ログイン後しか実行できない
-  before_action :set_target_group, only: %i[show new create edit update destroy permit leave]
-  before_action :set_target_join, only: %i[show edit update destroy permit leave]
+  before_action :logged_in_user, only: %i[show new edit update destroy permit deny leave] #ログイン後しか実行できない
+  before_action :set_target_group, only: %i[show new create edit update destroy permit deny leave]
+  before_action :set_target_join, only: %i[show edit update destroy permit deny leave]
   before_action :master_user, only: %i[ edit update ] #自分自身でないと操作できないアクション
   before_action :admin_user, only: %i[ permit ] #幹事でないと操作できないアクション
-  before_action :destroy_permition, only: %i[ destroy leave ] #自分自身or幹事でないと操作できないアクション
+  before_action :destroy_permition, only: %i[ destroy deny leave ] #自分自身or幹事でないと操作できないアクション
 
   def new
     @join = Join.new
@@ -56,14 +56,23 @@ class Api::V1::JoinsController < ApplicationController
     render json: { status: 'SUCCESS', message: 'Permit the Application', data: @join }
   end 
 
-  def leave #申請拒否
-    Event.where(group_id: @group.id).each_with_index do |group_event| #Eventを次々に取得
-      leave_user_id = @join.user_id
-      Answer.find_by(event_id: group_event.id, user_id: leave_user_id).destroy
+  def deny #申請拒否
+    if @join.level == 1 then
+      #すでに所属済みの場合,何もせず,API処理を終了させる
+    else 
+      @join.destroy
     end
-    @join.destroy
-    redirect_to group_path(@group), flash: { notice: "「」が退会しました"}
+    render json: { status: 'SUCCESS', message: 'Deny the Application', data: @join }
   end
+
+  # def leave #退会処理 groups_ctontrollerへ移動する
+  #   Event.where(group_id: @group.id).each_with_index do |group_event| #Eventを次々に取得
+  #     leave_user_id = @join.user_id
+  #     Answer.find_by(event_id: group_event.id, user_id: leave_user_id).destroy
+  #   end
+  #   @join.destroy
+  #   redirect_to group_path(@group), flash: { notice: "「」が退会しました"}
+  # end
 
 private
 
