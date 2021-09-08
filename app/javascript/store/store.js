@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token: ''
+    token: 'test_token'
   },
   mutations: {
     RegistrationToken (state, payload) {

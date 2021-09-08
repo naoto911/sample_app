@@ -43,6 +43,9 @@
       <!-- ここまで ① Group-card一覧 -->
       </v-col>
     </v-row>
+
+    <div>{{ token }}</div>
+
   </div>
 </template>
 
@@ -56,10 +59,18 @@ export default {
       val: []
     }
   },
+
   props: {
     vals: {
       type: Array
     }
-  } 
+  },
+
+  computed: {
+    token () {
+      return this.$store.state.token
+    }
+  },
+
 };
 </script>

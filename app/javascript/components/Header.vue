@@ -118,7 +118,7 @@
       light
     >
       <v-list-item>
-        <v-list-item-title class="title">
+        <v-list-item-title class="title text-center">
           Application
         </v-list-item-title>
         <v-btn icon>
