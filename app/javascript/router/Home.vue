@@ -17,12 +17,12 @@ export default {
     return {
       groups: [],
       group: null,
-      current_user: [],
     }
   },
 
   created() {
     this.getGroup();
+    this.login();
   },
 
   methods: {
@@ -31,9 +31,11 @@ export default {
         .get('/api/v1/groups.json')
         .then(response => {
           this.groups = response.data.groups
-          this.current_user = response.data.current_user
         });
-    }
+    },
+    login(){
+      this.$store.dispatch('login')
+    },
   },
 
 }

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app>
-      <Header :val="current_user"></Header>
+      <Header :val="token"></Header>
       <v-main>
         <v-container>
           <router-view></router-view>
@@ -12,8 +12,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 import Home from "./router/Home";
 import Header from "./components/Header";
 
@@ -41,11 +39,6 @@ import UserEdit from "./router/User/UserEdit";
 import Application from "./router/User/Application";
 
 export default {
-  data: function () {
-    return {
-      current_user: {}
-    }
-  },
   components: {
     Home,
     Header,
@@ -74,26 +67,10 @@ export default {
     Application,
   },  
 
-  created () {
-    this.getEvent();
-    // console.log("createdが実行された");
-  },
-
-  mounted () {
-  },
-
-  beforeUpdate() {
-    // console.log("befoerUpdateが実行された");
-  },
-
-  methods: {
-    getEvent() {
-      axios
-        .get('/api/v1/groups.json')
-        .then(response => {
-          this.current_user = response.data.current_user;
-        });
-    },
+  computed: {
+    token () {
+      return this.$store.state.loginUser
+    }
   },
 
 }

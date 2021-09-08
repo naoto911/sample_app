@@ -1,22 +1,32 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+
   state: {
-    token: 'test_token'
+    loginUser: {},
+    loggedIn: false
   },
-  mutations: {
-    RegistrationToken (state, payload) {
-      state.token = payload.token
+  getters: {
+    loginUser: state => state.loginUser,
+    loggedIn: state => state.loggedIn
+  },
+  mutations : {
+    storeloginUser(state, loginUser) {
+        state.loginUser = loginUser;
+        state.loggedIn = true
     }
   },
   actions: {
-    doRegistrationToken ({ commit }, token) {
-      commit('RegistrationToken', { token })
+    login({commit}){
+        axios
+        .get('/api/v1/groups.json')
+        .then(response => {
+            commit('storeloginUser', response.data.current_user)
+        });
     }
   },
-  modules: {
-  }
 })
