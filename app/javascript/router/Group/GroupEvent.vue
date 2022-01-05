@@ -278,7 +278,7 @@ export default {
       names: ['練習', '飲み', '試合'],
       answer: [],
       answers: [],
-      row: "○",
+      row: null,
     }
   },
 
@@ -288,8 +288,8 @@ export default {
         const result = data.filter(x => x.event_id === this.selectedEvent.id);
         return result;
     },
-    eventAnswerRow() {
-      return this.eventAnswer[0].answer;
+    changeAnswer(){
+      return this.row = this.eventAnswer[0].answer;
     }
   },
 
