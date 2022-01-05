@@ -288,9 +288,6 @@ export default {
         const result = data.filter(x => x.event_id === this.selectedEvent.id);
         return result;
     },
-    changeAnswer(){
-      return this.row = this.eventAnswer[0].answer;
-    }
   },
 
   created () {
@@ -323,6 +320,9 @@ export default {
         this.selectedEvent = event
         this.selectedElement = nativeEvent.target
         requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
+
+        this.row = this.eventAnswer[0].answer //ここでevnet毎のanswerをrowへ格納しウィンドウ表示時の初期値を動的に更新
+
       }
         if (this.selectedOpen) {
           this.selectedOpen = false
@@ -372,10 +372,7 @@ export default {
       this.events = events
     },
     onChange(row) {  // クリックイベントでイベント発火
-      console.log("変更")
-      this.eventAnswer[0].answer = this.row 
-      console.log(this.row)
-      console.log(this.eventAnswer[0].answer)
+      this.eventAnswer[0].answer = this.row  //radio変更に応じてdata内のrowも同期して更新
     },
   },
 }
