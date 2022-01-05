@@ -207,16 +207,24 @@
               </v-card-text>
               
             <!-- ④-3 ここからAnswer -->
-              <v-card-actions>
+              <v-card-actions>                
                 <v-row>
 
                   <v-col cols="12">
-                    <v-checkbox
-                      v-model="answer"
-                      label="success"
-                      color="success"
-                      hide-details
-                    ></v-checkbox>
+                    <v-radio-group
+                      v-model="row"
+                      row
+                      @change="onChange"
+                    >
+                      <v-radio
+                        label="参加"
+                        value="○"
+                      ></v-radio>
+                      <v-radio
+                        label="不参加"
+                        value="-"
+                      ></v-radio>
+                    </v-radio-group>
                   </v-col>
 
                   <v-col cols="12">
@@ -270,6 +278,7 @@ export default {
       names: ['練習', '飲み', '試合'],
       answer: [],
       answers: [],
+      row: "○",
     }
   },
 
@@ -278,6 +287,9 @@ export default {
         const data = this.answers;
         const result = data.filter(x => x.event_id === this.selectedEvent.id);
         return result;
+    },
+    eventAnswerRow() {
+      return this.eventAnswer[0].answer;
     }
   },
 
@@ -358,6 +370,12 @@ export default {
       }
       // console.log(this.events);
       this.events = events
+    },
+    onChange(row) {  // クリックイベントでイベント発火
+      console.log("変更")
+      this.eventAnswer[0].answer = this.row 
+      console.log(this.row)
+      console.log(this.eventAnswer[0].answer)
     },
   },
 }
