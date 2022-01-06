@@ -52,6 +52,8 @@ Rails.application.routes.draw do
 
       resources :users
 
+      resources :answers #, :only => [:show, :edit ]  //ここを追記
+
       resources :groups do #do
         #member do 2/6 削除 join controller に移行
           #get :join

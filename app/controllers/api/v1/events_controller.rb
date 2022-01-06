@@ -6,11 +6,11 @@ class Api::V1::EventsController < ApplicationController
   before_action :admin_user, only: %i[edit update destroy] #幹事でないと操作できないアクション
 
   def index
-    @events = Event.where(group_id: @group.id)
+    @events = Event.where(group_id: @group.id) #groupのeventを全て取得
     @answers = []
-    for @event in @events do
-        @answer = Answer.find_by(event_id: @event.id)
-        @answers.push(@answer)
+    for @event in @events do #ひとつずつ確認していく
+        @event_answers = Answer.where(event_id: @event.id, user_id: current_user.id) #event_idが同じanswerを探す
+        @answers += @event_answers
     end
     render json: {events: @events, answers: @answers } #, events: @events, current_user: current_user }
   end

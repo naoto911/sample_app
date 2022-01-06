@@ -1,4 +1,5 @@
-class AnswersController < ApplicationController
+class Api::V1::AnswersController < ApplicationController
+  protect_from_forgery #追記
   before_action :set_target_answer, only: %i[ edit update ]
   before_action :master_user, only: %i[ edit update ] #自分自身でないと操作できないアクション
 
@@ -9,17 +10,25 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer_event = Event.find_by(id: @answer.event_id)
     if @answer.update(answer_params)
-      redirect_to group_path(@answer_event.group_id)
+      render json: @answer, status: :created
     else
-  #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-      redirect_to group_path(@answer.events.group_id), flash: {
-      answer: @answer,
-      error_messages: @answer.errors.full_messages
-    }
+      render json: { status: 'SUCCESS', message: 'Not updated', data: @answer.errors }
     end
   end
+
+  # def update
+  #   @answer_event = Event.find_by(id: @answer.event_id)
+  #   if @answer.update(answer_params)
+  #     redirect_to group_path(@answer_event.group_id)
+  #   else
+  # #フォームの入力エラーを起こした際のエラー表示を取得するための処理
+  #     redirect_to group_path(@answer.events.group_id), flash: {
+  #     answer: @answer,
+  #     error_messages: @answer.errors.full_messages
+  #   }
+  #   end
+  # end
 
 private
 

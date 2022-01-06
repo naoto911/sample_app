@@ -233,7 +233,7 @@
                       color="secondary"
                       @click="selectedOpen = false"
                     >
-                      Cancel
+                      キャンセル
                     </v-btn>
                   </v-col>
 
@@ -332,11 +332,11 @@ export default {
         }
       nativeEvent.stopPropagation()
     },
-    rnd (a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a
-      // Math.floor(n) = nを切り捨て
-      // Math.rondom() = 0以上1未満のランダムな浮動小数点を作成
-    },
+    // rnd (a, b) {
+    //   return Math.floor((b - a + 1) * Math.random()) + a
+    //   // Math.floor(n) = nを切り捨て
+    //   // Math.rondom() = 0以上1未満のランダムな浮動小数点を作成
+    // },
     getEvent() {
       axios
         .get(`/api/v1/groups/${this.$route.params.id}/events.json`)
@@ -373,6 +373,28 @@ export default {
     },
     onChange(row) {  // クリックイベントでイベント発火
       this.eventAnswer[0].answer = this.row  //radio変更に応じてdata内のrowも同期して更新
+      this.updateAnswer();
+    },
+    updateAnswer() {
+      if (!this.row) return;
+        this.answer = this.eventAnswer[0]
+        axios
+          .patch(`/api/v1/answers/${this.answer.id}`, {
+            answer: {           
+              answer: this.answer.answer
+            }
+          })
+
+        .then(response => {
+          console.log('OK');
+        })        
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        })
     },
   },
 }
