@@ -22,12 +22,25 @@ class Api::V1::EventsController < ApplicationController
   
     #ここからテスト
     @answers = Answer.where(event_id: @event.id)
-    @users = []
-      for @answer in @answers do
-          @user = User.find_by(id: @answer.user_id)
-          @users.push(@user)
+    @participant_answers= @answers.where("answer = '○'")
+    @unparticipant_answers = @answers - @participant_answers
+    @participant_users = []
+    @unparticipant_users = []
+    
+      for @participant_answer in @participant_answers do
+          @user = User.find_by(id: @participant_answer.user_id)
+          @participant_users.push(@user)
       end
-      render json: {group: @group, event: @event, current_user: current_user,answers: @answers, users: @users }
+
+      for @unparticipant_answer in @unparticipant_answers do
+        @user = User.find_by(id: @unparticipant_answer.user_id)
+        @unparticipant_users.push(@user)
+      end
+
+      # render json: {group: @group, event: @event, current_user: current_user,answers: @answers, users: @users, participant_answers: @participant_answers,unparticipant_answers: @unparticipant_answers }
+
+      render json: {group: @group, event: @event, participant_users: @participant_users, unparticipant_users: @unparticipant_users }
+
   end
 
   def new
