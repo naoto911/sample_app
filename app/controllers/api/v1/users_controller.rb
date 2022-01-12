@@ -29,6 +29,14 @@ class Api::V1::UsersController < ApplicationController
       @applicaiton_groups.push(@applicaiton_group)
     end
 
+    #my group一覧のための準備 1/10追記
+    @user_joins =  @user.joins.where(level: 1)
+    @user_groups = []
+    for @user_join in @user_joins do
+      @user_group = Group.find_by(id: @user_join.group_id)
+      @user_groups.push(@user_group)
+    end
+
     # #承認中のデータ
     # @groups = Group.where(adminuser_id: @user.id)
     # @approvals = []
@@ -47,7 +55,9 @@ class Api::V1::UsersController < ApplicationController
 
     # render json: {user: @user, applications: @applications }
     # render json: {user: @user, applications: @applications, approvals: @approvals, applicaiton_groups: @applicaiton_groups }
-    render json: {user: @user, applications: @applications, applicaiton_groups: @applicaiton_groups }
+    # render json: {user: @user, applications: @applications, applicaiton_groups: @applicaiton_groups } ←うまくいっている方
+    render json: {user: @user, applications: @applications, applicaiton_groups: @applicaiton_groups, user_groups: @user_groups }
+
   end
 
   def edit

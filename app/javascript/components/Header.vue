@@ -127,14 +127,25 @@
       </v-list-item>
       <v-divider />
       <v-list nav>
-        <v-list-item v-for="menu in menus" :key="menu.title" :to="menu.url" exact>
+      
+        <v-list-item v-for="user_group in user_groups" :key="user_group.name">
+          <v-list-item-icon>
+            <v-icon>{{ menus[0].icon }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ user_group.name }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <!-- <v-list-item v-for="menu in menus" :key="menu.title" :to="menu.url" exact>
           <v-list-item-icon>
             <v-icon>{{ menu.icon }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{ menu.title }}</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item> -->
+
       </v-list>
     </v-navigation-drawer>
   <!-- ③ここまでサイドバー -->
@@ -148,6 +159,9 @@ export default {
   data() {
     return {
       drawer: false,
+      current_user: [],
+      user_groups: [],
+
       menus: [
       { title: 'Home', icon: 'mdi-home', url: '/groups' },
       { title: 'Create', icon: 'mdi-account-multiple-plus', url: '/groups/new' },
@@ -164,6 +178,24 @@ export default {
     }
   },
 
+  computed: {
+
+    get_user () {
+      console.log("get_user")
+      // return console.log(this.$store.state.loginUser.name)
+      // return console.log(this.token.id)
+      const test = this.$store.state.loginUser.id
+      // console.log(test)
+      this.getEvent(test);
+      // return this.getEvent(test.id);
+      //  return this.user_groups;
+    },
+  },
+
+  created () {
+    this.getEvent(this.$store.state.loginUser.id);
+  },
+
   methods: {
     Logout(id) {
       axios.delete(`/api/v1/login`)
@@ -178,11 +210,14 @@ export default {
           }
         })
     },
-    getEvent() {
+
+    getEvent(user_id) {
+      console.log("getEvent")
       axios
-        .get('/api/v1/groups.json')
+        .get(`/api/v1/users/${user_id}.json`)
         .then(response => {
-          this.current_user = response.data.current_user;
+          // this.current_user = response.data.current_user;
+          this.user_groups = response.data.user_groups;
         });
     },
   },

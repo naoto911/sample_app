@@ -70,9 +70,8 @@ export default {
   computed: {
     token () {
       return this.$store.state.loginUser
-    }
-  },
-
+    },
+  }
 }
 </script>
 
