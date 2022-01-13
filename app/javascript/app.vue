@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app>
-      <Header :val="token"></Header>
+      <Header :val="token" :val2="user_groups"></Header>
       <v-main>
         <v-container>
           <router-view></router-view>
@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 import Home from "./router/Home";
 import Header from "./components/Header";
 
@@ -67,11 +69,32 @@ export default {
     Application,
   },  
 
+  data() {
+    return {
+      user_groups: [],
+    }
+  },
+
   computed: {
     token () {
+      var login_user_id = this.$store.getters.loginUser.id
+      this.getUsers(login_user_id)
       return this.$store.state.loginUser
     },
-  }
+  },
+
+  methods: {
+    getUsers(user_id) {
+      if (!user_id) return; //初期描写時のtoekn未取得を回避
+      axios
+        .get(`/api/v1/users/${user_id}.json`)
+        .then(response => {
+          // this.current_user = response.data.current_user;
+          this.user_groups = response.data.user_groups;
+        });
+    },
+  },
+
 }
 </script>
 

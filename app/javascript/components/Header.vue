@@ -128,7 +128,7 @@
       <v-divider />
       <v-list nav>
       
-        <v-list-item v-for="user_group in user_groups" :key="user_group.name">
+        <v-list-item v-for="user_group in val2" :key="user_group.name">
           <v-list-item-icon>
             <v-icon>{{ menus[0].icon }}</v-icon>
           </v-list-item-icon>
@@ -161,9 +161,6 @@ export default {
   data() {
     return {
       drawer: false,
-      current_user: [],
-      user_groups: [],
-
       menus: [
       { title: 'Home', icon: 'mdi-home', url: '/groups' },
       { title: 'Create', icon: 'mdi-account-multiple-plus', url: '/groups/new' },
@@ -177,25 +174,13 @@ export default {
   props: {
     val: {
       type: Object
+    },
+    val2: {
+      type: Array
     }
   },
 
   computed: {
-
-    get_user () {
-      console.log("get_user")
-      // return console.log(this.$store.state.loginUser.name)
-      // return console.log(this.token.id)
-      const test = this.$store.state.loginUser.id
-      // console.log(test)
-      this.getEvent(test);
-      // return this.getEvent(test.id);
-      //  return this.user_groups;
-    },
-  },
-
-  created () {
-    // this.getEvent(this.$store.state.loginUser.id);
   },
 
   methods: {
@@ -211,16 +196,6 @@ export default {
             this.errors = error.response.data.errors;
           }
         })
-    },
-
-    getEvent(user_id) {
-      console.log("getEvent")
-      axios
-        .get(`/api/v1/users/${user_id}.json`)
-        .then(response => {
-          // this.current_user = response.data.current_user;
-          this.user_groups = response.data.user_groups;
-        });
     },
   },
 
