@@ -93,6 +93,7 @@
               justify="center"
             >
               <v-img
+                v-if="group.image"
                 :src= "group.image.url"
                 max-width="344"
               ></v-img>
