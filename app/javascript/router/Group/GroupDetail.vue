@@ -71,7 +71,6 @@
     </v-row>
   <!-- ①ここまで ボタン類 -->
 <v-row class="justify-center">
-  <!-- <v-col class="justify-center"> -->
     <v-card
       flat
       tile
@@ -143,7 +142,6 @@
 
     <!-- ③ここからグループ詳細         class="fill-height"-->
       <v-row
-
         align="center"
         justify="center"
       >
@@ -157,7 +155,6 @@
     <!-- ③ここまでグループ詳細 -->
 
     </v-card>
-  <!-- </v-col> -->
 </v-row>
 
   </div>
