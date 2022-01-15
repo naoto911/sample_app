@@ -68,7 +68,7 @@
 
   <!-- ②ここまで tabs -->
 
-    <router-view></router-view>
+    <router-view  class="my-5"></router-view>
     
   </div>
 </template>

@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-card>
-      <v-card-title class="orange white--text text-h5">
-        Group Members
-      </v-card-title>
+    <v-card min-height="357">
       <v-row
         class="pa-4"
         justify="space-between"

@@ -70,92 +70,94 @@
       </v-col>
     </v-row>
   <!-- ①ここまで ボタン類 -->
-<v-row class="justify-center">
-    <v-card
-      flat
-      tile
-      max-width="500"
-    >
-    <!-- ②-1ここからスライド部分 -->
-      <v-window
-        v-model="onboarding"
-      >
-        <v-window-item
-          v-for="n in length"
-          :key="`card-${n}`"
-        >
-          <v-card
-            color="grey"
-            height="500"
-          >
-            <v-row
-              class="fill-height"
-              align="center"
-              justify="center"
-            >
-              <v-img
-                v-if="group.image"
-                :src= "group.image.url"
-                max-width="500"
-              ></v-img>
-            </v-row>
-          </v-card>
-        </v-window-item>
-      </v-window>
-    <!-- ②-1 ここからスライド部分 -->
 
-    <!-- ②-2 ここからスライド下のボタン類 -->
-      <v-card-actions class="justify-space-between">
-        <v-btn
-          text
-          @click="prev"
-        >
-          <v-icon>mdi-chevron-left</v-icon>
-        </v-btn>
-        <v-item-group
+    <v-row class="justify-center">
+      <v-card
+        flat
+        tile
+        max-width="500"
+      >
+      
+      <!-- ②-1ここからスライド部分 -->
+        <v-window
           v-model="onboarding"
-          class="text-center"
-          mandatory
         >
-          <v-item
+          <v-window-item
             v-for="n in length"
-            :key="`btn-${n}`"
-            v-slot="{ active, toggle }"
+            :key="`card-${n}`"
           >
-            <v-btn
-              :input-value="active"
-              icon
-              @click="toggle"
+            <v-card
+              color="grey"
+              height="500"
             >
-              <v-icon>mdi-record</v-icon>
-            </v-btn>
-          </v-item>
-        </v-item-group>
-        <v-btn
-          text
-          @click="next"
-        >
-          <v-icon>mdi-chevron-right</v-icon>
-        </v-btn>
-      </v-card-actions>
-    <!-- ②-2 ここまでスライド下のボタン類 -->
+              <v-row
+                class="fill-height"
+                align="center"
+                justify="center"
+              >
+                <v-img
+                  v-if="group.image"
+                  :src= "group.image.url"
+                  max-width="500"
+                ></v-img>
+              </v-row>
+            </v-card>
+          </v-window-item>
+        </v-window>
+      <!-- ②-1 ここからスライド部分 -->
 
-    <!-- ③ここからグループ詳細         class="fill-height"-->
-      <v-row
-        align="center"
-        justify="center"
-      >
-        <p
-          style="font-size: 1rem;"
-          class="grey--text"
-        >
-          {{ group.introduction }}
-        </p>
-      </v-row>
-    <!-- ③ここまでグループ詳細 -->
+      <!-- ②-2 ここからスライド下のボタン類 -->
+        <v-card-actions class="justify-space-between">
+          <v-btn
+            text
+            @click="prev"
+          >
+            <v-icon>mdi-chevron-left</v-icon>
+          </v-btn>
+          <v-item-group
+            v-model="onboarding"
+            class="text-center"
+            mandatory
+          >
+            <v-item
+              v-for="n in length"
+              :key="`btn-${n}`"
+              v-slot="{ active, toggle }"
+            >
+              <v-btn
+                :input-value="active"
+                icon
+                @click="toggle"
+              >
+                <v-icon>mdi-record</v-icon>
+              </v-btn>
+            </v-item>
+          </v-item-group>
+          <v-btn
+            text
+            @click="next"
+          >
+            <v-icon>mdi-chevron-right</v-icon>
+          </v-btn>
+        </v-card-actions>
+      <!-- ②-2 ここまでスライド下のボタン類 -->
 
-    </v-card>
-</v-row>
+      <!-- ③ここからグループ詳細         class="fill-height"-->
+        <v-row
+          align="center"
+          justify="center"
+        >
+          <p
+            style="font-size: 1rem;"
+            class="grey--text"
+          >
+            {{ group.introduction }}
+          </p>
+        </v-row>
+      <!-- ③ここまでグループ詳細 -->
+
+      </v-card>
+    </v-row>
 
   </div>
 </template>

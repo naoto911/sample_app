@@ -1,13 +1,12 @@
 <template>
   <div>
-    <h1>Approval list</h1>
-    <p>申請中</p>
+    <p>参加リクエスト一覧</p>
     <div
       v-if="approvals.length == 0"
       class="text-h6 grey--text text--lighten-1 font-weight-light"
       style="align-self: center;"
     >
-      You Don`t have any approvals
+      申請中のユーザーはいません
     </div>
   <!-- ここから ② 申請list -->
     <v-card
