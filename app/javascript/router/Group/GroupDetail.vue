@@ -1,164 +1,101 @@
 <template>
   <div>
+    <v-card>
+      <v-responsive :aspect-ratio="16/9">
+        <v-row>
 
-  <!-- ①ここから ボタン類 -->
-    <v-row>
-      <!-- <v-col></v-col> -->
-      <v-spacer></v-spacer>
-      <v-col class="text-right">
-        
-        <!-- ①-1 ここから 削除ボタン -->
-          <v-dialog
-            v-model="dialog"
-            width="500"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn 
-                icon 
-                v-bind="attrs"
-                v-on="on"
+        <!-- ① ここから 紹介 -->
+          <v-col cols="10">
+            <v-card-text>
+              <h3>説明</h3>
+              <p>
+                {{group.introduction}}
+              </p>
+              <h3>頻度</h3>
+              <p>
+                頻度をプルダウンで選択
+              </p>
+              <h3>場所</h3>
+              <p>
+                場所をリンク
+              </p>
+              <h3>SNS</h3>
+              <p>
+                instagram等のリンク
+              </p>
+            </v-card-text>
+          </v-col>
+        <!-- ① ここまで 紹介 -->
+
+        <!-- ② ここから ボタン類 -->
+          <v-col class="text-right" cols="2">
+
+            <!-- ②-1 ここから 削除ボタン -->
+              <v-dialog
+                v-model="dialog"
+                width="500"
               >
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </template>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn 
+                    icon 
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </template>
 
-            <v-card>
-              <v-card-title class="text-h5 grey lighten-2">
-                削除します。よろしいですか？
-              </v-card-title>
+                <v-card>
+                  <v-card-title class="text-h5 grey lighten-2">
+                    削除します。よろしいですか？
+                  </v-card-title>
 
-              <v-card-text>
-                この操作は取り消せません。
-              </v-card-text>
+                  <v-card-text>
+                    この操作は取り消せません。
+                  </v-card-text>
 
-              <v-divider></v-divider>
+                  <v-divider></v-divider>
 
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                  color="primary"
-                  text
-                  @click="dialog = false"
-                >
-                  キャンセル
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="primary"
+                      text
+                      @click="dialog = false"
+                    >
+                      キャンセル
+                    </v-btn>
+                    <v-btn
+                      color="error"
+                      text
+                      @click="deleteGroup(group.id)"
+                    >
+                      削除
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            <!-- ②-1 ここまで 削除ボタン -->
+
+            <!-- ②-2 ここから 編集ボタン -->
+              <router-link
+                :to=" '/groups/' + (Number(group.id)) + '/edit'"
+                active-class="link--active"
+                exact
+                class="link"
+              >
+                <v-btn icon>
+                  <v-icon>mdi-pencil</v-icon>
                 </v-btn>
-                <v-btn
-                  color="error"
-                  text
-                  @click="deleteGroup(group.id)"
-                >
-                  削除
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        <!-- ①-1 ここまで 削除ボタン -->
+              </router-link>
+            <!-- ②-2 ここまで 編集ボタン -->
 
-        <!-- ①-2 ここから UserEditへのリンク -->
-          <router-link
-            :to=" '/groups/' + (Number(group.id)) + '/edit'"
-            active-class="link--active"
-            exact
-            class="link"
-          >
-            <v-btn icon>
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-          </router-link>
-        <!-- ①-2 ここまで UserEditへのリンク -->
+          </v-col>
+        <!-- ② ここまで ボタン類 -->
 
-      </v-col>
-    </v-row>
-  <!-- ①ここまで ボタン類 -->
-
-    <v-row class="justify-center">
-      <v-card
-        flat
-        tile
-        max-width="500"
-      >
-      
-      <!-- ②-1ここからスライド部分 -->
-        <v-window
-          v-model="onboarding"
-        >
-          <v-window-item
-            v-for="n in length"
-            :key="`card-${n}`"
-          >
-            <v-card
-              color="grey"
-              height="500"
-            >
-              <v-row
-                class="fill-height"
-                align="center"
-                justify="center"
-              >
-                <v-img
-                  v-if="group.image"
-                  :src= "group.image.url"
-                  max-width="500"
-                ></v-img>
-              </v-row>
-            </v-card>
-          </v-window-item>
-        </v-window>
-      <!-- ②-1 ここからスライド部分 -->
-
-      <!-- ②-2 ここからスライド下のボタン類 -->
-        <v-card-actions class="justify-space-between">
-          <v-btn
-            text
-            @click="prev"
-          >
-            <v-icon>mdi-chevron-left</v-icon>
-          </v-btn>
-          <v-item-group
-            v-model="onboarding"
-            class="text-center"
-            mandatory
-          >
-            <v-item
-              v-for="n in length"
-              :key="`btn-${n}`"
-              v-slot="{ active, toggle }"
-            >
-              <v-btn
-                :input-value="active"
-                icon
-                @click="toggle"
-              >
-                <v-icon>mdi-record</v-icon>
-              </v-btn>
-            </v-item>
-          </v-item-group>
-          <v-btn
-            text
-            @click="next"
-          >
-            <v-icon>mdi-chevron-right</v-icon>
-          </v-btn>
-        </v-card-actions>
-      <!-- ②-2 ここまでスライド下のボタン類 -->
-
-      <!-- ③ここからグループ詳細         class="fill-height"-->
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <p
-            style="font-size: 1rem;"
-            class="grey--text"
-          >
-            {{ group.introduction }}
-          </p>
         </v-row>
-      <!-- ③ここまでグループ詳細 -->
-
-      </v-card>
-    </v-row>
-
+      </v-responsive>
+    </v-card>
   </div>
 </template>
 
