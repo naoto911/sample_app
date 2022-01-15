@@ -128,9 +128,17 @@
       <v-divider />
       <v-list nav>
       
-        <v-list-item v-for="user_group in val2" :key="user_group.name">
+        <v-list-item v-for="user_group in val2" :key="user_group.name" :to="'/groups/'+ user_group.id + '/detail'" exact>
           <v-list-item-icon>
-            <v-icon>{{ menus[0].icon }}</v-icon>
+            <v-avatar
+                size="48"
+              >
+                <v-img
+                  v-if="user_group.image"
+                  :src= "user_group.image.url"
+                ></v-img>
+                <v-icon v-else>{{ menus[0].icon }}</v-icon>
+              </v-avatar>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{ user_group.name }}</v-list-item-title>
