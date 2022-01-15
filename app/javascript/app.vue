@@ -33,12 +33,14 @@ import EventEdit from "./router/Event/EventEdit";
 import JoinNew from "./router/Join/JoinNew";
 import JoinEdit from "./router/Join/JoinEdit";
 
-import Mypage from "./router/User/Mypage";
-import Login from "./router/User/Login";
+import User from "./router/User/User";
 import UserNew from "./router/User/UserNew";
 import UserEdit from "./router/User/UserEdit";
-
+import UserProfile from "./router/User/UserProfile";
 import Application from "./router/User/Application";
+
+import Login from "./router/User/Login";
+
 
 export default {
   components: {
@@ -61,12 +63,13 @@ export default {
     JoinNew,
     JoinEdit,
 
-    Mypage,
-    Login,
+    User,
     UserNew,
     UserEdit,
-
+    UserProfile,
     Application,
+    
+    Login,
   },  
 
   data() {

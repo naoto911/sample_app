@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 
 import Home from "./router/Home";
-import Header from "./components/Header";
+// import Header from "./components/Header";
 
 import Group from "./router/Group/Group";
 import GroupNew from "./router/Group/GroupNew";
@@ -20,12 +20,13 @@ import EventEdit from "./router/Event/EventEdit";
 import JoinNew from "./router/Join/JoinNew";
 import JoinEdit from "./router/Join/JoinEdit";
 
-import Mypage from "./router/User/Mypage";
-import Login from "./router/User/Login";
+import User from "./router/User/User";
 import UserNew from "./router/User/UserNew";
 import UserEdit from "./router/User/UserEdit";
-
+import UserProfile from "./router/User/UserProfile";
 import Application from "./router/User/Application";
+
+import Login from "./router/User/Login";
 
 Vue.use(Router);
 
@@ -61,11 +62,22 @@ export default new Router({
     },
   // ユーザー
     { path: '/users/new', component: UserNew},
-    { path: '/users/:id(\\d+)', component: Mypage},
-    { path: '/users/:id(\\d+)/edit', component: UserEdit},
+    // { path: '/users/:id(\\d+)', component: Mypage},
+    // { path: '/users/:id(\\d+)/edit', component: UserEdit},
+    { 
+      path: '/users/:id(\\d+)', 
+      component: User, 
+      props: true,
+      children: [
+        { path: "profile", component: UserProfile },
+        { path: "application", component: Application },
+        { path: "edit", component: UserEdit },
+      ]
+    },
+
     { path: '/login', component: Login},
   // 申請関連
-    { path: '/users/:id(\\d+)/application', component: Application},
+    // { path: '/users/:id(\\d+)/application', component: Application},
   // その他
     {
       path: '*', 

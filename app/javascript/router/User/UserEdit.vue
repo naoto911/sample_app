@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Edit account</h1>
     <v-form
       ref="form"
       v-model="valid"

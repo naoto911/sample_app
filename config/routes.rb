@@ -6,9 +6,9 @@ Rails.application.routes.draw do
   root 'home#index' #'groups#index'
 
   #group関連
-  get '/groups/:id', to: 'home#index'
   get '/groups/', to: 'home#index'
   get '/groups/new', to: 'home#index'
+  get '/groups/:id', to: 'home#index'
   get '/groups/:id/detail', to: 'home#index'
   get '/groups/:id/events', to: 'home#index'
   get '/groups/:id/member', to: 'home#index'
@@ -30,8 +30,11 @@ Rails.application.routes.draw do
   #user関連
   get '/login', to: 'home#index'
 
-  get '/users/:id', to: 'home#index'
+  get '/users/', to: 'home#index'
   get '/users/new', to: 'home#index'
+  get '/users/:id', to: 'home#index'
+  get '/users/:id/profile', to: 'home#index'
+  get '/users/:id/application', to: 'home#index'
   get '/users/:id/edit', to: 'home#index'
   
   #application関連

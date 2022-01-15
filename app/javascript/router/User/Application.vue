@@ -1,13 +1,12 @@
 <template>
   <div>
-    <h1>Application list</h1>
-    <p>申請中</p>
+    <p>申請中グループ一覧</p>
     <div
       v-if="applications.length == 0"
       class="text-h6 grey--text text--lighten-1 font-weight-light"
       style="align-self: center;"
     >
-      You Don`t have any applications
+      申請中のグループはないです
     </div>
   <!-- ここから ② 申請list -->
     <v-card

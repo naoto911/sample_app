@@ -1,7 +1,5 @@
 <template>
   <div>
-    <h1>Mypage</h1>
-
     <v-card class="mt-8">
       <v-row
         class="pa-4"
@@ -12,15 +10,7 @@
         <v-col
           class="d-flex text-center"
         >
-          <div
-            v-if="!user"
-            class="text-h6 grey--text text--lighten-1 font-weight-light"
-            style="align-self: center;"
-          >
-            Select a User
-          </div>
           <v-card
-            v-else
             :key="user.id"
             class="pt-6 mx-auto"
             flat
@@ -31,7 +21,6 @@
                 v-if="user.image"
                 size="88"
               > 
-              <!-- :src= "val.image.url" -->
                 <v-img
                   :src= "user.image.url"
                   
@@ -81,14 +70,15 @@
       <!-- ①ここまでUser詳細 -->
 
       <!-- ①-1 ここから 削除ボタン -->
-        <v-btn @click="deleteUser(user.id)" icon>
+        <v-btn icon>
+        <!-- <v-btn @click="deleteUser(user.id)" icon> -->
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       <!-- ①-1 ここまで 削除ボタン -->
 
       <!-- ①-2 ここから UserEditへのリンク -->
         <router-link
-          :to="  (Number(user.id)) + '/edit'"
+          :to="'edit'"
           active-class="link--active"
           exact
           class="link"
@@ -101,20 +91,6 @@
       
       </v-row>
     </v-card>
-
-      <!-- ②-1 ここから 申請一覧へのリンク -->
-        <router-link
-          :to="  (Number(user.id)) + '/application'"
-          active-class="link--active"
-          exact
-          class="link"
-        >
-          <v-btn icon>
-            <v-icon>mdi-email-newsletter</v-icon>
-          </v-btn>
-        </router-link>
-      <!-- ②-1 ここまで 申請一覧へのリンク -->
-
   </div>
 </template>
 
@@ -125,7 +101,7 @@ export default {
   data() {
     return {
       group: [],
-      user: {}
+      user: {},
     }
   },
 
