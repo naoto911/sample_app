@@ -3,7 +3,7 @@
 
   <!-- ①ここから ボタン類 -->
     <v-row>
-      <v-col></v-col>
+      <!-- <v-col></v-col> -->
       <v-spacer></v-spacer>
       <v-col class="text-right">
         
@@ -70,10 +70,12 @@
       </v-col>
     </v-row>
   <!-- ①ここまで ボタン類 -->
-
+<v-row class="justify-center">
+  <!-- <v-col class="justify-center"> -->
     <v-card
       flat
       tile
+      max-width="500"
     >
     <!-- ②-1ここからスライド部分 -->
       <v-window
@@ -95,7 +97,7 @@
               <v-img
                 v-if="group.image"
                 :src= "group.image.url"
-                max-width="344"
+                max-width="500"
               ></v-img>
             </v-row>
           </v-card>
@@ -139,9 +141,9 @@
       </v-card-actions>
     <!-- ②-2 ここまでスライド下のボタン類 -->
 
-    <!-- ③ここからグループ詳細 -->
+    <!-- ③ここからグループ詳細         class="fill-height"-->
       <v-row
-        class="fill-height"
+
         align="center"
         justify="center"
       >
@@ -155,6 +157,9 @@
     <!-- ③ここまでグループ詳細 -->
 
     </v-card>
+  <!-- </v-col> -->
+</v-row>
+
   </div>
 </template>
 

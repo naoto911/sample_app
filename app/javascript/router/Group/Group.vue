@@ -2,8 +2,6 @@
   <div>
     <h2>{{ group.name }}</h2>
     
-    <router-view></router-view>
-    
     <v-bottom-navigation
       :value="value"
       color="primary"
@@ -19,6 +17,10 @@
       </v-btn>
       
     </v-bottom-navigation>
+    
+    <router-view></router-view>
+    
+
 
   <!-- ①ここから ボタン類 -->
     <v-row>
