@@ -32,7 +32,9 @@
             class="link"
           >
             <v-btn icon>
-              <v-icon>mdi-file-document-multiple-outline</v-icon>
+              <v-icon>mdi-gesture-tap-button</v-icon>
+              <!-- <v-icon>mdi-human-greeting-variant</v-icon> -->
+              <!-- <v-icon>mdi-file-document-multiple-outline</v-icon> -->
             </v-btn>
           </router-link>
       </v-col>
@@ -85,7 +87,8 @@ export default {
         { title: '紹介', icon: 'mdi-home', url: `/groups/${this.$route.params.id}/detail` },
         { title: 'メンバー', icon: 'mdi-text-account', url: `/groups/${this.$route.params.id}/member` },
         { title: 'イベント', icon: 'mdi-information-variant', url:`/groups/${this.$route.params.id}/events` },
-        { title: '申請', icon: 'mdi-email-newsletter', url: `/groups/${this.$route.params.id}/approval` },
+        // { title: '申請', icon: 'mdi-gesture-tap-button', url: `/groups/${this.$route.params.id}/approval` },
+        { title: '承認', icon: 'mdi-email-newsletter', url: `/groups/${this.$route.params.id}/approval` },
       ],
       value: 1 
     }
