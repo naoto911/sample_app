@@ -20,29 +20,38 @@
         justify="space-around"
         align="center"
       >
-        <v-col cols=2>
+        <v-col cols=4>
           <!-- ここから②-2-1 Avatar -->
             <router-link
               v-for="approval_user in getApprovalUser(approval.user_id)"
               :key="approval_user.id"
-              :to=" '/users/' + (Number(approval_user.id)) + '/detail' "
+              :to=" '/users/' + (Number(approval_user.id)) + '/profile' "
               active-class="link--active"
               exact
               class="link"
             >
-              <v-avatar>
-                <v-img
-                  v-if="approval_user"
-                  :src= "approval_user.image.url"
-                  alt="John"
-                ></v-img>
-                <span v-else>G</span>
-              </v-avatar>
+              <v-row align="center">
+                <v-col cols="2">
+                  <v-avatar>
+                    <v-img
+                      v-if="approval_user"
+                      :src= "approval_user.image.url"
+                      alt="John"
+                    ></v-img>
+                    <span v-else>G</span>
+                  </v-avatar>
+                </v-col>
+                <v-col cols="10">
+                  <v-card-title>
+                    {{ approval_user.name }}
+                  </v-card-title>
+                </v-col>
+              </v-row>
             </router-link>
           <!-- ここまで②-2-1 Avatar -->
         </v-col>
 
-        <v-col cols=8>
+        <v-col cols=6>
           <v-card-title>
             {{ approval.content }}
           </v-card-title>
