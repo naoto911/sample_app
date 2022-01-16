@@ -3,7 +3,8 @@
     <v-row>
 
     <!-- ここから ① 検索ウィンドウ -->
-      <v-col cols="12">
+      <v-col cols="3"></v-col>
+      <v-col cols="6">
         <!-- <v-text-field
           outlined
           v-bind="keyword2"
@@ -19,6 +20,7 @@
           append-icon="mdi-magnify"
         ></v-text-field>
       </v-col>
+      <v-col cols="3"></v-col>
     <!-- ここまで ① 検索ウィンドウ -->
 
     <!-- ここから ② Group-card一覧 -->
@@ -87,7 +89,6 @@ export default {
 
   computed: {
     SerchGroups () {
-      console.log("検索実行");
       var vals = [];
       for(var i in this.vals) {
           var group = this.vals[i];
