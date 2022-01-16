@@ -1,6 +1,8 @@
 <template>
   <div>
     <p>参加リクエスト一覧</p>
+
+  <!-- ここから ② 申請無しの場合 -->
     <div
       v-if="approvals.length == 0"
       class="text-h6 grey--text text--lighten-1 font-weight-light"
@@ -8,6 +10,8 @@
     >
       申請中のユーザーはいません
     </div>
+  <!-- ここまで ② 申請無しの場合 -->
+
   <!-- ここから ② 申請list -->
     <v-card
       v-else
@@ -15,13 +19,14 @@
       :key="approval.id"
       class="my-8"
     >
-    <v-container>
-      <v-row 
-        justify="space-around"
-        align="center"
-      >
-        <v-col cols=4>
-          <!-- ここから②-2-1 Avatar -->
+      <v-container>
+        <v-row 
+          justify="space-around"
+          align="center"
+        >
+
+        <!-- ここから ②-1 User情報 -->
+          <v-col cols=4>
             <router-link
               v-for="approval_user in getApprovalUser(approval.user_id)"
               :key="approval_user.id"
@@ -31,6 +36,8 @@
               class="link"
             >
               <v-row align="center">
+
+              <!-- ここから②-1-1 Avatar -->
                 <v-col cols="2">
                   <v-avatar>
                     <v-img
@@ -41,38 +48,47 @@
                     <span v-else>G</span>
                   </v-avatar>
                 </v-col>
+              <!-- ここから②-1-1 Avatar -->
+
+              <!-- ここから②-1-2 User_name -->             
                 <v-col cols="10">
                   <v-card-title>
                     {{ approval_user.name }}
                   </v-card-title>
                 </v-col>
+              <!-- ここから②-1-2 User_name -->
+
               </v-row>
             </router-link>
-          <!-- ここまで②-2-1 Avatar -->
-        </v-col>
+          </v-col>
+        <!-- ここまで ②-1 User情報 -->
 
-        <v-col cols=6>
-          <v-card-title>
-            {{ approval.content }}
-          </v-card-title>
-        </v-col>
+        <!-- ここから ②-2 申請内容 -->
+          <v-col cols=6>
+            <v-card-title>
+              {{ approval.content }}
+            </v-card-title>
+          </v-col>
+        <!-- ここまで ②-2 申請内容 -->
 
-        <v-col cols=2>
-          <!-- ①-1 ここから 拒否ボタン -->
-            <v-btn @click="denyApproval(approval.id)" icon>
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-          <!-- ①-1 ここまで 拒否ボタン -->
+        <!-- ここから ②-3 ボタン類 -->
+          <v-col cols=2>
+            <!-- ①-1 ここから 拒否ボタン -->
+              <v-btn @click="denyApproval(approval.id)" icon>
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            <!-- ①-1 ここまで 拒否ボタン -->
 
-          <!-- ①-2 ここから 承認ボタン -->
-            <v-btn @click="permitApproval(approval.id)" icon>
-              <v-icon>mdi-account-multiple-check</v-icon>
-            </v-btn>  
-          <!-- ①-2 ここまで 承認ボタン -->
-        </v-col>
-        
-      </v-row>
-    </v-container>
+            <!-- ①-2 ここから 承認ボタン -->
+              <v-btn @click="permitApproval(approval.id)" icon>
+                <v-icon>mdi-account-multiple-check</v-icon>
+              </v-btn>  
+            <!-- ①-2 ここまで 承認ボタン -->
+          </v-col>
+        <!-- ここまで ②-3 ボタン類 -->
+
+        </v-row>
+      </v-container>
     </v-card>
   <!-- ここまで ② 申請list -->
   </div>
