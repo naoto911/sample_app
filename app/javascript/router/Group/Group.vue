@@ -78,7 +78,7 @@
 
   <!-- ②ここまで tabs -->
 
-    <router-view  class="my-5"></router-view>
+    <router-view  class="my-5" :val="includeAdminuser"></router-view>
 
   </div>
 </template>

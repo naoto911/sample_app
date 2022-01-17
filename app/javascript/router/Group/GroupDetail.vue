@@ -28,7 +28,7 @@
         <!-- ① ここまで 紹介 -->
 
         <!-- ② ここから ボタン類 -->
-          <v-col class="text-right" cols="2">
+          <v-col v-if="val" class="text-right" cols="2">
 
             <!-- ②-1 ここから 削除ボタン -->
               <v-dialog
@@ -111,6 +111,12 @@ export default {
 
       group: [],
       users: [],
+    }
+  },
+
+  props: {
+    val: {
+      type: Boolean
     }
   },
 
