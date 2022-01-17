@@ -55,6 +55,13 @@
       >
         {{ menu.title }}
       </v-tab>
+      <v-tab 
+        v-if="this.checkAdminser(current_user.id)"
+        :to="admin_menu.url" 
+        exact
+      >
+        {{ admin_menu.title }}
+      </v-tab>
     </v-tabs>
 
     <!-- <v-tabs icons-and-text>
@@ -91,15 +98,16 @@ export default {
         { title: 'メンバー', icon: 'mdi-text-account', url: `/groups/${this.$route.params.id}/member` },
         { title: 'イベント', icon: 'mdi-information-variant', url:`/groups/${this.$route.params.id}/events` },
         // { title: '申請', icon: 'mdi-gesture-tap-button', url: `/groups/${this.$route.params.id}/approval` },
-        { title: '承認', icon: 'mdi-email-newsletter', url: `/groups/${this.$route.params.id}/approval` },
+        // { title: '承認', icon: 'mdi-email-newsletter', url: `/groups/${this.$route.params.id}/approval` },
       ],
+      admin_menu: { title: '承認', icon: 'mdi-email-newsletter', url: `/groups/${this.$route.params.id}/approval` },
       value: 1,
       includeUser: false,
+      includeAdminuser: false,
     }
   },
 
   created () {
-    // console.log("creatd");
     this.getGroup();
   },
 
@@ -116,11 +124,21 @@ export default {
     },
     checkUser(check_id, group_joins) {
       for(var i in group_joins) {
-          var join = group_joins[i];
-          if(join.user_id == check_id) //current_userがgroup所属済の場合, includeUser = trueへ更新
-            this.includeUser = true;
-          }
+        var join = group_joins[i];
+        if(join.user_id == check_id)  {  //current_userがgroup所属済の場合, includeUser = trueへ更新
+          this.includeUser = true;
+        }
+      }
       return this.includeUser;
+    },
+    checkAdminser(check_id) {
+      if(this.group.adminuser_id == check_id) {
+        this.includeAdminuser = true;
+      }
+      else {
+        this.includeAdminuser = false;
+      }
+      return this.includeAdminuser;
     },
   },
 
