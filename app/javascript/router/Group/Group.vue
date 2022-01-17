@@ -26,6 +26,7 @@
     <!-- ①-3 ここから 申請ボタン -->
       <v-col cols="1" class="text-right">
           <router-link 
+            v-if="this.checkUser(current_user.id, users) == false"
             :to=" '/groups/' + (Number(this.$route.params.id)) +'/joins/new' "
             active-class="link--active"
             exact
@@ -71,7 +72,7 @@
   <!-- ②ここまで tabs -->
 
     <router-view  class="my-5"></router-view>
-    
+
   </div>
 </template>
 
@@ -83,6 +84,7 @@ export default {
     return {
       group: [],
       users: [],
+      current_user: [],
       menus: [
         { title: '紹介', icon: 'mdi-home', url: `/groups/${this.$route.params.id}/detail` },
         { title: 'メンバー', icon: 'mdi-text-account', url: `/groups/${this.$route.params.id}/member` },
@@ -90,14 +92,16 @@ export default {
         // { title: '申請', icon: 'mdi-gesture-tap-button', url: `/groups/${this.$route.params.id}/approval` },
         { title: '承認', icon: 'mdi-email-newsletter', url: `/groups/${this.$route.params.id}/approval` },
       ],
-      value: 1 
+      value: 1,
+      includeUser: false,
     }
   },
 
   created () {
+    // console.log("creatd");
     this.getGroup();
   },
-  
+
   methods: {
     getGroup() {
       axios
@@ -105,7 +109,16 @@ export default {
         .then(response => {
           this.group = response.data.group;
           this.users = response.data.users;
+          this.current_user = response.data.current_user;
         });
+    },
+    checkUser(check_id, group_users) {
+      for(var i in group_users) {
+          var user = group_users[i];
+          if(user.id == check_id) //current_userがgroup所属済の場合, includeUser = trueへ更新
+            this.includeUser = true;
+          }
+      return this.includeUser;
     },
   },
 

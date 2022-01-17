@@ -30,7 +30,7 @@ class Api::V1::GroupsController < ApplicationController
     # render json: {approval_users: @approval_users, approvals: @approvals }
     # render json: {user: @user, applications: @applications, approvals: @approvals, applicaiton_groups: @applicaiton_groups }
 
-    render json: {group: @group, users: @users, admin_user: @admin_user, approvals: @approvals, approval_users: @approval_users }
+    render json: {group: @group, users: @users, admin_user: @admin_user, approvals: @approvals, approval_users: @approval_users, current_user: current_user}
   end
 
   def new
