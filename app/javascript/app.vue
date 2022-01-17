@@ -86,6 +86,10 @@ export default {
     },
   },
 
+  created() {
+    this.login();
+  },
+
   methods: {
     getUsers(user_id) {
       if (!user_id) return; //初期描写時のtoekn未取得を回避
@@ -95,6 +99,9 @@ export default {
           // this.current_user = response.data.current_user;
           this.user_groups = response.data.user_groups;
         });
+    },
+    login(){
+      this.$store.dispatch('login')
     },
   },
 
