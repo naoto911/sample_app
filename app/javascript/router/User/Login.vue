@@ -95,7 +95,6 @@ export default {
         })
       .then(response => {
         console.log('OK');
-        console.log(this.user);
         this.$router.push({ path: '/' });
       })        
       .catch(error => {
