@@ -10,8 +10,11 @@ class Api::V1::GroupsController < ApplicationController
   end
 
   def show
+    @all_joins = Join.where(group_id: @group.id)
+    
     #Group所属済のuserを取得
-    @joins = Join.where(group_id: @group.id).where(level: '1')
+    @joins = @all_joins.where(level: '1')
+    # @joins = Join.where(group_id: @group.id).where(level: '1')
     @users = []
     for @join in @joins do
         @user = User.find_by(id: @join.user_id)
@@ -20,17 +23,20 @@ class Api::V1::GroupsController < ApplicationController
     @admin_user = User.find_by(id: @group.adminuser_id) 
 
     #承認中のデータ,user情報を取得
-    @approvals = Join.where(group_id: @group.id).where(level: '2')
+    @approvals = @all_joins - @joins
+    # @approvals = Join.where(group_id: @group.id).where(level: '2')
     @approval_users = []
     for @approval in @approvals do
       @approval_user = User.find_by(id: @approval.user_id)
       @approval_users.push(@approval_user)
     end
 
+    
+    
     # render json: {approval_users: @approval_users, approvals: @approvals }
     # render json: {user: @user, applications: @applications, approvals: @approvals, applicaiton_groups: @applicaiton_groups }
 
-    render json: {group: @group, users: @users, admin_user: @admin_user, approvals: @approvals, approval_users: @approval_users, current_user: current_user}
+    render json: {group: @group, users: @users, admin_user: @admin_user, approvals: @approvals, approval_users: @approval_users, current_user: current_user, all_joins: @all_joins}
   end
 
   def new

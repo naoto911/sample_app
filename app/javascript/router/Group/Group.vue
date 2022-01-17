@@ -26,7 +26,7 @@
     <!-- ①-3 ここから 申請ボタン -->
       <v-col cols="1" class="text-right">
           <router-link 
-            v-if="this.checkUser(current_user.id, users) == false"
+            v-if="this.checkUser(current_user.id, all_joins) == false"
             :to=" '/groups/' + (Number(this.$route.params.id)) +'/joins/new' "
             active-class="link--active"
             exact
@@ -85,6 +85,7 @@ export default {
       group: [],
       users: [],
       current_user: [],
+      all_joins: [],
       menus: [
         { title: '紹介', icon: 'mdi-home', url: `/groups/${this.$route.params.id}/detail` },
         { title: 'メンバー', icon: 'mdi-text-account', url: `/groups/${this.$route.params.id}/member` },
@@ -110,12 +111,13 @@ export default {
           this.group = response.data.group;
           this.users = response.data.users;
           this.current_user = response.data.current_user;
+          this.all_joins = response.data.all_joins;
         });
     },
-    checkUser(check_id, group_users) {
-      for(var i in group_users) {
-          var user = group_users[i];
-          if(user.id == check_id) //current_userがgroup所属済の場合, includeUser = trueへ更新
+    checkUser(check_id, group_joins) {
+      for(var i in group_joins) {
+          var join = group_joins[i];
+          if(join.user_id == check_id) //current_userがgroup所属済の場合, includeUser = trueへ更新
             this.includeUser = true;
           }
       return this.includeUser;
