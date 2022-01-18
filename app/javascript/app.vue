@@ -75,23 +75,37 @@ export default {
   data() {
     return {
       user_groups: [],
+      current_user: [],
+      token2: null,
     }
   },
 
   computed: {
     token () {
       var login_user_id = this.$store.getters.loginUser.id
-      this.getUsers(login_user_id)
-      return this.$store.state.loginUser
+      console.log(login_user_id);
+      console.log(login_user_id === void 0);
+      if (login_user_id !== void 0) {
+        console.log("if")
+        this.getUsers(login_user_id)
+        return this.$store.state.loginUser;
+      }
+      else {
+        console.log("else")
+        return this.token2;
+      }
+
     },
   },
 
   created() {
+    console.log("created");
     this.login();
   },
 
   methods: {
     getUsers(user_id) {
+      console.log("getusers実行")
       if (!user_id) return; //初期描写時のtoekn未取得を回避
       axios
         .get(`/api/v1/users/${user_id}.json`)
@@ -101,6 +115,8 @@ export default {
         });
     },
     login(){
+      // if (this.current_user.id) return; //初期描写時の未Logineエラーを回避
+      console.log("loginを実行")
       this.$store.dispatch('login')
     },
   },
