@@ -22,7 +22,6 @@ export default {
 
   created() {
     this.getGroup();
-    this.login();
   },
 
   methods: {
@@ -32,9 +31,6 @@ export default {
         .then(response => {
           this.groups = response.data.groups
         });
-    },
-    login(){
-      this.$store.dispatch('login')
     },
   },
 

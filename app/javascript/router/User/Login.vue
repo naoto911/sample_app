@@ -95,6 +95,7 @@ export default {
         })
       .then(response => {
         console.log('OK');
+        this.$store.dispatch('login')
         this.$router.push({ path: '/' });
       })        
       .catch(error => {

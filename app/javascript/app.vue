@@ -76,31 +76,36 @@ export default {
     return {
       user_groups: [],
       current_user: [],
-      token2: null,
+      dummy_token: null,
+      // dummy_token: {
+      //   id:null,
+      //   name:null,
+      //   email:null,
+      //   image:{url:null,thumb:{url:null}}
+      //   },
     }
   },
 
   computed: {
     token () {
-      var login_user_id = this.$store.getters.loginUser.id
-      console.log(login_user_id);
-      console.log(login_user_id === void 0);
-      if (login_user_id !== void 0) {
-        console.log("if")
-        this.getUsers(login_user_id)
-        return this.$store.state.loginUser;
+      console.log("toeknを実行");
+      var login_user = this.$store.state.loginUser
+      console.log(login_user.id);
+      if (login_user.id !== void 0) {
+        console.log("Login_userのid取得")
+        this.getUsers(login_user.id)
+        return login_user;
       }
       else {
-        console.log("else")
-        return this.token2;
+        console.log("Login_userのid未取得")
+        return this.dummy_token;
       }
-
     },
   },
 
   created() {
     console.log("created");
-    this.login();
+    this.login(); //初期描写時にLogin実行 (以後は,Login or GestLogin 毎に各関数でpost中に実行)
   },
 
   methods: {
@@ -115,8 +120,6 @@ export default {
         });
     },
     login(){
-      // if (this.current_user.id) return; //初期描写時の未Logineエラーを回避
-      console.log("loginを実行")
       this.$store.dispatch('login')
     },
   },

@@ -14,7 +14,23 @@
     ><v-toolbar-title color="warning">Syumix</v-toolbar-title></router-link>
   <!-- ①ここまでSyumixロゴ&ハンバーガーメニュー -->
     <v-spacer></v-spacer>
-    
+
+      <v-btn
+        v-if="!val"
+        color="warning"
+        class="mr-4"
+        dark
+        @click="gestLogin"
+      >
+        GestLogin
+        <v-icon
+          dark
+          right
+        >
+          mdi-checkbox-marked-circle
+        </v-icon>
+      </v-btn>
+
     <!-- ②-1 ここからLogin時の展開ボタン -->
       <v-menu
         v-if="val"
@@ -206,6 +222,22 @@ export default {
           }
         })
     },
+    gestLogin () {
+      axios
+        .post('/api/v1/guest_login')
+        .then(response => {
+          console.log('OK');
+          this.$store.dispatch('login')
+        })        
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        })
+      }
+
   },
 
 };

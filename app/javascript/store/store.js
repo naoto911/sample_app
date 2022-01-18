@@ -22,6 +22,7 @@ export default new Vuex.Store({
   },
   actions: {
     login({commit}){
+      console.log("store_Loginを実行")
         axios
         .get('/api/v1/groups.json')
         .then(response => {
