@@ -91,7 +91,8 @@ class Api::V1::UsersController < ApplicationController
     user.password = SecureRandom.urlsafe_base64
     user.save if !user.id #idがない場合、DBに保存してIDを生成
     session[:user_id] = user.id
-    redirect_to groups_path, flash: { notice: "「ゲストユーザー」としてログインしました" }
+    render json: user, status: :created
+    # redirect_to groups_path, flash: { notice: "「ゲストユーザー」としてログインしました" }
   end
 
 private
