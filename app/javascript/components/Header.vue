@@ -16,24 +16,18 @@
     <v-spacer></v-spacer>
 
       <v-btn
-        v-if="!val"
+        v-if="!Object.keys(val).length"
         color="warning"
         class="mr-4"
         dark
         @click="gestLogin"
       >
         GestLogin
-        <v-icon
-          dark
-          right
-        >
-          mdi-checkbox-marked-circle
-        </v-icon>
       </v-btn>
 
     <!-- ②-1 ここからLogin時の展開ボタン -->
       <v-menu
-        v-if="val"
+        v-if="Object.keys(val).length"
         bottom
         min-width="200px"
         rounded
@@ -225,7 +219,7 @@ export default {
         .then(response => {
           console.log('OK');
           this.$store.dispatch('login')
-          this.$router.go({path: this.$router.currentRoute.path, force: true}) //リロードを実行 (gest_login後は同一URLのため)
+          this.$router.go({path: this.$router.currentRoute.path, force: true})  //リロードを実行 (gest_login後は同一URLのため)
         })        
         .catch(error => {
           console.log('NG');

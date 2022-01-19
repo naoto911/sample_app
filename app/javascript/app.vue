@@ -75,47 +75,35 @@ export default {
   data() {
     return {
       user_groups: [],
-      current_user: [],
-      dummy_token: null,
-      // dummy_token: {
-      //   id:null,
-      //   name:null,
-      //   email:null,
-      //   image:{url:null,thumb:{url:null}}
-      //   },
     }
   },
 
   computed: {
     token () {
-      console.log("toeknを実行");
+      // console.log("toeknを実行");
+      var result = {};
       var login_user = this.$store.state.loginUser
-      console.log(login_user.id);
-      if (login_user.id !== void 0) {
-        console.log("Login_userのid取得")
+
+      if (login_user !== null) { //Login_userが存在する時
         this.getUsers(login_user.id)
-        return login_user;
+         result = login_user;
       }
-      else {
-        console.log("Login_userのid未取得")
-        return this.dummy_token;
-      }
+      return result;
     },
   },
 
   created() {
-    console.log("created");
+    // console.log("created");
     this.login(); //初期描写時にLogin実行 (以後は,Login or GestLogin 毎に各関数でpost中に実行)
   },
 
   methods: {
     getUsers(user_id) {
-      console.log("getusers実行")
+      // console.log("getusers実行")
       if (!user_id) return; //初期描写時のtoekn未取得を回避
       axios
         .get(`/api/v1/users/${user_id}.json`)
         .then(response => {
-          // this.current_user = response.data.current_user;
           this.user_groups = response.data.user_groups;
         });
     },

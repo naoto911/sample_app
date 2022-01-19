@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 
   state: {
-    loginUser: {},
+    // loginUser: {},
+    loginUser: null,
     loggedIn: false
   },
   getters: {
@@ -22,7 +23,7 @@ export default new Vuex.Store({
   },
   actions: {
     login({commit}){
-      console.log("store_Loginを実行")
+      // console.log("store_Loginを実行")
         axios
         .get('/api/v1/groups.json')
         .then(response => {
