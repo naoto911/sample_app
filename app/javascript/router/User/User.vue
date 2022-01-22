@@ -1,6 +1,32 @@
 <template>
   <div>
-    <h1>マイページ</h1>
+    <!-- <h1>マイページ</h1> -->
+
+  <!-- ①ここから header -->
+    <v-row align="center">
+
+    <!-- ①-1 ここから avatar -->
+      <v-col cols="1">
+        <v-avatar
+          size="60"
+        >
+          <v-img
+            v-if="user.image"
+            :src= "user.image.url"
+          ></v-img>
+          <v-icon v-else>{{ menus[0].icon }}</v-icon>
+        </v-avatar>
+      </v-col>
+    <!-- ①-1 ここまで avatar -->
+
+    <!-- ①-2 ここから グループ名 -->
+      <v-col cols="10">
+        <h2>{{ user.name }}</h2>
+      </v-col>
+    <!-- ①-2 ここまで グループ名 -->
+
+    </v-row>
+  <!-- ①ここまで header -->
 
     <!-- ②ここから tabs -->
       <v-tabs>

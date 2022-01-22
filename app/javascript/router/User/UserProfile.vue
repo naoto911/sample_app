@@ -1,96 +1,58 @@
 <template>
   <div>
-    <v-card class="mt-8">
-      <v-row
-        class="pa-4"
-        justify="space-between"
-      >
+    <v-card>
+      <v-responsive :aspect-ratio="16/9">
+        <v-row>
 
-      <!-- ①ここからUser詳細 -->
-        <v-col
-          class="d-flex text-center"
-        >
-          <v-card
-            :key="user.id"
-            class="pt-6 mx-auto"
-            flat
-            max-width="400"
-          >
+        <!-- ① ここから 紹介 -->
+          <v-col cols="10">
             <v-card-text>
-              <v-avatar
-                v-if="user.image"
-                size="88"
-              > 
-                <v-img
-                  :src= "user.image.url"
-                  
-                ></v-img>
-              </v-avatar>
-              <h3 class="text-h5 mb-2">
-                {{ user.name }}
-              </h3>
-              <!-- <div class="blue--text mb-2">
-                {{ selected.email }}
-              </div>
-              <div class="blue--text subheading font-weight-bold">
-                {{ selected.username }}
-              </div> -->
+              <h3 class="my-8">出身: 東京都</h3>
+              <!-- <p>
+                ここに出身値を表示
+              </p> -->
+              <h3 class="my-8">年齢: 25</h3>
+              <!-- <p>
+                ここに年齢を表示
+              </p> -->
+              <h3 class="my-8">自己紹介</h3>
+              <p>
+                ここに自己紹介文を記載可能
+              </p>
             </v-card-text>
-            <v-divider></v-divider>
-          <!-- ②ここからユーザー情報 -->
-            <v-row
-              class="text-left"
-              tag="v-card-text"
+          </v-col>
+        <!-- ① ここまで 紹介 -->
+
+        <!-- ② ここから ボタン類 -->
+          <v-col v-if="user" class="text-right" cols="2">
+
+          <!-- ①-1 ここから 削除ボタン -->
+            <v-btn icon>
+            <!-- <v-btn @click="deleteUser(user.id)" icon> -->
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          <!-- ①-1 ここまで 削除ボタン -->
+
+          <!-- ①-2 ここから UserEditへのリンク -->
+            <router-link
+              :to="'edit'"
+              active-class="link--active"
+              exact
+              class="link"
             >
-              <v-col
-                class="text-right mr-4 mb-2"
-                tag="strong"
-                cols="5"
-              >
-                Age:
-              </v-col>
-              <v-col>{{ user.id }}</v-col>
-              <v-col
-                class="text-right mr-4 mb-2"
-                tag="strong"
-                cols="5"
-              >
-                From:
-              </v-col>
-              <v-col>
-                <a
-                  :href="`//${user.id}`"
-                  target="_blank"
-                >{{ user.id }}</a>
-              </v-col>
-            </v-row>
-          <!-- ②ここまでユーザー情報 -->
-          </v-card>
-        </v-col>
-      <!-- ①ここまでUser詳細 -->
+              <v-btn icon>
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </router-link>
+          <!-- ①-2 ここまで UserEditへのリンク -->
 
-      <!-- ①-1 ここから 削除ボタン -->
-        <v-btn icon>
-        <!-- <v-btn @click="deleteUser(user.id)" icon> -->
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-      <!-- ①-1 ここまで 削除ボタン -->
+          </v-col>
+        <!-- ② ここまで ボタン類 -->
 
-      <!-- ①-2 ここから UserEditへのリンク -->
-        <router-link
-          :to="'edit'"
-          active-class="link--active"
-          exact
-          class="link"
-        >
-          <v-btn icon>
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
-        </router-link>
-      <!-- ①-2 ここまで UserEditへのリンク -->
-      
-      </v-row>
+        </v-row>
+      </v-responsive>
     </v-card>
+
   </div>
 </template>
 
@@ -132,6 +94,7 @@ export default {
         })
     },
   },
+
 
 }
 
