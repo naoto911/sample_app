@@ -57,7 +57,7 @@ export default {
       menus: [
         { title: 'プロフィール', icon: 'mdi-home', url: `/users/${this.$route.params.id}/profile` },
         { title: '申請', icon: 'mdi-email-newsletter', url: `/users/${this.$route.params.id}/application` },
-        { title: 'イベント', icon: 'mdi-email-newsletter', url: `/users/${this.$route.params.id}/application` },
+        { title: 'イベント', icon: 'mdi-email-newsletter', url: `/users/${this.$route.params.id}/event` },
         { title: 'お気に入り', icon: 'mdi-email-newsletter', url: `/users/${this.$route.params.id}/application` },
       ],
     }

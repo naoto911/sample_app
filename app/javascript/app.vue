@@ -48,11 +48,11 @@ export default {
     Header,
 
     Group,
-    GroupNew,
-    GroupEdit,
-    GroupDetail,
-    GroupEvent,
-    GroupMember,
+    // GroupNew,
+    // GroupEdit,
+    // GroupDetail,
+    // GroupEvent,
+    // GroupMember,
 
     Approval,
 
@@ -64,10 +64,10 @@ export default {
     JoinEdit,
 
     User,
-    UserNew,
-    UserEdit,
-    UserProfile,
-    Application,
+    // UserNew,
+    // UserEdit,
+    // UserProfile,
+    // Application,
     
     Login,
   },  

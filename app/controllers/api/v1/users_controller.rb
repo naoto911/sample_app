@@ -37,6 +37,15 @@ class Api::V1::UsersController < ApplicationController
       @user_groups.push(@user_group)
     end
 
+    #参加予定eventの取得
+    @user_answers = @user.answers #.where("answer = '○'")
+    @user_join_answers = @user_answers.where("answer= '○'")
+    @join_events = []
+    for @user_join_answer in @user_join_answers do
+      @join_event = @user_join_answer.event
+      @join_events.push(@join_event)
+    end
+    
     # #承認中のデータ
     # @groups = Group.where(adminuser_id: @user.id)
     # @approvals = []
@@ -56,7 +65,7 @@ class Api::V1::UsersController < ApplicationController
     # render json: {user: @user, applications: @applications }
     # render json: {user: @user, applications: @applications, approvals: @approvals, applicaiton_groups: @applicaiton_groups }
     # render json: {user: @user, applications: @applications, applicaiton_groups: @applicaiton_groups } ←うまくいっている方
-    render json: {user: @user, applications: @applications, applicaiton_groups: @applicaiton_groups, user_groups: @user_groups }
+    render json: {user: @user, applications: @applications, applicaiton_groups: @applicaiton_groups, user_groups: @user_groups, join_events: @join_events }
 
   end
 

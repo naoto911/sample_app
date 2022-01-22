@@ -24,6 +24,7 @@ import User from "./router/User/User";
 import UserNew from "./router/User/UserNew";
 import UserEdit from "./router/User/UserEdit";
 import UserProfile from "./router/User/UserProfile";
+import UserEvent from "./router/User/UserEvent";
 import Application from "./router/User/Application";
 
 import Login from "./router/User/Login";
@@ -71,6 +72,7 @@ export default new Router({
       children: [
         { path: "profile", component: UserProfile },
         { path: "application", component: Application },
+        { path: "event", component: UserEvent },
         { path: "edit", component: UserEdit },
       ]
     },

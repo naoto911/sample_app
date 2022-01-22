@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   get '/users/:id/profile', to: 'home#index'
   get '/users/:id/application', to: 'home#index'
   get '/users/:id/edit', to: 'home#index'
+  get '/users/:id/event', to: 'home#index'
   
   #application関連
   get '/users/:id/application', to: 'home#index'
