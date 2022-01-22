@@ -9,58 +9,98 @@
         v-model="group.name"
         :counter="10"
         :rules="nameRules"
-        label="Name"
-        required
-      ></v-text-field>
-
-      <v-text-field
-        v-model="group.introduction"
-        label="Introduction"
+        label="名前"
         required
       ></v-text-field>
       
+      <v-text-field
+        label="練習場所"
+        prepend-inner-icon="mdi-map-marker"
+      ></v-text-field>
 
-    <!-- ここから ①-1 画像uploda -->
+      <v-textarea
+        v-model="group.introduction"
+        background-color="white"
+        filled
+        label="グループ紹介"
+        auto-grow
+      ></v-textarea>
 
-      <!-- <v-file-input
+      <!-- ここから ①-1 画像uploda -->
+
+      <v-file-input
         v-model="group.image"
+        accept="image/*"
         label="File input"
         filled
         prepend-icon="mdi-camera"
-        type="file" 
-        v-on:change="setImage"
-      ></v-file-input> -->
-        <!-- <p>{{ group.image }}</p> -->
+      ></v-file-input>
 
-      <input type="file" v-on:change="setImage" />
-      <br>
-      <br>
-    <!-- ここまで ①-1 画像uploda -->
+      <v-responsive :aspect-ratio="1/1" max-width="50%">
+        <v-img
+          v-if="group.image"
+          :src= "url"
 
-      <v-btn
-        color="primary"
-        class="mr-4"
-        dark
-        @click="createGroup"
-      >
-        Create
-        <v-icon
+        ></v-img>
+      </v-responsive>
+
+      <!-- ここまで ①-1 画像uploda -->
+
+      <!-- ここから ①-2 ボタン類 -->
+      <v-row class="my-4">
+
+        <v-btn
+          color="primary"
+          class="mr-4"
           dark
-          right
+          @click="createGroup"
         >
-          mdi-checkbox-marked-circle
-        </v-icon>
-      </v-btn>
+          作成
+          <v-icon
+            dark
+            right
+          >
+            mdi-checkbox-marked-circle
+          </v-icon>
+        </v-btn>
 
-      <v-btn
-        color="error"
-        class="mr-4"
-        @click="reset"
-      >
-        Reset Form
-      </v-btn>
+        <v-btn
+          color="error"
+          class="mr-4"
+          @click="reset"
+        >
+          リセット
+        </v-btn>
+
+      </v-row>
+      <!-- ここまで ①-2 ボタン類 -->
 
     </v-form>
+
+  <!-- ①ここから プレビュー -->
+    <!-- <v-row align="center">
+
+      <v-col cols="1">
+        <v-avatar
+          size="60"
+        >
+          <v-img
+            v-if="url"
+            :src="url">
+          ></v-img>
+          <v-icon v-else>{{ "画" }}</v-icon>
+        </v-avatar>
+      </v-col>
+
+      <v-col cols="10">
+        <h2>{{ group.name }}</h2>
+      </v-col>
+
+      <v-col cols="1"></v-col>
+
+    </v-row> -->
+  <!-- ①ここまで プレビュー -->
+
   </div>
 </template>
 
@@ -74,18 +114,26 @@ export default {
       current_user: {},
       group: {
         name: '',
-        adminuser_id: '',
+        // adminuser_id: '',
         introduction: '',
         image: ''
       },
-      image: '',
-      uploadedImage: '',
-      name: '',
+      // image: '',
+      // uploadedImage: '',
+      // name: '',
       nameRules: [
         v => !!v || 'Name is required',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
       select: null,
+      // url: null,
+    }
+  },
+
+  computed:{
+    url(){
+      if(this.group.image===''){return;}
+      else{return URL.createObjectURL(this.group.image);}
     }
   },
 
@@ -94,18 +142,21 @@ export default {
   },
 
   methods: {
-    validate () {
-      this.$refs.form.validate()
-    },
+    // uploadImage(){
+    //   this.url = URL.createObjectURL(this.$refs.image.files[0]);
+    // },
+    // validate () {
+    //   this.$refs.form.validate()
+    // },
     reset () {
       this.$refs.form.reset()
     },
-    resetValidation () {
-      this.$refs.form.resetValidation()
-    },
-    setImage (e) {
-    this.image = e.target.files[0]
-    },
+    // resetValidation () {
+    //   this.$refs.form.resetValidation()
+    // },
+    // setImage (e) {
+    // this.image = e.target.files[0]
+    // },
     getGroup() {
       axios
         .get('/api/v1/groups/new.json')
@@ -119,7 +170,7 @@ export default {
       formData.append('group[name]', this.group.name)
       formData.append('group[adminuser_id]', this.current_user.id)
       formData.append('group[introduction]', this.group.introduction)
-      formData.append('group[image]', this.image)
+      formData.append('group[image]', this.group.image)
 
       axios
         .post('/api/v1/groups', formData)
