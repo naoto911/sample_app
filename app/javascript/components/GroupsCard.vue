@@ -56,7 +56,7 @@
               </v-card-title>
 
               <v-card-subtitle>
-                {{ val.introduction }}
+                {{ val.introduction | omittedText(10) }} 
               </v-card-subtitle>
 
             </v-card>
@@ -78,6 +78,7 @@ export default {
       show: false,
       val: [],
       keyword: '',
+      text: "0123456789101112",
     }
   },
 
@@ -99,6 +100,15 @@ export default {
       }
       return vals;
     },
+  },
+
+  filters: {
+    omittedText(text,count) {
+     // count文字目以降は"…"
+     console.log(text);
+      console.log(count);
+     return text.length > count ? text.slice(0, count) + "…" : text;
+    }
   },
 
   // methods: {
