@@ -219,7 +219,7 @@ export default {
         .then(response => {
           console.log('OK');
           this.$store.dispatch('login')
-          this.$router.go({path: this.$router.currentRoute.path, force: true})  //リロードを実行 (gest_login後は同一URLのため)
+          // this.$router.go({path: this.$router.currentRoute.path, force: true})  //リロードを実行 (gest_login後は同一URLのため)
         })        
         .catch(error => {
           console.log('NG');

@@ -86,7 +86,7 @@ export default {
 
       if (login_user !== null) { //Login_userが存在する時
         this.getUsers(login_user.id)
-         result = login_user;
+        result = login_user;
       }
       return result;
     },
