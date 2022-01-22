@@ -18,11 +18,11 @@ import Home from "./router/Home";
 import Header from "./components/Header";
 
 import Group from "./router/Group/Group";
-import GroupNew from "./router/Group/GroupNew";
-import GroupEdit from "./router/Group/GroupEdit";
-import GroupDetail from "./router/Group/GroupDetail";
-import GroupEvent from "./router/Group/GroupEvent";
-import GroupMember from "./router/Group/GroupMember";
+// import GroupNew from "./router/Group/GroupNew";
+// import GroupEdit from "./router/Group/GroupEdit";
+// import GroupDetail from "./router/Group/GroupDetail";
+// import GroupEvent from "./router/Group/GroupEvent";
+// import GroupMember from "./router/Group/GroupMember";
 
 import Approval from "./router/Group/Approval";
 
@@ -34,10 +34,10 @@ import JoinNew from "./router/Join/JoinNew";
 import JoinEdit from "./router/Join/JoinEdit";
 
 import User from "./router/User/User";
-import UserNew from "./router/User/UserNew";
-import UserEdit from "./router/User/UserEdit";
-import UserProfile from "./router/User/UserProfile";
-import Application from "./router/User/Application";
+// import UserNew from "./router/User/UserNew";
+// import UserEdit from "./router/User/UserEdit";
+// import UserProfile from "./router/User/UserProfile";
+// import Application from "./router/User/Application";
 
 import Login from "./router/User/Login";
 

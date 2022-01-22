@@ -25,6 +25,7 @@ import UserNew from "./router/User/UserNew";
 import UserEdit from "./router/User/UserEdit";
 import UserProfile from "./router/User/UserProfile";
 import UserEvent from "./router/User/UserEvent";
+import UserFavorite from "./router/User/UserFavorite";
 import Application from "./router/User/Application";
 
 import Login from "./router/User/Login";
@@ -73,6 +74,7 @@ export default new Router({
         { path: "profile", component: UserProfile },
         { path: "application", component: Application },
         { path: "event", component: UserEvent },
+        { path: "favorite", component: UserFavorite },
         { path: "edit", component: UserEdit },
       ]
     },
