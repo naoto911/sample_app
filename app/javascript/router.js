@@ -50,7 +50,7 @@ export default new Router({
         { path: "detail", component: GroupDetail },
         { path: "events", component: GroupEvent },
         { path: "member", component: GroupMember },
-        { path: "edit", component: GroupEdit },
+        // { path: "edit", component: GroupEdit },
         //承認関連
         { path: "approval", component: Approval },
         //ここからEvnet
@@ -62,6 +62,9 @@ export default new Router({
         { path: 'joins/:join_id(\\d+)/edit', component: JoinEdit },
       ]
     },
+    //editのみは別記載
+    { path: '/groups/:id(\\d+)/edit', component: GroupEdit},
+
   // ユーザー
     { path: '/users/new', component: UserNew},
     // { path: '/users/:id(\\d+)', component: Mypage},
