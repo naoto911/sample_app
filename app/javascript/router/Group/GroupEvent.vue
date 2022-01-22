@@ -1,22 +1,26 @@
 <template>
   <div>
  
-  <!-- ① ここからイベント作成ボタン -->
-    <router-link 
-      :to=" '/groups/' + (Number(this.$route.params.id)) +'/events/new' "
-      active-class="link--active"
-      exact
-      class="link"
-    >
-      <v-btn
-        depressed
-        rounded
-        text
-      >
-        event作成
-      </v-btn>
-    </router-link>
-  <!-- ① ここまでイベント作成ボタン -->
+    <v-row>
+      <v-col v-if="val" cols="12">
+      <!-- ① ここからイベント作成ボタン -->
+        <router-link 
+          :to=" '/groups/' + (Number(this.$route.params.id)) +'/events/new' "
+          active-class="link--active"
+          exact
+          class="link"
+        >
+          <v-btn
+            depressed
+            rounded
+            text
+          >
+            event作成
+          </v-btn>
+        </router-link>
+      <!-- ① ここまでイベント作成ボタン -->
+      </v-col>
+    </v-row>
 
   <!-- ここからイベント一覧 (最終的に削除 *Calendarの中に配置する) -->
     <!-- <v-row>
@@ -212,10 +216,16 @@
 
                   <v-col cols="12">
                     <v-radio-group
-                      v-model="row"
+                      v-if="eventAnswer.length == 1"
+                      v-model="eventAnswer[0].answer"
                       row
                       @change="onChange"
                     >
+                    <!-- <v-radio-group
+                      v-model="row"
+                      row
+                      @change="onChange"
+                    > -->
                       <v-radio
                         label="参加"
                         value="○"
@@ -227,7 +237,7 @@
                     </v-radio-group>
                   </v-col>
 
-                  <v-col cols="12">
+                  <!-- <v-col cols="12">
                     <v-btn
                       text
                       color="secondary"
@@ -235,11 +245,11 @@
                     >
                       キャンセル
                     </v-btn>
-                  </v-col>
+                  </v-col> -->
 
-                  <v-col cols="12">
+                  <!-- <v-col cols="12">
                     <p v-if="eventAnswer.length == 1">Answer : {{ eventAnswer[0].answer }}</p>
-                  </v-col>
+                  </v-col> -->
 
                 </v-row>
               </v-card-actions>
@@ -278,7 +288,13 @@ export default {
       names: ['練習', '飲み', '試合'],
       answer: [],
       answers: [],
-      row: null,
+      // row: null,
+    }
+  },
+
+  props: {
+    val: {
+      type: Boolean
     }
   },
 
@@ -321,7 +337,7 @@ export default {
         this.selectedElement = nativeEvent.target
         requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
 
-        this.row = this.eventAnswer[0].answer //ここでevnet毎のanswerをrowへ格納しウィンドウ表示時の初期値を動的に更新
+        // this.row = this.eventAnswer[0].answer //ここでevnet毎のanswerをrowへ格納しウィンドウ表示時の初期値を動的に更新
 
       }
         if (this.selectedOpen) {
@@ -371,12 +387,12 @@ export default {
       // console.log(this.events);
       this.events = events
     },
-    onChange(row) {  // クリックイベントでイベント発火
-      this.eventAnswer[0].answer = this.row  //radio変更に応じてdata内のrowも同期して更新
+    onChange() {  // クリックイベントでイベント発火
+      // this.eventAnswer[0].answer = this.row  //radio変更に応じてdata内のrowも同期して更新
       this.updateAnswer();
     },
     updateAnswer() {
-      if (!this.row) return;
+      // if (!this.row) return;
         this.answer = this.eventAnswer[0]
         axios
           .patch(`/api/v1/answers/${this.answer.id}`, {
