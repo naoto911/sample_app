@@ -9,18 +9,25 @@ export default new Vuex.Store({
   state: {
     // loginUser: {},
     loginUser: null,
-    loggedIn: false
+    loggedIn: false,
   },
+
   getters: {
     loginUser: state => state.loginUser,
     loggedIn: state => state.loggedIn
   },
+
   mutations : {
     storeloginUser(state, loginUser) {
         state.loginUser = loginUser;
-        state.loggedIn = true
-    }
+        state.loggedIn = true;
+    },
+    storelogoutUser(state) {
+      state.loginUser = null;
+      state.loggedIn = false;
+    },
   },
+
   actions: {
     login({commit}){
       // console.log("store_Loginを実行")
@@ -29,6 +36,10 @@ export default new Vuex.Store({
         .then(response => {
             commit('storeloginUser', response.data.current_user)
         });
-    }
+    },
+    logout({ commit }) {
+      commit("storelogoutUser")
+    },
   },
+  
 })

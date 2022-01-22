@@ -105,8 +105,6 @@ export default {
   filters: {
     omittedText(text,count) {
      // count文字目以降は"…"
-     console.log(text);
-      console.log(count);
      return text.length > count ? text.slice(0, count) + "…" : text;
     }
   },

@@ -203,6 +203,7 @@ export default {
     Logout(id) {
       axios.delete(`/api/v1/login`)
         .then(res => {
+          this.$store.dispatch('logout')
           this.$router.push({ path: '/login' });
         })
         .catch(error => {
