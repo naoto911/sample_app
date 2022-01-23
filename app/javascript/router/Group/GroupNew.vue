@@ -46,6 +46,31 @@
 
       <!-- ここまで ①-1 画像uploda -->
 
+      <v-text-field
+        label="instagramのURL"
+        prepend-inner-icon="mdi-instagram"
+      ></v-text-field>
+
+      <!-- ここから ①- 頻度選択 -->
+          <v-radio-group
+            v-model="frequency"
+            row
+          >
+            <v-radio
+              label="ガチ"
+              value="1"
+            ></v-radio>
+            <v-radio
+              label="時々"
+              value="2"
+            ></v-radio>
+            <v-radio
+              label="まれ"
+              value="3"
+            ></v-radio>
+          </v-radio-group>
+      <!-- ここまで ①- 頻度選択 -->
+
       <!-- ここから ①-2 ボタン類 -->
       <v-row class="my-4">
 
@@ -127,6 +152,7 @@ export default {
       ],
       select: null,
       // url: null,
+      frequency: '2',
     }
   },
 
