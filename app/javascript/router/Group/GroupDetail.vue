@@ -31,50 +31,12 @@
           <v-col v-if="val" class="text-right" cols="2">
 
             <!-- ②-1 ここから 削除ボタン -->
-              <v-dialog
-                v-model="dialog"
-                width="500"
+              <v-btn 
+                icon 
+                @click="openModal()"
               >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn 
-                    icon 
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
-                </template>
-
-                <v-card>
-                  <v-card-title class="text-h5 grey lighten-2">
-                    削除します。よろしいですか？
-                  </v-card-title>
-
-                  <v-card-text>
-                    この操作は取り消せません。
-                  </v-card-text>
-
-                  <v-divider></v-divider>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      color="primary"
-                      text
-                      @click="dialog = false"
-                    >
-                      キャンセル
-                    </v-btn>
-                    <v-btn
-                      color="error"
-                      text
-                      @click="deleteGroup(group.id)"
-                    >
-                      削除
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
             <!-- ②-1 ここまで 削除ボタン -->
 
             <!-- ②-2 ここから 編集ボタン -->
@@ -93,6 +55,8 @@
           </v-col>
         <!-- ② ここまで ボタン類 -->
 
+        <Modal :showContent="showContent" @close="closeModal" @delete="deleteAction"></Modal>
+
         </v-row>
       </v-responsive>
     </v-card>
@@ -100,9 +64,15 @@
 </template>
 
 <script>
+import Modal from '../../components/Modal.vue';
 import axios from 'axios';
 
 export default {
+
+  components: { 
+    Modal,
+  },
+
   data() {
     return {
       length: 3,
@@ -111,6 +81,8 @@ export default {
 
       group: [],
       users: [],
+
+      showContent: false,
     }
   },
 
@@ -155,6 +127,17 @@ export default {
             this.errors = error.response.data.errors;
           }
         })
+    },
+    openModal() {
+      this.showContent = true
+    },
+    closeModal () {
+      this.showContent = false
+    },
+    deleteAction () {
+      this.showContent = false
+      console.log("ここでUser削除処理を記載")
+      this.deleteGroup(this.group.id);
     },
   },
 

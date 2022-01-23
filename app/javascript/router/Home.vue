@@ -10,7 +10,7 @@ import GroupsCard from '../components/GroupsCard.vue';
 
 export default {
   components: { 
-    GroupsCard 
+    GroupsCard
   },
 
   data() {

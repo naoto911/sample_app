@@ -31,7 +31,6 @@
               {{ join_event.place }}
             </v-card-title>
           </v-col> -->
-
         </v-row>
       </v-container>
     </v-card>
