@@ -56,7 +56,7 @@ class Api::V1::GroupsController < ApplicationController
   end
 
   def edit
-    render json: {group: @group, current_user: current_user }
+    render json: {group: @group, current_user: current_user, redirect: @redirect }
   end
 
   def update
@@ -84,8 +84,10 @@ private
 
   #admin_userでないとrootに戻す処理
   def admin_user
+    @redirect = false
     unless @group.adminuser_id == current_user.id
-      redirect_back(fallback_location: root_path) #直接urlに入力してきたユーザーはrootに戻す
+      # redirect_back(fallback_location: root_path) #直接urlに入力してきたユーザーはrootに戻す
+      @redirect = true
     end
   end
 

@@ -101,10 +101,16 @@ export default {
         })
     },
     getGroup() {
+      console.log("ここで確認");
       axios
         .get(`/api/v1/groups/${this.$route.params.id}/edit.json`)
         .then(response => {
         this.group = response.data.group;
+        const redirect = response.data.redirect;
+        if (redirect) {
+          console.log("管理者以外はrootに返す")
+          this.$router.push({ path: '/' });;
+        }
       });
     }
   },
