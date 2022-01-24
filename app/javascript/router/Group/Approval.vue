@@ -74,13 +74,19 @@
         <!-- ここから ②-3 ボタン類 -->
           <v-col cols=2>
             <!-- ①-1 ここから 拒否ボタン -->
-              <v-btn @click="denyApproval(approval.id)" icon>
+              <v-btn 
+                icon 
+                @click="openModal(approval.id)"
+              >
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             <!-- ①-1 ここまで 拒否ボタン -->
 
             <!-- ①-2 ここから 承認ボタン -->
-              <v-btn @click="permitApproval(approval.id)" icon>
+              <v-btn 
+                icon 
+                @click="permitApproval(approval.id)"
+              >
                 <v-icon>mdi-account-multiple-check</v-icon>
               </v-btn>  
             <!-- ①-2 ここまで 承認ボタン -->
@@ -91,14 +97,22 @@
       </v-container>
     </v-card>
   <!-- ここまで ② 申請list -->
+
+    <Modal :showContent="showContent" @close="closeModal" @delete="deleteAction"></Modal>
   </div>
 </template>
 
 
 <script>
+import Modal from '../../components/Modal.vue';
 import axios from 'axios';
 
 export default {
+
+  components: { 
+    Modal,
+  },
+
   data() {
     return {
       approval: [],
@@ -107,6 +121,9 @@ export default {
       group: [],
       approvals: [],
       approval_users: [], 
+
+      showContent: false,
+      delete_id: null,
     }
   },
 
@@ -156,7 +173,23 @@ export default {
       const result = data.filter(x => x.id === key_id);
       return result;
     },
+    openModal(id) {
+      this.showContent = true;
+      this.delete_id = id;
+    },
+    closeModal () {
+      this.showContent = false
+      this.delete_id = null;
+    },
+    deleteAction () {
+      this.showContent = false
+      this.denyApproval(this.delete_id);
+      this.delete_id = null;
+    },
+
   },
+
+
 
 }
 </script>

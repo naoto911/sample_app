@@ -27,8 +27,10 @@
           <v-col v-if="user" class="text-right" cols="2">
 
           <!-- ①-1 ここから 削除ボタン -->
-            <v-btn icon>
-            <!-- <v-btn @click="deleteUser(user.id)" icon> -->
+            <v-btn 
+              icon 
+              @click="openModal(user.id)"
+            >
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           <!-- ①-1 ここまで 削除ボタン -->
@@ -53,17 +55,28 @@
       </v-responsive>
     </v-card>
 
+    <Modal :showContent="showContent" @close="closeModal" @delete="deleteAction"></Modal>
+
   </div>
 </template>
 
 <script>
+import Modal from '../../components/Modal.vue';
 import axios from 'axios';
 
 export default {
+
+  components: { 
+    Modal,
+  },
+
   data() {
     return {
       group: [],
       user: {},
+
+      showContent: false,
+      delete_id: null,
     }
   },
 
@@ -93,6 +106,20 @@ export default {
           }
         })
     },
+    openModal(id) {
+      this.showContent = true;
+      this.delete_id = id;
+    },
+    closeModal () {
+      this.showContent = false
+      this.delete_id = null;
+    },
+    deleteAction () {
+      this.showContent = false
+      this.deleteUser(this.delete_id);
+      this.delete_id = null;
+    },
+
   },
 
 

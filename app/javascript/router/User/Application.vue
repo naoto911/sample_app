@@ -50,7 +50,10 @@
 
           <v-col cols=2>
             <!-- ①-1 ここから 削除ボタン -->
-              <v-btn @click="deleteApplication(application.id)" icon>
+              <v-btn 
+                icon 
+                @click="openModal(getApplicaitonGgroup(application.group_id)[0].id, application.id)"
+              >
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             <!-- ①-1 ここまで 削除ボタン -->
@@ -72,13 +75,20 @@
       </v-container>
     </v-card>
   <!-- ここまで ② 申請list -->
+    <Modal :showContent="showContent" @close="closeModal" @delete="deleteAction"></Modal> 
   </div>
 </template>
 
 <script>
+import Modal from '../../components/Modal.vue';
 import axios from 'axios';
 
 export default {
+
+  components: { 
+    Modal,
+  },
+
   data() {
     return {
       application: [],
@@ -87,6 +97,10 @@ export default {
       user: [],
       applications: [],
       applicaiton_groups: [],
+
+      showContent: false,
+      delete_group_id: null,
+      delete_id: null,
     }
   },
 
@@ -104,8 +118,8 @@ export default {
         this.applicaiton_groups = response.data.applicaiton_groups;
       });
     },
-    deleteApplication(id) {
-      axios.delete(`/api/v1/groups/${this.$route.params.id}/joins/${id}`)
+    deleteApplication(group_id, id) {
+      axios.delete(`/api/v1/groups/${group_id}/joins/${id}`)
         .then(res => {
           this.$router.push({ path: '/' });
         })
@@ -122,6 +136,23 @@ export default {
       const result = data.filter(x => x.id === key_id);
       return result;
     },
+    openModal(group_id, id) {
+      this.showContent = true;
+      this.delete_group_id = group_id;
+      this.delete_id = id;
+    },
+    closeModal () {
+      this.showContent = false
+      this.delete_group_id = null;
+      this.delete_id = null;
+    },
+    deleteAction () {
+      this.showContent = false
+      this.deleteApplication(this.delete_group_id, this.delete_id);
+      this.delete_group_id = null;
+      this.delete_id = null;
+    },
+
   },
   
 }

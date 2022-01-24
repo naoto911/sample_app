@@ -95,7 +95,6 @@ export default {
         .post(`/api/v1/groups/${this.$route.params.id}/joins`, formData)
         .then(response => {
           console.log('OK');
-          console.log(this.group);
           this.$router.push({ path: '/' });
         })        
         .catch(error => {

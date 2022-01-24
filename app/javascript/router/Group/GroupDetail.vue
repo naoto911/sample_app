@@ -33,7 +33,7 @@
             <!-- ②-1 ここから 削除ボタン -->
               <v-btn 
                 icon 
-                @click="openModal()"
+                @click="openModal(group.id)"
               >
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
@@ -83,6 +83,7 @@ export default {
       users: [],
 
       showContent: false,
+      delete_id: null,
     }
   },
 
@@ -128,16 +129,18 @@ export default {
           }
         })
     },
-    openModal() {
-      this.showContent = true
+    openModal(id) {
+      this.showContent = true;
+      this.delete_id = id;
     },
     closeModal () {
       this.showContent = false
+      this.delete_id = null;
     },
     deleteAction () {
       this.showContent = false
-      console.log("ここでUser削除処理を記載")
-      this.deleteGroup(this.group.id);
+      this.deleteGroup(this.delete_id);
+      this.delete_id = null;
     },
   },
 
