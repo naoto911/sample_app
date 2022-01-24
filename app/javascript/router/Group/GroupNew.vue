@@ -5,127 +5,133 @@
       v-model="valid"
       lazy-validation
     >
-      <v-text-field
-        v-model="group.name"
-        :counter="10"
-        :rules="nameRules"
-        label="名前"
-        required
-      ></v-text-field>
-      
-      <v-text-field
-        label="練習場所"
-        prepend-inner-icon="mdi-map-marker"
-      ></v-text-field>
-
-      <v-textarea
-        v-model="group.introduction"
-        background-color="white"
-        filled
-        label="グループ紹介"
-        auto-grow
-      ></v-textarea>
+    <!-- ①ここから header -->
+      <v-row align="center">
 
       <!-- ここから ①-1 画像uploda -->
-
-      <v-file-input
-        v-model="group.image"
-        accept="image/*"
-        label="File input"
-        filled
-        prepend-icon="mdi-camera"
-      ></v-file-input>
-
-      <v-responsive :aspect-ratio="1/1" max-width="50%">
-        <v-img
-          v-if="group.image"
-          :src= "url"
-
-        ></v-img>
-      </v-responsive>
-
+        <v-col cols="1">
+          <label for="name1">
+            <v-avatar
+              size="60"
+              color="grey"
+            >
+              <v-img
+                v-if="group.image"
+                :src= "url"
+              ></v-img>
+              <v-icon v-else>mdi-camera</v-icon>
+            </v-avatar>
+          </label>
+          <v-file-input
+            id="name1"
+            v-model="group.image"
+            accept="image/*"
+            filled
+            style="display:none"    
+          ></v-file-input>  
+        </v-col>
       <!-- ここまで ①-1 画像uploda -->
 
-      <v-text-field
-        label="instagramのURL"
-        prepend-inner-icon="mdi-instagram"
-      ></v-text-field>
-
-      <!-- ここから ①- 頻度選択 -->
-          <v-radio-group
-            v-model="frequency"
-            row
-          >
-            <v-radio
-              label="ガチ"
-              value="1"
-            ></v-radio>
-            <v-radio
-              label="時々"
-              value="2"
-            ></v-radio>
-            <v-radio
-              label="まれ"
-              value="3"
-            ></v-radio>
-          </v-radio-group>
-      <!-- ここまで ①- 頻度選択 -->
-
-      <!-- ここから ①-2 ボタン類 -->
-      <v-row class="my-4">
-
-        <v-btn
-          color="primary"
-          class="mr-4"
-          dark
-          @click="createGroup"
-        >
-          作成
-          <v-icon
-            dark
-            right
-          >
-            mdi-checkbox-marked-circle
-          </v-icon>
-        </v-btn>
-
-        <v-btn
-          color="error"
-          class="mr-4"
-          @click="reset"
-        >
-          リセット
-        </v-btn>
-
+      <!-- ①-2 ここから グループ名 -->
+        <v-col cols="11">
+          <v-text-field
+            v-model="group.name"
+            :counter="10"
+            :rules="nameRules"
+            label="名前"
+            required
+          ></v-text-field>
+        </v-col>
+      <!-- ①-2 ここまで グループ名 -->
+      
       </v-row>
-      <!-- ここまで ①-2 ボタン類 -->
+    <!-- ①ここまで header -->
 
+    <v-row style="min-height: 48px;"></v-row>
+
+    <v-card>
+      <v-responsive :aspect-ratio="16/9">
+        <v-row>
+        <!-- ① ここから 紹介 -->
+          <v-col cols="12">
+            <v-card-text>
+
+              <h3>頻度</h3>
+                <v-radio-group
+                  v-model="frequency"
+                  row
+                >
+                  <v-radio
+                    label="ガチ"
+                    value="1"
+                  ></v-radio>
+                  <v-radio
+                    label="時々"
+                    value="2"
+                  ></v-radio>
+                  <v-radio
+                    label="まれ"
+                    value="3"
+                  ></v-radio>
+                </v-radio-group>
+
+              <h3>場所</h3>
+                <v-text-field
+                  label="練習場所"
+                  prepend-inner-icon="mdi-map-marker"
+                ></v-text-field>
+
+              <h3>SNS</h3>
+                <v-text-field
+                  label="instagramのURL"
+                  prepend-inner-icon="mdi-instagram"
+                ></v-text-field>
+
+              <h3>説明</h3>
+              <v-textarea
+                v-model="group.introduction"
+                background-color="white"
+                filled
+                label="グループ紹介"
+                auto-grow
+              ></v-textarea>
+
+            </v-card-text>
+          </v-col>
+        <!-- ① ここまで 紹介 -->
+
+        <!-- ここから ①-2 ボタン類 -->
+          <v-col cols="4">
+            <v-card-actions>
+              <v-btn
+                color="primary"
+                class="mr-4"
+                dark
+                @click="createGroup"
+              >
+                作成
+                <v-icon
+                  dark
+                  right
+                >
+                  mdi-checkbox-marked-circle
+                </v-icon>
+              </v-btn>
+              <v-btn
+                color="error"
+                class="mr-4"
+                @click="reset"
+              >
+                リセット
+              </v-btn>
+            </v-card-actions>
+          </v-col>
+        <!-- ここまで ①-2 ボタン類 -->
+
+        </v-row>
+      </v-responsive>
+    </v-card>
     </v-form>
-
-  <!-- ①ここから プレビュー -->
-    <!-- <v-row align="center">
-
-      <v-col cols="1">
-        <v-avatar
-          size="60"
-        >
-          <v-img
-            v-if="url"
-            :src="url">
-          ></v-img>
-          <v-icon v-else>{{ "画" }}</v-icon>
-        </v-avatar>
-      </v-col>
-
-      <v-col cols="10">
-        <h2>{{ group.name }}</h2>
-      </v-col>
-
-      <v-col cols="1"></v-col>
-
-    </v-row> -->
-  <!-- ①ここまで プレビュー -->
-
   </div>
 </template>
 
@@ -138,27 +144,24 @@ export default {
       valid: true,
       current_user: {},
       group: {
-        name: '',
-        // adminuser_id: '',
-        introduction: '',
-        image: ''
+        name: null,
+        introduction: null,
+        image: null,
       },
-      // image: '',
-      // uploadedImage: '',
-      // name: '',
+
       nameRules: [
         v => !!v || 'Name is required',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
       select: null,
-      // url: null,
+
       frequency: '2',
     }
   },
 
   computed:{
     url(){
-      if(this.group.image===''){return;}
+      if(this.group.image === null){return;}
       else{return URL.createObjectURL(this.group.image);}
     }
   },
@@ -168,21 +171,9 @@ export default {
   },
 
   methods: {
-    // uploadImage(){
-    //   this.url = URL.createObjectURL(this.$refs.image.files[0]);
-    // },
-    // validate () {
-    //   this.$refs.form.validate()
-    // },
     reset () {
       this.$refs.form.reset()
     },
-    // resetValidation () {
-    //   this.$refs.form.resetValidation()
-    // },
-    // setImage (e) {
-    // this.image = e.target.files[0]
-    // },
     getGroup() {
       axios
         .get('/api/v1/groups/new.json')
@@ -202,7 +193,6 @@ export default {
         .post('/api/v1/groups', formData)
         .then(response => {
           console.log('OK');
-          console.log(this.group);
           this.$router.push({ path: '/' });
         })        
         .catch(error => {
@@ -212,7 +202,7 @@ export default {
             this.errors = error.response.data.errors;
           }
         })
-    } 
+    },
   },
 
 }
