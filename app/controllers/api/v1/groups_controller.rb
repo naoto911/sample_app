@@ -75,7 +75,8 @@ class Api::V1::GroupsController < ApplicationController
 private
 
   def group_params
-    params.require(:group).permit(:name,:adminuser_id, :introduction, :image, :image_cache)
+    # params.require(:group).permit(:name,:adminuser_id, :introduction, :image, :image_cache)
+    params.require(:group).permit(:image, :image_cache, :name, :frequency, :region, :instagram, :introduction,:adminuser_id)
   end
 
   def set_target_group

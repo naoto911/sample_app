@@ -27,6 +27,7 @@
             v-model="group.image"
             accept="image/*"
             filled
+            @change="cheangeImage()"
             style="display:none"    
           ></v-file-input>  
         </v-col>
@@ -58,7 +59,7 @@
 
               <h3>頻度</h3>
                 <v-radio-group
-                  v-model="frequency"
+                  v-model="group.frequency"
                   row
                 >
                   <v-radio
@@ -77,24 +78,26 @@
 
               <h3>場所</h3>
                 <v-text-field
+                  v-model="group.region"
                   label="練習場所"
                   prepend-inner-icon="mdi-map-marker"
                 ></v-text-field>
 
               <h3>SNS</h3>
                 <v-text-field
+                  v-model="group.instagram"
                   label="instagramのURL"
                   prepend-inner-icon="mdi-instagram"
                 ></v-text-field>
 
               <h3>説明</h3>
-              <v-textarea
-                v-model="group.introduction"
-                background-color="white"
-                filled
-                label="グループ紹介"
-                auto-grow
-              ></v-textarea>
+                <v-textarea
+                  v-model="group.introduction"
+                  background-color="white"
+                  filled
+                  label="グループ紹介"
+                  auto-grow
+                ></v-textarea>
 
             </v-card-text>
           </v-col>
@@ -144,9 +147,14 @@ export default {
       valid: true,
       current_user: {},
       group: {
-        name: null,
-        introduction: null,
         image: null,
+        name: null,
+        frequency: '2',
+        region: null,
+        instagram: null,
+        introduction: null,
+
+        url: null,
       },
 
       nameRules: [
@@ -159,12 +167,12 @@ export default {
     }
   },
 
-  computed:{
-    url(){
-      if(this.group.image === null){return;}
-      else{return URL.createObjectURL(this.group.image);}
-    }
-  },
+  // computed:{
+  //   url(){
+  //     if(this.group.image === null){return;}
+  //     else{return URL.createObjectURL(this.group.image);}
+  //   }
+  // },
 
   created() {
     this.getGroup();
@@ -181,13 +189,21 @@ export default {
         this.current_user = response.data.current_user;
       });
     },
+    cheangeImage() {
+      if (!this.group.image) return; //リセット時の画像未選択エラーを回避
+      this.url = URL.createObjectURL(this.group.image);
+      return this.url;
+    },
     createGroup () {
       if (!this.group.name) return;
       const formData = new FormData()
-      formData.append('group[name]', this.group.name)
-      formData.append('group[adminuser_id]', this.current_user.id)
-      formData.append('group[introduction]', this.group.introduction)
       formData.append('group[image]', this.group.image)
+      formData.append('group[name]', this.group.name)
+      formData.append('group[frequency]', this.group.frequency)
+      formData.append('group[region]', this.group.region)
+      formData.append('group[instagram]', this.group.instagram)
+      formData.append('group[introduction]', this.group.introduction)
+      formData.append('group[adminuser_id]', this.current_user.id)
 
       axios
         .post('/api/v1/groups', formData)
