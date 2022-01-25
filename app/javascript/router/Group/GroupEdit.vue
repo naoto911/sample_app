@@ -199,7 +199,9 @@ export default {
       if (!this.group.name) return;
 
         const formData = new FormData()
-        formData.append('group[image]', this.group.image)
+        if (this.url || !this.group.image) {
+          formData.append('group[image]', this.group.image)
+        }
         formData.append('group[name]', this.group.name)
         formData.append('group[frequency]', this.group.frequency)
         formData.append('group[region]', this.group.region)
