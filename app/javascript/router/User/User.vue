@@ -11,7 +11,7 @@
           size="60"
         >
           <v-img
-            v-if="user.image"
+            v-if="user.image && user.image.url"
             :src= "user.image.url"
           ></v-img>
           <v-icon v-else>{{ menus[0].icon }}</v-icon>

@@ -21,7 +21,7 @@
               >
               </v-img>
               <v-img
-                v-else-if="group.image"
+                v-else-if="group.image && group.image.url"
                 :src= "group.image.url"
               ></v-img>
               <v-icon v-else>mdi-camera</v-icon>

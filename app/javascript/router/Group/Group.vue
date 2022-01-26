@@ -9,7 +9,7 @@
           size="60"
         >
           <v-img
-            v-if="group.image"
+            v-if="group.image && group.image.url"
             :src= "group.image.url"
           ></v-img>
           <v-icon v-else>{{ menus[0].icon }}</v-icon>
