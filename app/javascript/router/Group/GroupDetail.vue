@@ -135,12 +135,12 @@ export default {
           break;
         case 2:
           // console.log('時々');
-          reslut = "ガチ"
+          reslut = "時々"
           return reslut;
           break;
         case 3:
           // console.log('まれ');
-          reslut = "ガチ"
+          reslut = "まれ"
           return reslut;
           break;
         default :

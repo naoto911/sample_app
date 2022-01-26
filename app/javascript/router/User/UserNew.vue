@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Create account</h1>
+    <h1>新規アカウント作成</h1>
     <v-form
       ref="form"
       v-model="valid"
@@ -9,7 +9,7 @@
       <v-text-field
         v-model="user.name"
         :counter="10"
-        label="Name"
+        label="namae "
         required
       ></v-text-field>
 
@@ -39,7 +39,7 @@
         dark
         @click="createUser"
       >
-        Create
+        作成
         <v-icon
           dark
           right
@@ -53,7 +53,7 @@
         class="mr-4"
         @click="reset"
       >
-        Reset Form
+        リセット
       </v-btn>
 
     </v-form>
@@ -66,7 +66,17 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      user: {}
+      user: {},
+      // user: {
+      //   image: null,
+      //   name: null,
+      //   frequency: '2',
+      //   region: null,
+      //   instagram: null,
+      //   introduction: null,
+
+      //   url: null,
+      // },
     }
   },
 
@@ -75,14 +85,14 @@ export default {
   },
 
   methods: {
-    validate () {
-      this.$refs.form.validate()
-    },
+    // validate () {
+    //   this.$refs.form.validate()
+    // },
+    // resetValidation () {
+    //   this.$refs.form.resetValidation()
+    // },
     reset () {
       this.$refs.form.reset()
-    },
-    resetValidation () {
-      this.$refs.form.resetValidation()
     },
     getUser(){
       axios

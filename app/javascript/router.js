@@ -78,9 +78,11 @@ export default new Router({
         { path: "application", component: Application },
         { path: "event", component: UserEvent },
         { path: "favorite", component: UserFavorite },
-        { path: "edit", component: UserEdit },
+        // { path: "edit", component: UserEdit },
       ]
     },
+    //editのみは別記載
+    { path: '/users/:id(\\d+)/edit', component: UserEdit},
 
     { path: '/login', component: Login},
   // 申請関連

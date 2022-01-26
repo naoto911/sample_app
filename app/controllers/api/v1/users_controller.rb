@@ -3,7 +3,7 @@ class Api::V1::UsersController < ApplicationController
   before_action :logged_in_user, only: %i[ edit show update destroy ] #このアクションはログイン後しか実行できない
   before_action :set_target_user, only: %i[show edit update destroy]
   before_action :master_user, only: %i[ edit update destroy] #自分自身でないと操作できないアクション
-  before_action :check_guest, only: %i[update destroy] #ゲストユーザーは編集,削除不可
+  before_action :check_guest, only: %i[ update destroy] #ゲストユーザーは編集,削除不可 
 
   #アカウントがないので新規作成させる
   def new
@@ -107,7 +107,7 @@ class Api::V1::UsersController < ApplicationController
 private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmationm, :image, :image_cache)
+    params.require(:user).permit(:name, :email, :password, :password_confirmationm, :image, :image_cache, :sex, :age, :birthplace , :introduction )
   end
 
   def set_target_user

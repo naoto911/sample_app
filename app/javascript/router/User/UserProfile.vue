@@ -7,18 +7,19 @@
         <!-- ① ここから 紹介 -->
           <v-col cols="10">
             <v-card-text>
-              <h3 class="my-8">出身: 東京都</h3>
-              <!-- <p>
-                ここに出身値を表示
-              </p> -->
-              <h3 class="my-8">年齢: 25</h3>
-              <!-- <p>
-                ここに年齢を表示
-              </p> -->
-              <h3 class="my-8">自己紹介</h3>
-              <p>
-                ここに自己紹介文を記載可能
-              </p>
+              <h3>年齢</h3>
+                <p v-if="user.age">{{user.age}}</p>
+                <p v-else>年齢が未登録です</p>
+              <h3>性別</h3>
+                <p v-if="user.sex" >{{getSex(user.sex)}}</p>
+                <p v-else>性別が未登録です。</p>
+              <h3>出身</h3>
+              <!-- {{getFrequency(group.frequency)}} -->
+                <p v-if="user.birthplace" >{{user.birthplace}}</p> 
+                <p v-else>出身が未登録です。</p>
+              <h3>自己紹介</h3>
+                <p v-if="user.introduction" >{{user.introduction}}</p>
+                <p v-else>自己紹介が未記載です。</p>
             </v-card-text>
           </v-col>
         <!-- ① ここまで 紹介 -->
@@ -92,6 +93,21 @@ export default {
         this.group = response.data.group;
         this.user = response.data.user;
       });
+    },
+    getSex(check_value) {
+      var reslut = null;
+      switch (check_value) {
+        case 1:
+          reslut = "男性"
+          return reslut;
+          break;
+        case 2:
+          reslut = "女性"
+          return reslut;
+          break;
+          reslut = null
+          return reslut;
+      }
     },
     deleteUser(id) {
       axios.delete(`/api/v1/users/${id}`)

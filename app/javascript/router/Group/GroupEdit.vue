@@ -53,92 +53,93 @@
       </v-row>
     <!-- ①ここまで header -->
 
-    <v-row style="min-height: 48px;"></v-row>
+      <v-row style="min-height: 48px;"></v-row>
 
-    <v-card>
-      <v-responsive :aspect-ratio="16/9">
-        <v-row>
-        <!-- ① ここから 紹介 -->
-          <v-col cols="12">
-            <v-card-text>
+      <v-card>
+        <v-responsive :aspect-ratio="16/9">
+          <v-row>
+          <!-- ① ここから 紹介 -->
+            <v-col cols="12">
+              <v-card-text>
 
-              <h3>頻度</h3>
-                <v-radio-group
-                  v-model="group.frequency"
-                  row
-                >
-                  <v-radio
-                    label="ガチ"
-                    value="1"
-                  ></v-radio>
-                  <v-radio
-                    label="時々"
-                    value="2"
-                  ></v-radio>
-                  <v-radio
-                    label="まれ"
-                    value="3"
-                  ></v-radio>
-                </v-radio-group>
+                <h3>頻度</h3>
+                  <v-radio-group
+                    v-model="group.frequency"
+                    row
+                  >
+                    <v-radio
+                      label="ガチ"
+                      :value=1
+                    ></v-radio>
+                    <v-radio
+                      label="時々"
+                      :value=2
+                    ></v-radio>
+                    <v-radio
+                      label="まれ"
+                      :value=3
+                    ></v-radio>
+                  </v-radio-group>
 
-              <h3>場所</h3>
-                <v-text-field
-                  v-model="group.region"
-                  label="練習場所"
-                  prepend-inner-icon="mdi-map-marker"
-                ></v-text-field>
+                <h3>場所</h3>
+                  <v-text-field
+                    v-model="group.region"
+                    label="練習場所"
+                    prepend-inner-icon="mdi-map-marker"
+                  ></v-text-field>
 
-              <h3>SNS</h3>
-                <v-text-field
-                  v-model="group.instagram"
-                  label="instagramのURL"
-                  prepend-inner-icon="mdi-instagram"
-                ></v-text-field>
+                <h3>SNS</h3>
+                  <v-text-field
+                    v-model="group.instagram"
+                    label="instagramのURL"
+                    prepend-inner-icon="mdi-instagram"
+                  ></v-text-field>
 
-              <h3>説明</h3>
-                <v-textarea
-                  v-model="group.introduction"
-                  background-color="white"
-                  filled
-                  label="グループ紹介"
-                  auto-grow
-                ></v-textarea>
+                <h3>説明</h3>
+                  <v-textarea
+                    v-model="group.introduction"
+                    background-color="white"
+                    filled
+                    label="グループ紹介"
+                    auto-grow
+                  ></v-textarea>
 
-            </v-card-text>
-          </v-col>
-        <!-- ① ここまで 紹介 -->
+              </v-card-text>
+            </v-col>
+          <!-- ① ここまで 紹介 -->
 
-        <!-- ここから ①-2 ボタン類 -->
-          <v-col cols="4">
-            <v-card-actions>
-              <v-btn
-                color="primary"
-                class="mr-4"
-                dark
-                @click="createGroup"
-              >
-                更新
-                <v-icon
+          <!-- ここから ①-2 ボタン類 -->
+            <v-col cols="4">
+              <v-card-actions>
+                <v-btn
+                  color="primary"
+                  class="mr-4"
                   dark
-                  right
+                  @click="createGroup"
                 >
-                  mdi-checkbox-marked-circle
-                </v-icon>
-              </v-btn>
-              <v-btn
-                color="error"
-                class="mr-4"
-                @click="reset"
-              >
-                リセット
-              </v-btn>
-            </v-card-actions>
-          </v-col>
-        <!-- ここまで ①-2 ボタン類 -->
+                  更新
+                  <v-icon
+                    dark
+                    right
+                  >
+                    mdi-checkbox-marked-circle
+                  </v-icon>
+                </v-btn>
+                <v-btn
+                  color="error"
+                  class="mr-4"
+                  @click="reset"
+                >
+                  リセット
+                </v-btn>
+              </v-card-actions>
+            </v-col>
+          <!-- ここまで ①-2 ボタン類 -->
 
-        </v-row>
-      </v-responsive>
-    </v-card>
+          </v-row>
+        </v-responsive>
+      </v-card>
+      
     </v-form>
   </div>
 </template>

@@ -64,15 +64,15 @@
                 >
                   <v-radio
                     label="ガチ"
-                    value="1"
+                    :value=1
                   ></v-radio>
                   <v-radio
                     label="時々"
-                    value="2"
+                    :value=2
                   ></v-radio>
                   <v-radio
                     label="まれ"
-                    value="3"
+                    :value=3
                   ></v-radio>
                 </v-radio-group>
 
