@@ -72,35 +72,15 @@ export default {
       user: {},
 
       e1: {prefCode: 35, prefName:'山口県'},
-      area: [],
       areas: [],
     }
   },
 
   created () {
-    // this.getUser();
     this.getAreas();
-    // this.getArea();
   },
 
   methods: {
-    getArea () {
-      console.log("ここで確認")
-      // console.log(this.areas.data)
-      // console.log(this.areas.data.result)
-      let obj = this.areas.data.result;
-      for(let k in obj) {
-        // console.log(obj[k]);
-        this.area.push(obj[k].prefName)
-      }
-
-      // var OneArea  = []
-      // for (OneArea of this.areas.data.result) {
-      //   console.log(OneArea)
-      //   this.area.push(OneArea.prefName);
-        return this.area;
-      // }
-    },
     // getUser() {
     //   axios
     //   .get(`/api/v1/users/${this.$route.params.id}.json`)
@@ -116,17 +96,20 @@ export default {
     //   return result;
     // },
     getAreas(){
+      var temporary = axios.defaults.headers.common; //token headerを一時保存
+      axios.defaults.headers.common = null; //token headerを消去
       var area_url = 'https://opendata.resas-portal.go.jp/api/v1/prefectures';
+
       axios
       .get(area_url,{
         headers: { "X-API-KEY": "imTqHdr2MusisKwbx1V4J3wS3XrVmwEb26Uv83qB" },
       })
       .then(response =>  {
         this.areas = response;
+        axios.defaults.headers.common = temporary; //token headerを復活
       });
     },
   },
-
 
 }
 
