@@ -1,6 +1,6 @@
 <template>
   <div>
-    <GroupsCard :vals="groups"></GroupsCard> 
+    <GroupsCard :vals="groups" :groups_length="groups_length"></GroupsCard> 
   </div>
 </template>
 
@@ -17,6 +17,7 @@ export default {
     return {
       groups: [],
       group: null,
+      groups_length: [],
     }
   },
 
@@ -30,6 +31,8 @@ export default {
         .get('/api/v1/groups.json')
         .then(response => {
           this.groups = response.data.groups
+          this.groups_length = response.data.groups_length
+
         });
     },
   },

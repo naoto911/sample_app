@@ -56,7 +56,8 @@
               </v-card-title>
 
               <v-card-subtitle>
-                {{ val.introduction | omittedText(10) }} 
+                <!-- {{ val.introduction | omittedText(10) }}  -->
+                人数:{{ getGroupLentfh(val.id)[0].count }}
               </v-card-subtitle>
 
             </v-card>
@@ -85,7 +86,10 @@ export default {
   props: {
     vals: {
       type: Array
-    }
+    },
+    groups_length: {
+      type: Array
+    },
   },
 
   computed: {
@@ -109,11 +113,13 @@ export default {
     }
   },
 
-  // methods: {
-  //   submitText() {
-  //       this.keyword = this.keyword2;
-  //   },
-  // },
+  methods: {
+    getGroupLentfh(key_id) {
+      const data = this.groups_length;
+      const result = data.filter(x => x.id === key_id);
+      return result;
+    },
+  },
 
 };
 </script>

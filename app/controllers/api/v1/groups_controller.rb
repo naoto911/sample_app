@@ -5,8 +5,21 @@ class Api::V1::GroupsController < ApplicationController
   before_action :admin_user, only: %i[edit update destroy] #幹事でないと操作できないアクション
 
   def index
+    #元々のコード
+    # @groups = Group.order(id: :asc) #idの昇順に表示
+    # render json: {groups: @groups, current_user: current_user }
+
+
+    # ここからテスト
     @groups = Group.order(id: :asc) #idの昇順に表示
-    render json: {groups: @groups, current_user: current_user }
+    @groups_length = []
+    Group.preload(:users).all.each do |group|
+      @groups_length << {
+        id: group.id, count: group.joins.where(level: '1').length
+      }
+    end
+
+    render json: {groups: @groups, current_user: current_user, groups_length: @groups_length }
   end
 
   def show
