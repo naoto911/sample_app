@@ -79,11 +79,25 @@
                 </v-radio-group>
 
               <h3>出身</h3>
-                <v-text-field
+                <v-select
+                  v-if="areas"
+                  v-model="e1"
+                  item-text="prefName"
+                  item-value="value"
+                  :items="areas"
+                  menu-props="auto"
+                  label="Select"
+                  hide-details
+                  prepend-icon="mdi-map-marker"
+                  single-line
+                  return-object
+                ></v-select>
+
+                <!-- <v-text-field
                   v-model="user.birthplace"
                   label="出身"
                   prepend-inner-icon="mdi-map-marker"
-                ></v-text-field>
+                ></v-text-field> -->
 
               <h3>自己紹介</h3>
                 <v-textarea
@@ -143,13 +157,16 @@ export default {
       valid: true,
       user: {},
 
-      // user1: { sex: "1"},
       url: null,
+
+      e1: {},
+      areas: [],
     }
   },
 
   created() {
     this.getUser();
+    this.getAreas();
   },
 
   methods: {
@@ -177,6 +194,27 @@ export default {
       this.url = URL.createObjectURL(this.user.image);
       return this.url;
     },
+    getAreas(){
+      var temporary = axios.defaults.headers.common; //token headerを一時保存
+      axios.defaults.headers.common = null; //token headerを消去
+      var area_url = 'https://opendata.resas-portal.go.jp/api/v1/prefectures';
+
+      axios
+      .get(area_url,{
+        headers: { "X-API-KEY": "imTqHdr2MusisKwbx1V4J3wS3XrVmwEb26Uv83qB" },
+      })
+      .then(response =>  {
+        this.areas = response.data.result;
+        axios.defaults.headers.common = temporary; //token headerを復活
+        this.getBirthplace(); //getAreas()完了後にgetBirthplaceを実行
+      });
+    },
+    getBirthplace(){
+      const key_id = this.user.birthplace;
+      const data = this.areas;
+      const result = data.filter(x => x.prefCode === key_id);
+      return this.e1 = result[0];
+    },
     UpdateUser () {
       if (!this.user.name) return;
 
@@ -187,14 +225,13 @@ export default {
         formData.append('user[name]', this.user.name)
         formData.append('user[age]', this.user.age)
         formData.append('user[sex]', this.user.sex)
-        formData.append('user[birthplace]', this.user.birthplace)
+        formData.append('user[birthplace]', this.e1.prefCode)
         formData.append('user[introduction]', this.user.introduction)
 
       axios
         .patch(`/api/v1/users/${this.$route.params.id}`, formData)
         .then(response => {
           console.log('OK');
-          console.log(this.$route.params.id)
           this.$router.push({ path: `/users/${this.$route.params.id}/profile` });
         })    
 
@@ -220,48 +257,4 @@ export default {
   
 }
 </script>
-
-    <!-- <v-form
-      ref="form"
-      v-model="valid"
-      lazy-validation
-    >
-      <v-text-field
-        v-model="user.name"
-        :counter="10"
-        label="Name"
-        required
-      ></v-text-field>
-
-      <v-text-field
-        v-model="user.email"
-        :counter="10"
-        label="Email"
-        required
-      ></v-text-field>
-      
-      <v-btn
-        color="primary"
-        class="mr-4"
-        dark
-        @click="UpdateEdit"
-      >
-        Update
-        <v-icon
-          dark
-          right
-        >
-          mdi-checkbox-marked-circle
-        </v-icon>
-      </v-btn>
-
-      <v-btn
-        color="error"
-        class="mr-4"
-        @click="reset"
-      >
-        Reset Form
-      </v-btn>
-
-    </v-form> -->
  
