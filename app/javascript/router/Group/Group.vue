@@ -117,6 +117,7 @@ export default {
 
   created () {
     this.getGroup();
+    this.getFavorite();
   },
 
   methods: {
@@ -128,6 +129,17 @@ export default {
           this.users = response.data.users;
           this.current_user = response.data.current_user;
           this.all_joins = response.data.all_joins;
+        });
+    },
+    getFavorite() {
+      axios
+        .get(`/api/v1/groups/${this.$route.params.id}/favorites.json`,{
+          params: {
+            group_id: this.$route.params.id
+          }
+        })
+        .then(response => {
+          this.favorite_status = response.data.favorite_status;
         });
     },
     checkUser(check_id, group_joins) {
@@ -149,11 +161,40 @@ export default {
       return this.includeAdminuser;
     },
     deleteFavorite() {
+      axios.delete(`/api/v1/groups/${this.$route.params.id}/favorites`)
+        .then(res => {
+        })
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        })
       this.favorite_status = false;
     },
     registerFavorite() {
+      if (!this.group) return;
+      const formData = new FormData()
+      // formData.append('favorite[group_id]', this.group.id)
+      formData.append('favorite[group_id]', this.$route.params.id)
+      formData.append('favorite[user_id]', this.current_user.id)
+
+      axios
+        .post(`/api/v1/groups/${this.$route.params.id}/favorites`, formData)
+        .then(response => {
+          console.log('OK');
+        })        
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        })
       this.favorite_status = true;
     },
+
   },
 
 }

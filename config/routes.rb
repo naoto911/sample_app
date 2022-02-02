@@ -63,6 +63,12 @@ Rails.application.routes.draw do
         #member do 2/6 削除 join controller に移行
           #get :join
         #end
+
+        # resources :favorites , only: [:create, :destroy]
+        get '/favorites', to: 'favorites#index'
+        post 'favorites', to: 'favorites#create'
+        delete 'favorites', to: 'favorites#destroy'
+
         resources :joins, param: :join_id do #2/6 join controller作成のため追記
           member do 
             get :permit

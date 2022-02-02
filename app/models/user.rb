@@ -15,6 +15,9 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
 
 # ==============アソシエーション ================================
+  #favorite用 (多対多)
+  has_many :favorites, dependent: :destroy
+  has_many :groups, through: :favorites
   #join用 (多対多)
   has_many :joins, dependent: :destroy
   has_many :groups, through: :joins

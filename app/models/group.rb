@@ -13,6 +13,9 @@ class Group < ApplicationRecord
   validates :name, uniqueness: true       #nameは重複不可
 
 # ==============アソシエーション ================================
+  #favorite用 (多対多)
+  has_many :favorites, dependent: :destroy
+  has_many :users, through: :favorites
   #join用 (多対多)
   has_many :joins, dependent: :destroy
   has_many :users, through: :joins
