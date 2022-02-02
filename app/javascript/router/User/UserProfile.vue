@@ -14,8 +14,7 @@
                 <p v-if="user.sex" >{{getSex(user.sex)}}</p>
                 <p v-else>性別が未登録です。</p>
               <h3>出身</h3>
-              <!-- {{getFrequency(group.frequency)}} -->
-                <p v-if="user.birthplace" >{{user.birthplace}}</p> 
+                <p v-if="areas && getBirthplace()" >{{ getBirthplace().prefName }}</p> 
                 <p v-else>出身が未登録です。</p>
               <h3>自己紹介</h3>
                 <p v-if="user.introduction" >{{user.introduction}}</p>
@@ -78,11 +77,14 @@ export default {
 
       showContent: false,
       delete_id: null,
+
+      areas: [],
     }
   },
 
   created () {
     this.getUser();
+    this.getAreas();
   },
 
   methods: {
@@ -108,6 +110,26 @@ export default {
           reslut = null
           return reslut;
       }
+    },
+    getAreas(){
+      var temporary = axios.defaults.headers.common; //token headerを一時保存
+      axios.defaults.headers.common = null; //token headerを消去
+      var area_url = 'https://opendata.resas-portal.go.jp/api/v1/prefectures';
+
+      axios
+      .get(area_url,{
+        headers: { "X-API-KEY": "imTqHdr2MusisKwbx1V4J3wS3XrVmwEb26Uv83qB" },
+      })
+      .then(response =>  {
+        this.areas = response.data.result;
+        axios.defaults.headers.common = temporary; //token headerを復活
+      });
+    },
+    getBirthplace(){
+      const key_id = this.user.birthplace;
+      const data = this.areas;
+      const result = data.filter(x => x.prefCode === key_id);
+      return  result[0];
     },
     deleteUser(id) {
       axios.delete(`/api/v1/users/${id}`)
