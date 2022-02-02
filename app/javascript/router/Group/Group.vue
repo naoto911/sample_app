@@ -18,13 +18,25 @@
     <!-- ①-1 ここまで avatar -->
 
     <!-- ①-2 ここから グループ名 -->
-      <v-col cols="10">
+      <v-col cols="8">
         <h2>{{ group.name }}</h2>
       </v-col>
     <!-- ①-2 ここまで グループ名 -->
 
+    <!-- ①-3 ここから お気に入りボタン -->
+      <v-col cols="3" class="text-right">
+        <v-btn 
+          icon 
+        >
+          <v-icon v-if="favorite_status" @click="deleteFavorite()">mdi-heart</v-icon>
+          <v-icon v-else @click="registerFavorite()">mdi-heart-outline</v-icon>
+        </v-btn>
+        <!-- </v-col> -->
+    <!-- ①-3 ここまで お気に入りボタン -->
+
+
     <!-- ①-3 ここから 申請ボタン -->
-      <v-col cols="1" class="text-right">
+      <!-- <v-col cols="1" class="text-right"> -->
           <router-link 
             v-if="this.checkUser(current_user.id, all_joins) == false"
             :to=" '/groups/' + (Number(this.$route.params.id)) +'/joins/new' "
@@ -63,19 +75,6 @@
         {{ admin_menu.title }}
       </v-tab>
     </v-tabs>
-
-    <!-- <v-tabs icons-and-text>
-      <v-tab
-        v-for="menu in menus" 
-        :key="menu.title" 
-        :to="menu.url" 
-        exact
-      >
-        {{ menu.title }}
-        <v-icon>{{ menu.icon }}</v-icon>
-      </v-tab>
-    </v-tabs> -->
-
   <!-- ②ここまで tabs -->
 
     <router-view  class="my-5" :val="includeAdminuser"></router-view>
@@ -104,8 +103,17 @@ export default {
       value: 1,
       includeUser: false,
       includeAdminuser: false,
+
+      favorite_status: false,
     }
   },
+
+  // computed: {
+  //   isLiked() {
+  //     if (this.favorite_status == null) { return false }
+  //     return Boolean(this.findLikeId())
+  //   },
+  // },
 
   created () {
     this.getGroup();
@@ -139,6 +147,12 @@ export default {
         this.includeAdminuser = false;
       }
       return this.includeAdminuser;
+    },
+    deleteFavorite() {
+      this.favorite_status = false;
+    },
+    registerFavorite() {
+      this.favorite_status = true;
     },
   },
 
