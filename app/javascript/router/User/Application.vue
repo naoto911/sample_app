@@ -121,7 +121,7 @@ export default {
     deleteApplication(group_id, id) {
       axios.delete(`/api/v1/groups/${group_id}/joins/${id}`)
         .then(res => {
-          this.$router.push({ path: '/' });
+          this.getUser();
         })
         .catch(error => {
           console.log('NG');

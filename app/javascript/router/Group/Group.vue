@@ -23,35 +23,31 @@
       </v-col>
     <!-- ①-2 ここまで グループ名 -->
 
-    <!-- ①-3 ここから お気に入りボタン -->
+
       <v-col cols="3" class="text-right">
-        <v-btn 
-          icon 
-        >
+      <!-- ①-3 ここから お気に入りボタン -->
+        <v-btn icon>
           <v-icon v-if="favorite_status" @click="deleteFavorite()">mdi-heart</v-icon>
           <v-icon v-else @click="registerFavorite()">mdi-heart-outline</v-icon>
         </v-btn>
-        <!-- </v-col> -->
-    <!-- ①-3 ここまで お気に入りボタン -->
+      <!-- ①-3 ここまで お気に入りボタン -->
 
-
-    <!-- ①-3 ここから 申請ボタン -->
-      <!-- <v-col cols="1" class="text-right"> -->
-          <router-link 
-            v-if="this.checkUser(current_user.id, all_joins) == false"
-            :to=" '/groups/' + (Number(this.$route.params.id)) +'/joins/new' "
-            active-class="link--active"
-            exact
-            class="link"
-          >
-            <v-btn icon>
-              <v-icon>mdi-gesture-tap-button</v-icon>
-              <!-- <v-icon>mdi-human-greeting-variant</v-icon> -->
-              <!-- <v-icon>mdi-file-document-multiple-outline</v-icon> -->
-            </v-btn>
-          </router-link>
+      <!-- ①-3 ここから 申請ボタン -->
+        <router-link 
+          v-if="this.checkUser(current_user.id, all_joins) == false"
+          :to=" '/groups/' + (Number(this.$route.params.id)) +'/joins/new' "
+          active-class="link--active"
+          exact
+          class="link"
+        >
+          <v-btn icon>
+            <v-icon>mdi-gesture-tap-button</v-icon>
+            <!-- <v-icon>mdi-human-greeting-variant</v-icon> -->
+            <!-- <v-icon>mdi-file-document-multiple-outline</v-icon> -->
+          </v-btn>
+        </router-link>
+      <!-- ①-3 ここまで 申請ボタン -->
       </v-col>
-    <!-- ①-3 ここまで 申請ボタン -->
 
     </v-row>
   <!-- ①ここまで header -->
@@ -96,8 +92,6 @@ export default {
         { title: '紹介', icon: 'mdi-home', url: `/groups/${this.$route.params.id}/detail` },
         { title: 'メンバー', icon: 'mdi-text-account', url: `/groups/${this.$route.params.id}/member` },
         { title: 'イベント', icon: 'mdi-information-variant', url:`/groups/${this.$route.params.id}/events` },
-        // { title: '申請', icon: 'mdi-gesture-tap-button', url: `/groups/${this.$route.params.id}/approval` },
-        // { title: '承認', icon: 'mdi-email-newsletter', url: `/groups/${this.$route.params.id}/approval` },
       ],
       admin_menu: { title: '承認', icon: 'mdi-email-newsletter', url: `/groups/${this.$route.params.id}/approval` },
       value: 1,
@@ -194,9 +188,7 @@ export default {
         })
       this.favorite_status = true;
     },
-
   },
 
 }
-
 </script>

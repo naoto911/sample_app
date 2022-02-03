@@ -50,7 +50,7 @@
                 </v-col>
               <!-- ここから②-1-1 Avatar -->
 
-              <!-- ここから②-1-2 User_name -->             
+              <!-- ここから②-1-2 User_name -->
                 <v-col cols="10">
                   <v-card-title>
                     {{ approval_user.name }}
@@ -145,7 +145,7 @@ export default {
       axios
         .get(`/api/v1/groups/${this.$route.params.id}/joins/${id}/permit.json`)
           .then(res => {
-            this.$router.push({ path: '/' });
+            this.getUser();
           })
           .catch(error => {
             console.log('NG');
@@ -158,7 +158,7 @@ export default {
     denyApproval(id) {
       axios.delete(`/api/v1/groups/${this.$route.params.id}/joins/${id}/deny`)
         .then(res => {
-          this.$router.push({ path: '/' });
+          this.getUser();
         })
         .catch(error => {
           console.log('NG');
@@ -186,10 +186,7 @@ export default {
       this.denyApproval(this.delete_id);
       this.delete_id = null;
     },
-
   },
-
-
 
 }
 </script>
