@@ -1,29 +1,18 @@
 <template>
   <div>
-    <p>ここにお気に入りGroup一覧を表示</p>
+    <p>お気に入りGroup一覧</p>
+    <div
+      v-if="user_favorites_groups.length == 0"
+      class="text-h6 grey--text text--lighten-1 font-weight-light"
+      style="align-self: center;"
+    >
+      お気に入り中のグループはないです
+    </div>
 
-  <!-- ここから ② 都道府県APIのテスト -->
-    <v-select
-      v-if="areas.data && areas.data.result"
-      v-model="e1"
-      item-text="prefName"
-      item-value="value"
-      :items="areas.data.result"
-      menu-props="auto"
-      label="Select"
-      hide-details
-      prepend-icon="mdi-map-marker"
-      single-line
-      return-object
-    ></v-select>
-
-    <p v-if="e1">{{e1}}</p>
-  <!-- ここまで ② 都道府県APIのテスト -->
-
-  <!-- ここから ② Event一覧 -->
+  <!-- ここから ② お気に入りGroup一覧 -->
     <v-card
-      v-for="user_favorite_group in user_favorite_groups"
-      :key="user_favorite_group.id"
+      v-for="user_favorites_group in user_favorites_groups"
+      :key="user_favorites_group.id"
       class="my-8"
     >
       <v-container>
@@ -32,27 +21,48 @@
           align="center"
         >
 
-          <!-- <v-col cols=4>
-              {{ join_event.date }}
+        <!-- ここから②-2-1 Avatar -->
+          <v-col cols=1>
+            <router-link
+              :to=" '/groups/' + (Number(user_favorites_group.id)) + '/detail' "
+              active-class="link--active"
+              exact
+              class="link"
+            >
+              <v-avatar>
+                <v-img
+                  v-if="user_favorites_group"
+                  :src= "user_favorites_group.image.url"
+                  alt="John"
+                ></v-img>
+                <span v-else>G</span>
+              </v-avatar>
+            </router-link>
           </v-col>
+        <!-- ここまで②-2-1 Avatar -->
 
-          <v-col 
-            v-for="event_group in getEvnetGgroup(join_event.group_id)"
-            :key="event_group.id"
-            cols=4
-          >
-              {{ event_group.name }}
-          </v-col>
-
-          <v-col cols=4>
+          <v-col cols=8>
             <v-card-title>
-              {{ join_event.place }}
+              {{ user_favorites_group.name }}
             </v-card-title>
-          </v-col> -->
+          </v-col>
+
+        <!-- ①-3 ここから お気に入りボタン -->
+          <v-col cols="3" class="text-right">
+            <v-btn 
+              icon 
+            >
+              <!-- <v-icon>mdi-heart</v-icon> -->
+              <v-icon @click="deleteFavorite(user_favorites_group.id)">mdi-heart</v-icon>
+              <!-- <v-icon v-else @click="registerFavorite()">mdi-heart-outline</v-icon> -->
+            </v-btn>
+          </v-col>
+        <!-- ①-3 ここまで お気に入りボタン -->
+
         </v-row>
       </v-container>
     </v-card>
-  <!-- ここまで ② Event一覧 -->
+  <!-- ここまで ② お気に入りGroup一覧 -->
 
   </div>
 </template>
@@ -60,57 +70,46 @@
 <script>
 import axios from 'axios';
 
-// axios.defaults.headers.common = {
-//     'X-Requested-With': 'XMLHttpRequest',
-//     'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-// };
-
 export default {
   data() {
     return {
       user_favorite_groups: [],
       user: {},
+      user_favorites_groups: [],
 
-      e1: {prefCode: 35, prefName:'山口県'},
-      areas: [],
     }
   },
 
   created () {
-    this.getAreas();
+    this.getUser();
   },
 
   methods: {
-    // getUser() {
-    //   axios
-    //   .get(`/api/v1/users/${this.$route.params.id}.json`)
-    //   .then(response => {
-    //     this.user_groups = response.data.user_groups;
-    //     this.user = response.data.user;
-    //     this.join_events = response.data.join_events;
-    //   });
-    // },
-    // getEvnetGgroup(key_id){
-    //   const data = this.user_groups;
-    //   const result = data.filter(x => x.id === key_id);
-    //   return result;
-    // },
-    getAreas(){
-      var temporary = axios.defaults.headers.common; //token headerを一時保存
-      axios.defaults.headers.common = null; //token headerを消去
-      var area_url = 'https://opendata.resas-portal.go.jp/api/v1/prefectures';
-
+    getUser() {
       axios
-      .get(area_url,{
-        headers: { "X-API-KEY": "imTqHdr2MusisKwbx1V4J3wS3XrVmwEb26Uv83qB" },
-      })
-      .then(response =>  {
-        this.areas = response;
-        axios.defaults.headers.common = temporary; //token headerを復活
+      .get(`/api/v1/users/${this.$route.params.id}.json`)
+      .then(response => {
+        this.user_groups = response.data.user_groups;
+        this.user = response.data.user;
+        this.join_events = response.data.join_events;
+        this.user_favorites_groups = response.data.user_favorites_groups;
       });
+    },
+    deleteFavorite(key_id) {
+      axios.delete(`/api/v1/groups/${key_id}/favorites`)
+        .then(res => {
+          this.getUser();
+        })
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        })
+      this.favorite_status = false;
     },
   },
 
 }
-
 </script>

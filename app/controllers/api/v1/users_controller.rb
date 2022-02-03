@@ -46,6 +46,18 @@ class Api::V1::UsersController < ApplicationController
       @join_events.push(@join_event)
     end
     
+    #おき入りグループの取得
+    @user_favorites = @user.favorites
+    @user_favorites_groups = []
+    for @user_favorite in @user_favorites do
+      @user_favorites_group = Group.find_by(id: @user_favorite.group_id)
+      @user_favorites_groups.push(@user_favorites_group)
+    end
+
+    # Group.preload(:groups).all.each do |group|
+    #   user_names = comp.users.pluck(:name).join(",")
+    # end
+
     # #承認中のデータ
     # @groups = Group.where(adminuser_id: @user.id)
     # @approvals = []
@@ -65,7 +77,7 @@ class Api::V1::UsersController < ApplicationController
     # render json: {user: @user, applications: @applications }
     # render json: {user: @user, applications: @applications, approvals: @approvals, applicaiton_groups: @applicaiton_groups }
     # render json: {user: @user, applications: @applications, applicaiton_groups: @applicaiton_groups } ←うまくいっている方
-    render json: {user: @user, applications: @applications, applicaiton_groups: @applicaiton_groups, user_groups: @user_groups, join_events: @join_events }
+    render json: {user: @user, applications: @applications, applicaiton_groups: @applicaiton_groups, user_groups: @user_groups, join_events: @join_events, user_favorites_groups: @user_favorites_groups }
 
   end
 
