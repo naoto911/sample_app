@@ -107,7 +107,6 @@ export default {
             this.errors = error.response.data.errors;
           }
         })
-      this.favorite_status = false;
     },
   },
 
