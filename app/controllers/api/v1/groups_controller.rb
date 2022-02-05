@@ -7,17 +7,27 @@ class Api::V1::GroupsController < ApplicationController
   def index
     #元々のコード
     # @groups = Group.order(id: :asc) #idの昇順に表示
-    # render json: {groups: @groups, current_user: current_user }
+    # render json: {groups:s @groups, current_user: current_user }
 
-
-    # ここからテスト
-    @groups = Group.order(id: :asc) #idの昇順に表示
+    # N+1改善ver
+    @groups = Group.includes(:joins).order(id: :asc)
     @groups_length = []
-    Group.preload(:users).all.each do |group|
+    @groups.each do |group|
       @groups_length << {
         id: group.id, count: group.joins.where(level: '1').length
       }
     end
+
+    # # ここからテスト
+    # @groups = Group.order(id: :asc) #idの昇順に表示
+    # @groups_length = []
+    # Group.preload(:users).all.each do |group|
+    #   @groups_length << {
+    #     id: group.id, count: group.joins.where(level: '1').length
+    #   }
+    # end
+
+    # @test = @groups_length2 === @groups_length
 
     render json: {groups: @groups, current_user: current_user, groups_length: @groups_length }
   end
