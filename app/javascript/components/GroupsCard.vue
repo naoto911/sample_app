@@ -1,18 +1,10 @@
 <template>
   <div>
     <v-row>
-
-    <!-- ここから ① 検索ウィンドウ -->
+    <!-- ここから ① 検索系 -->
       <v-col cols="3"></v-col>
+    <!-- ここから ①-1 文字列検索 -->
       <v-col cols="6">
-        <!-- <v-text-field
-          outlined
-          v-bind="keyword2"
-          @keyup.enter="submitText"
-          label="グループを検索"
-          append-outer-icon="mdi-map-marker"
-        ></v-text-field> -->
-
         <v-text-field
           outlined
           v-model.lazy="keyword"
@@ -20,8 +12,68 @@
           append-icon="mdi-magnify"
         ></v-text-field>
       </v-col>
-      <v-col cols="3"></v-col>
-    <!-- ここまで ① 検索ウィンドウ -->
+    <!-- ここまで ①-1 文字列検索 -->
+
+    <!-- ここから ①-2 人数検索 -->
+      <v-col cols="3">
+        <v-btn
+          icon
+          @click="show = !show"
+        >
+          <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+        </v-btn>
+      </v-col>
+
+      <v-col cols="12" v-show="show">
+        <v-expand-transition>
+          <v-card>
+            <v-divider></v-divider>
+
+            <v-card-text>
+              <v-row>
+                <v-col cols="12">
+                  <v-slider
+                    v-model="min"
+                    :max="100"
+                    label="以上"
+                    class="align-center"
+                  >
+                    <template v-slot:append>
+                      <v-text-field
+                        v-model="min"
+                        class="mt-0 pt-0"
+                        type="number"
+                        style="width: 60px"
+                      ></v-text-field>
+                    </template>
+                  </v-slider>
+                </v-col>
+
+                <v-col cols="12">
+                  <v-slider
+                    v-model="max"
+                    :max="100"
+                    label="以下"
+                    class="align-center"
+                  >
+                    <template v-slot:append>
+                      <v-text-field
+                        v-model="max"
+                        class="mt-0 pt-0"
+                        type="number"
+                        style="width: 60px"
+                      ></v-text-field>
+                    </template>
+                  </v-slider>
+                </v-col>
+              </v-row>
+            </v-card-text>
+
+          </v-card>
+        </v-expand-transition>
+      </v-col>
+    <!-- ここまで ①-2 人数検索 -->
+    <!-- ここまで ① 検索系 -->
 
     <!-- ここから ② Group-card一覧 -->
       <v-col
@@ -57,7 +109,7 @@
 
               <v-card-subtitle>
                 <!-- {{ val.introduction | omittedText(10) }}  -->
-                人数:{{ getGroupLentfh(val.id)[0].count }}
+                人数:{{ getGroupLength(val.id).count }}
               </v-card-subtitle>
 
             </v-card>
@@ -80,6 +132,10 @@ export default {
       val: [],
       keyword: '',
       text: "0123456789101112",
+
+      min: 0,
+      max: 100,
+      show: false,
     }
   },
 
@@ -95,14 +151,22 @@ export default {
   computed: {
     SerchGroups () {
       var vals = [];
-      for(var i in this.vals) {
-          var group = this.vals[i];
-          if(group.name.indexOf(this.keyword) !== -1) {
-          // if(group.name.indexOf(this.keyword) !== -1 || user.email.indexOf(this.keyword) !== -1) {
-              vals.push(group);
+      var vals2 = [];
+      for(var i in this.groups_length) {
+          var groups_length = this.groups_length[i];
+          if(groups_length.count >= this.min && groups_length.count <= this.max ) {
+              var group2 = this.getGroupForLength(groups_length.id)
+              vals.push(group2);
           }
       }
-      return vals;
+
+      for(var i in vals) {
+          var group = vals[i];
+          if(group.name.indexOf(this.keyword) !== -1) {
+              vals2.push(group);
+          }
+      }
+      return vals2;
     },
   },
 
@@ -114,11 +178,16 @@ export default {
   },
 
   methods: {
-    getGroupLentfh(key_id) {
+    getGroupLength(key_id) {
       const data = this.groups_length;
       const result = data.filter(x => x.id === key_id);
-      return result;
+      return result[0];
     },
+    getGroupForLength(key_id) {
+      const data = this.vals;
+      const result = data.filter(x => x.id === key_id);
+      return result[0];
+    }
   },
 
 };
