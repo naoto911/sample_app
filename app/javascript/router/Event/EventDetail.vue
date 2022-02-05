@@ -1,92 +1,106 @@
 <template>
   <div>
+    <v-card>
+      <v-responsive :aspect-ratio="16/9">
+        <v-row>
 
-  <!-- ①ここから ボタン類 -->
-    <v-row>
-      <v-col></v-col>
-      <v-spacer></v-spacer>
-      <v-col class="text-right">
-        
-        <!-- ①-1 ここから 削除ボタン -->
-            <v-btn 
-              icon 
-              @click="openModal(event.id)"
-            >
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
-        <!-- ①-1 ここまで 削除ボタン -->
+        <!-- ① ここから 紹介 -->
+          <v-col cols="10">
+            <v-card-text>
+            <!-- ②-1 ここから イベント詳細 -->
+              <h3>日付</h3>
+                <p v-if="event.date" >{{ event.date }}</p>
+                <p v-else>日付が未登録です</p>
+              <h3>開催場所</h3>
+                <p v-if="event.place" >{{ event.place }}</p>
+                <p v-else>開催場所が未登録です。</p>
+            <!-- ②-1 ここまで イベント詳細 -->    
 
-        <!-- ②-2 ここから UserEditへのリンク -->
-          <router-link
-            :to=" $route.path + '/edit' "
-            active-class="link--active"
-            exact
-            class="link"
-          >
-            <v-btn icon>
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-          </router-link>
-        <!-- ②-2 ここまで UserEditへのリンク -->
+            <!-- ②-2 ここから 参加ユーザー一覧 -->
+              <h3>参加メンバー</h3>
+              <!-- ここから②-2-1 Avatar -->
+                <router-link
+                  v-for="val in participant_users"
+                  :key="val.id"
+                  :to=" '/users/' + (Number(val.id)) "
+                  active-class="link--active"
+                  exact
+                  class="link"
+                >
 
-      </v-col>
-    </v-row>
-  <!-- ①ここまで ボタン類 -->
+                  <v-avatar
+                    cols="4"
+                  >
+                    <v-img
+                      v-if="val.image"
+                      :src= "val.image.url"
+                      alt="John"
+                    ></v-img>
+                    <span v-else>G</span>
+                  </v-avatar>
+                </router-link>
+              <!-- ここまで②-2-1 Avatar -->
+            <!-- ②-2 ここまで 参加ユーザー一覧 -->
 
-  <!-- ②-1 ここから イベント詳細 -->
-    <p>日付 : {{ event.date }}</p>
-    <p>イベント名 : {{ event.place }}</p>
-  <!-- ②-1 ここまで イベント詳細 -->    
+            <!-- ②-3 ここから 不参加ユーザー一覧 -->
+              <h3>不参加メンバー</h3>
+                <router-link
+                  v-for="val in unparticipant_users"
+                  :key="val.id"
+                  :to=" '/users/' + (Number(val.id)) "
+                  active-class="link--active"
+                  exact
+                  class="link"
+                >
 
-  <!-- ②-2 ここから 参加ユーザー一覧 -->
-    <h3>参加ユーザー</h3>
-    <!-- ここから②-2-1 Avatar -->
-      <router-link
-        v-for="val in participant_users"
-        :key="val.id"
-        :to=" '/users/' + (Number(val.id)) "
-        active-class="link--active"
-        exact
-        class="link"
-      >
+                  <v-avatar
+                    cols="4"
+                  >
+                    <v-img
+                      v-if="val.image"
+                      :src= "val.image.url"
+                      alt="John"
+                    ></v-img>
+                    <span v-else>G</span>
+                  </v-avatar>
+                </router-link>
+            <!-- ②-3 ここまで 不参加ユーザー一覧 -->
 
-        <v-avatar
-          cols="4"
-        >
-          <v-img
-            v-if="val.image"
-            :src= "val.image.url"
-            alt="John"
-          ></v-img>
-          <span v-else>G</span>
-        </v-avatar>
-      </router-link>
-    <!-- ここまで②-2-1 Avatar -->
-  <!-- ②-2 ここまで 参加ユーザー一覧 -->
+            </v-card-text>
+          </v-col>
+        <!-- ① ここまで 紹介 -->
 
-  <!-- ②-3 ここから 不参加ユーザー一覧 -->
-    <h3>不参加ユーザー</h3>
-      <router-link
-        v-for="val in unparticipant_users"
-        :key="val.id"
-        :to=" '/users/' + (Number(val.id)) "
-        active-class="link--active"
-        exact
-        class="link"
-      >
+        <!-- ② ここから ボタン類 -->
+          <v-col v-if="val" class="text-right" cols="2">
 
-        <v-avatar
-          cols="4"
-        >
-          <v-img
-            v-if="val.image"
-            :src= "val.image.url"
-            alt="John"
-          ></v-img>
-          <span v-else>G</span>
-        </v-avatar>
-      </router-link>
-  <!-- ②-3 ここまで 不参加ユーザー一覧 -->
+            <!-- ②-1 ここから 削除ボタン -->
+              <v-btn 
+                icon 
+                @click="openModal(event.id)"
+              >
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            <!-- ②-1 ここまで 削除ボタン -->
+
+            <!-- ②-2 ここから 編集ボタン -->
+              <router-link
+                :to=" $route.path + '/edit' "
+                active-class="link--active"
+                exact
+                class="link"
+              >
+                <v-btn icon>
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+              </router-link>
+            <!-- ②-2 ここまで 編集ボタン -->
+
+          </v-col>
+        <!-- ② ここまで ボタン類 -->
+
+        </v-row>
+      </v-responsive>
+    </v-card>
 
     <Modal :showContent="showContent" @close="closeModal" @delete="deleteAction"></Modal>
 
@@ -114,6 +128,12 @@ export default {
 
       showContent: false,
       delete_id: null,
+    }
+  },
+
+  props: {
+    val: {
+      type: Boolean
     }
   },
 
@@ -195,5 +215,4 @@ export default {
   },
 
 }
-
 </script>

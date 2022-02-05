@@ -104,6 +104,7 @@
               {{ $refs.calendar.title }}
             </v-toolbar-title>
             <v-spacer></v-spacer>
+
           <!-- ② ここからカレンダー期間を変更 -->
             <v-menu
               bottom
@@ -138,9 +139,11 @@
               </v-list>
             </v-menu>
           <!-- ② ここまでカレンダー期間を変更 -->
+
           </v-toolbar>
         </v-sheet>
         <v-sheet height="600">
+
         <!-- ③ここからカレンダーのメインの部分 -->
           <v-calendar
             ref="calendar"
@@ -174,7 +177,7 @@
               >
 
               <!-- ④-1 ここから EvnetEditへのリンク -->
-                <router-link
+                <!-- <router-link
                   :to=" $route.path + '/' + (Number(selectedEvent.id)) + '/edit'"
                   active-class="link--active"
                   exact
@@ -183,14 +186,14 @@
                   <v-btn icon>
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-                </router-link>
+                </router-link> -->
               <!-- ④-1 ここまで EvnetEditへのリンク -->
 
                 <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon>
+                <!-- <v-btn icon>
                   <v-icon>mdi-heart</v-icon>
-                </v-btn>
+                </v-btn> -->
 
               <!-- ④-2 ここから EvnetDetaileへのリンク -->
                 <router-link
@@ -200,7 +203,9 @@
                   class="link"
                 >
                   <v-btn icon>
-                    <v-icon>mdi-dots-vertical</v-icon>
+                    <!-- <v-icon>mdi-dots-vertical</v-icon> -->
+                    <v-icon>mdi-credit-card-search-outline</v-icon>
+                    
                   </v-btn>
                 </router-link>
               <!-- ④-2 ここまで EvnetDetaileへのリンク -->
@@ -221,11 +226,6 @@
                       row
                       @change="onChange"
                     >
-                    <!-- <v-radio-group
-                      v-model="row"
-                      row
-                      @change="onChange"
-                    > -->
                       <v-radio
                         label="参加"
                         value="○"
@@ -236,20 +236,6 @@
                       ></v-radio>
                     </v-radio-group>
                   </v-col>
-
-                  <!-- <v-col cols="12">
-                    <v-btn
-                      text
-                      color="secondary"
-                      @click="selectedOpen = false"
-                    >
-                      キャンセル
-                    </v-btn>
-                  </v-col> -->
-
-                  <!-- <v-col cols="12">
-                    <p v-if="eventAnswer.length == 1">Answer : {{ eventAnswer[0].answer }}</p>
-                  </v-col> -->
 
                 </v-row>
               </v-card-actions>
@@ -288,7 +274,6 @@ export default {
       names: ['練習', '飲み', '試合'],
       answer: [],
       answers: [],
-      // row: null,
     }
   },
 

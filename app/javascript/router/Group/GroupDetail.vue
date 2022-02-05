@@ -51,11 +51,12 @@
           </v-col>
         <!-- ② ここまで ボタン類 -->
 
-        <Modal :showContent="showContent" @close="closeModal" @delete="deleteAction"></Modal>
-
         </v-row>
       </v-responsive>
     </v-card>
+
+    <Modal :showContent="showContent" @close="closeModal" @delete="deleteAction"></Modal>
+    
   </div>
 </template>
 

@@ -300,3 +300,35 @@ export default {
 </script>
 
 <!-- ①-1 ここまで GroupNewのバックアップ -->
+
+  <!-- ①ここから ボタン類 -->
+    <v-row>
+      <v-col></v-col>
+      <v-spacer></v-spacer>
+      <v-col class="text-right">
+        
+        <!-- ①-1 ここから 削除ボタン -->
+            <v-btn 
+              icon 
+              @click="openModal(event.id)"
+            >
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        <!-- ①-1 ここまで 削除ボタン -->
+
+        <!-- ②-2 ここから UserEditへのリンク -->
+          <router-link
+            :to=" $route.path + '/edit' "
+            active-class="link--active"
+            exact
+            class="link"
+          >
+            <v-btn icon>
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+          </router-link>
+        <!-- ②-2 ここまで UserEditへのリンク -->
+
+      </v-col>
+    </v-row>
+  <!-- ①ここまで ボタン類 -->
