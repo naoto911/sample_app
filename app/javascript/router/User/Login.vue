@@ -94,9 +94,9 @@ export default {
             password: this.user.password
         })
       .then(response => {
-        console.log('OK');
+        var user_id = response.data.user.id;
         this.$store.dispatch('login')
-        this.$router.push({ path: '/' });
+        this.$router.push({ path: `/users/${user_id}/profile` });
       })        
       .catch(error => {
         console.log('NG');

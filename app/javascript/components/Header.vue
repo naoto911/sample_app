@@ -218,9 +218,9 @@ export default {
       axios
         .post('/api/v1/guest_login')
         .then(response => {
-          console.log('OK');
+          var user_id = response.data.user.id;
           this.$store.dispatch('login')
-          // this.$router.go({path: this.$router.currentRoute.path, force: true})  //リロードを実行 (gest_login後は同一URLのため)
+          this.$router.push({ path: `/users/${user_id}/profile` });
         })        
         .catch(error => {
           console.log('NG');
