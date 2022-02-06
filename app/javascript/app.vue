@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app>
-      <Header :val="token" :val2="user_groups"></Header>
+      <Header v-if="!checkURL" :val="token" :val2="user_groups"></Header>
       <v-main>
         <v-container>
           <router-view></router-view>
@@ -14,15 +14,11 @@
 <script>
 import axios from 'axios';
 
+import Top from "./router/Top";
 import Home from "./router/Home";
 import Header from "./components/Header";
 
 import Group from "./router/Group/Group";
-// import GroupNew from "./router/Group/GroupNew";
-// import GroupEdit from "./router/Group/GroupEdit";
-// import GroupDetail from "./router/Group/GroupDetail";
-// import GroupEvent from "./router/Group/GroupEvent";
-// import GroupMember from "./router/Group/GroupMember";
 
 import Approval from "./router/Group/Approval";
 
@@ -34,25 +30,17 @@ import JoinNew from "./router/Join/JoinNew";
 import JoinEdit from "./router/Join/JoinEdit";
 
 import User from "./router/User/User";
-// import UserNew from "./router/User/UserNew";
-// import UserEdit from "./router/User/UserEdit";
-// import UserProfile from "./router/User/UserProfile";
-// import Application from "./router/User/Application";
 
 import Login from "./router/User/Login";
 
 
 export default {
   components: {
+    Top,
     Home,
     Header,
 
     Group,
-    // GroupNew,
-    // GroupEdit,
-    // GroupDetail,
-    // GroupEvent,
-    // GroupMember,
 
     Approval,
 
@@ -64,10 +52,6 @@ export default {
     JoinEdit,
 
     User,
-    // UserNew,
-    // UserEdit,
-    // UserProfile,
-    // Application,
     
     Login,
   },  
@@ -80,7 +64,6 @@ export default {
 
   computed: {
     token () {
-      // console.log("toeknを実行");
       var result = {};
       var login_user = this.$store.state.loginUser
 
@@ -90,10 +73,18 @@ export default {
       }
       return result;
     },
+    checkURL() {
+      // console.log(this.$route.path);
+      // console.log(this.$route.path === '/');
+      var result = false;
+      if (this.$route.path === '/') { //rootの時はHeaderを非表示にする
+       result = true
+      }
+      return result;
+    }    
   },
 
   created() {
-    // console.log("created");
     this.login(); //初期描写時にLogin実行 (以後は,Login or GestLogin 毎に各関数でpost中に実行)
   },
 

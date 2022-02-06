@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 
+import Top from "./router/Top";
 import Home from "./router/Home";
 // import Header from "./components/Header";
 
@@ -36,7 +37,8 @@ export default new Router({
   mode: "history",
   routes: [
   // Main以外
-    { path: '/', component: Home}, 
+    { path: '/', component: Top}, 
+    // { path: '/', component: Home}, 
     { path: '/groups/', component: Home},
   // グループ
     { path: '/groups/new', component: GroupNew},
