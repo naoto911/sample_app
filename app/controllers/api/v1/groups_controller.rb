@@ -75,7 +75,7 @@ class Api::V1::GroupsController < ApplicationController
 
     # render json: {group: @group, users: @users, admin_user: @admin_user, approvals: @approvals, approval_users: @approval_users, current_user: current_user, all_joins: @all_joins }
 
-    render json: {group: @group, users: @users, admin_user: @admin_user, approvals: @approvals, approval_users: @approval_users, current_user: current_user, all_joins: @all_joins }
+    render json: {group: @group, users: @users, admin_user: @admin_user, approvals: @approvals, approval_users: @approval_users, current_user: current_user, all_joins: @all_joins, joins: @joins }
   end
 
   def new

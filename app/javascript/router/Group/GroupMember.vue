@@ -74,7 +74,7 @@
               </v-card-text>
               <v-divider></v-divider>
 
-            <!-- ②ここからユーザー情報 -->
+            <!-- ②ここからユーザー情報 -->            
               <v-row
                 class="text-left"
                 tag="v-card-text"
@@ -100,6 +100,18 @@
                     target="_blank"
                   >{{ selected.id }}</a>
                 </v-col>
+
+              <!-- ② ここから 削除ボタン -->
+                <v-col v-if="val" class="text-right" cols="2">
+                    <v-btn 
+                      icon 
+                      @click="openModal(selected.id)"
+                    >
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                </v-col>
+              <!-- ② ここまで 削除ボタン -->
+
               </v-row>
             <!-- ②ここまでユーザー情報 -->
 
@@ -109,19 +121,39 @@
         </v-col>
       </v-row>
     </v-card>
+
+    <Modal :showContent="showContent" @close="closeModal" @delete="deleteAction"></Modal>
+
   </div>
 </template>
 
 <script>
+import Modal from '../../components/Modal.vue';
 import axios from 'axios';
 
 export default {
+
+  components: { 
+    Modal,
+  },
+
   data() {
     return {
       active: [],
       open: [],
       users: [],
+      joions: [],
       members: [],
+
+      showContent: false,
+      delete_group_id: null,
+      delete_id: null,
+    }
+  },
+
+  props: {
+    val: {
+      type: Boolean
     }
   },
 
@@ -154,7 +186,43 @@ export default {
         .get(`/api/v1/groups/${this.$route.params.id}.json`)
         .then(response => {
           this.users = response.data.users;
+          this.joins = response.data.joins;
         });
+    },
+    deleteApplication(group_id, id) {
+      axios.delete(`/api/v1/groups/${group_id}/joins/${id}`)
+        .then(res => {
+          this.getUsers();
+        })
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        })
+    },
+    openModal(user_id) {
+      this.showContent = true;
+      this.delete_group_id = this.$route.params.id;
+      var id = this.getUserJoin(user_id).id;
+      this.delete_id = id;
+    },
+    closeModal () {
+      this.showContent = false
+      this.delete_group_id = null;
+      this.delete_id = null;
+    },
+    deleteAction () {
+      this.showContent = false
+      this.deleteApplication(this.delete_group_id, this.delete_id);
+      this.delete_group_id = null;
+      this.delete_id = null;
+    },
+    getUserJoin(key_id) {
+      const data = this.joins;
+      const result = data.filter(x => x.user_id === key_id);
+      return result[0];
     },
   },
 

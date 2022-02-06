@@ -37,8 +37,19 @@ class Api::V1::JoinsController < ApplicationController
   end
 
   def destroy
+    #--------------------改善後のコード--------------------
+    if @join.level == 1 then  #所属済ユーザー退会時の処理 関連するanswerを先に全て削除
+      Event.where(group_id: @join.group_id).each_with_index do |group_event| #Eventを次々に取得 1/12編集
+        group_event.answers.find_by(user_id: @join.user_id).destroy #削除予定のuserに関するanswerを次々に削除
+      end
+    else #所属前のユーザー自身による申請削除
+    end
+    
     @join.destroy
-    render json: { status: 'SUCCESS', message: 'Deleted the join', data: @join }
+    render json: {join: @join, current_user: current_user }
+    #--------------------元々のコード--------------------
+    # @join.destroy
+    # render json: { status: 'SUCCESS', message: 'Deleted the join', data: @join }
   end
 
   def permit #申請承認
