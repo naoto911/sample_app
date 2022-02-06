@@ -6,40 +6,84 @@ class Api::V1::EventsController < ApplicationController
   before_action :admin_user, only: %i[edit update destroy] #幹事でないと操作できないアクション
 
   def index
-    @events = Event.where(group_id: @group.id) #groupのeventを全て取得
+    #--------------------N+1改善ver--------------------
+    @events = Event.includes(:answers).where(group_id: @group.id)
     @answers = []
-    for @event in @events do #ひとつずつ確認していく
-        @event_answers = Answer.where(event_id: @event.id, user_id: current_user.id) #event_idが同じanswerを探す
-        @answers += @event_answers
+    @events.each do |event|
+      @event_answers = event.answers.where(event_id: event.id, user_id: current_user.id)
+      @answers += @event_answers
     end
-    render json: {events: @events, answers: @answers } #, events: @events, current_user: current_user }
+
+    render json: {events: @events, answers: @answers }
+
+    #--------------------元々のコードたち--------------------
+    # @events = Event.where(group_id: @group.id) #groupのeventを全て取得
+    # @answers = []
+    # for @event in @events do #ひとつずつ確認していく
+    #     @event_answers = Answer.where(event_id: @event.id, user_id: current_user.id) #event_idが同じanswerを探す
+    #     @answers += @event_answers
+    # end
+
+    # render json: {events: @events, answers: @answers }
+
+    #--------------------ここで検証--------------------
+    # @bool = false
+    # if @events === @events2 && @answers === @answers2
+    #   @bool = true
+    # end
+
+    # render json: { bool: @bool, 
+    #             }
+
   end
 
   def show
-    #ここはうまくいってる
-    # @answers = Answer.where(event_id: @event.id)
-    # render json: {group: @group, event: @event, current_user: current_user,answers: @answers }
-  
-    #ここからテスト
-    @answers = Answer.where(event_id: @event.id)
+    #--------------------N+1改善ver--------------------
+    @answers = Answer.includes(:user).where(event_id: @event.id)
     @participant_answers= @answers.where("answer = '○'")
     @unparticipant_answers = @answers - @participant_answers
+
+    #参加希望userを取得
     @participant_users = []
+    @participant_answers.each do |participant_answer|
+        @participant_users.push(participant_answer.user)
+    end
+
+    #非参加userを取得
     @unparticipant_users = []
+    @unparticipant_answers.each do |unparticipant_answer|
+        @unparticipant_users.push(unparticipant_answer.user)
+    end
+
+    render json: {group: @group, event: @event, participant_users: @participant_users, unparticipant_users: @unparticipant_users }
+
+    #--------------------元々のコードたち--------------------
+    # @answers = Answer.where(event_id: @event.id)
+    # @participant_answers= @answers.where("answer = '○'")
+    # @unparticipant_answers = @answers - @participant_answers
+    # @participant_users = []
+    # @unparticipant_users = []
     
-      for @participant_answer in @participant_answers do
-          @user = User.find_by(id: @participant_answer.user_id)
-          @participant_users.push(@user)
-      end
+    #   for @participant_answer in @participant_answers do
+    #       @user = User.find_by(id: @participant_answer.user_id)
+    #       @participant_users.push(@user)
+    #   end
 
-      for @unparticipant_answer in @unparticipant_answers do
-        @user = User.find_by(id: @unparticipant_answer.user_id)
-        @unparticipant_users.push(@user)
-      end
+    #   for @unparticipant_answer in @unparticipant_answers do
+    #     @user = User.find_by(id: @unparticipant_answer.user_id)
+    #     @unparticipant_users.push(@user)
+    #   end
 
-      # render json: {group: @group, event: @event, current_user: current_user,answers: @answers, users: @users, participant_answers: @participant_answers,unparticipant_answers: @unparticipant_answers }
+    # render json: {group: @group, event: @event, participant_users: @participant_users, unparticipant_users: @unparticipant_users }
 
-      render json: {group: @group, event: @event, participant_users: @participant_users, unparticipant_users: @unparticipant_users }
+    #--------------------ここで検証--------------------
+    # @bool = false
+    # if @participant_users === @participant_users2 && @unparticipant_users === @unparticipant_users2
+    #   @bool = true
+    # end
+
+    # render json: { bool: @bool, 
+    #             }
 
   end
 
@@ -49,24 +93,34 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def create
+    #--------------------N+1改善ver--------------------
     event = Event.new(event_params)
-    # @group = Group.find(params[:group_id]) #Groupを取得 1/11追記
-    event.users << @group.users #Anwserにidを格納させる 1/11追記
+    @group_joins = Join.includes(:user).where(group_id: @group.id).where(level: '1')
+
+    @group_joins.each do |group_join|
+      event.users << group_join.user
+     end
+
     if event.save
-      render json: event, status: :created
+      render json: {event: event }
     else
-      render json: event.errors, status: :unprocessable_entity
+      render json: {event: event }
     end
-  #   if event.save
-  #     flash[:notice] = "予定を作成しました"
-  #     redirect_to group_path(event.group_id)
-  #   else
-  # #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-  #     redirect_to new_group_event_path, flash: {
-  #       event: event,
-  #       error_messages: event.errors.full_messages
-  #     }
-  #   end
+
+    #--------------------元々のコード--------------------
+    # event = Event.new(event_params)
+    # @group_joins = @group.joins.where(level: '1')
+
+    # @group_joins.each do |group_join|
+    #   event.users << group_join.user
+    #  end
+
+    # if event.save
+    #   render json: {event: event }
+    # else
+    #   render json: {event: event }
+    # end
+
   end
 
   def edit
@@ -74,26 +128,18 @@ class Api::V1::EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      # render json: { status: 'SUCCESS', message: 'Updated the group', data: @group }
-      render json: @event, status: :created
+      # render json: @event, status: :created
+      render json: {event: @event }
     else
-      render json: { status: 'SUCCESS', message: 'Not updated', data: @event.errors }
+      # render json: { status: 'SUCCESS', message: 'Not updated', data: @event.errors }
+      render json: {event: @event }
     end
-  #   if @event.update(event_params)
-  #     redirect_to group_path(@event.group_id)
-  #   else
-  # #フォームの入力エラーを起こした際のエラー表示を取得するための処理
-  #     redirect_to edit_group_event_path, flash: {
-  #     event: @event,
-  #     error_messages: @event.errors.full_messages
-  #   }
-  #   end
   end
 
   def destroy
     @event.destroy
-    # redirect_to group_path(@group), flash: { notice: "予定が削除されました"}
-    render json: { status: 'SUCCESS', message: 'Deleted the post', data: @event }
+    # render json: { status: 'SUCCESS', message: 'Deleted the post', data: @event }
+    render json: {event: @event }
   end
 
 private
