@@ -17,16 +17,19 @@ class Api::V1::FavoritesController < ApplicationController
   def create
     favorite = Favorite.new(favorites_params)
       if favorite.save
-        render json: favorite, status: :created
+        # render json: favorite, status: :created
+        render json: {favorite: favorite }
       else
-        render json: favorite.errors, status: :unprocessable_entity
+        # render json: favorite.errors, status: :unprocessable_entity
+        render json: {favorite: favorite }
       end
   end
 
   def destroy
     @favorite = Favorite.where(group_id: @group.id).find_by(user_id: @user.id)
     @favorite.destroy
-    render json: { status: 'SUCCESS', message: 'Deleted the favorite', data: @favorite }
+    # render json: { status: 'SUCCESS', message: 'Deleted the favorite', data: @favorite }
+    render json: {favorite: @favorite }
   end
 
 private
