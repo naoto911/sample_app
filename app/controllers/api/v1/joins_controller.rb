@@ -1,6 +1,6 @@
 class Api::V1::JoinsController < ApplicationController
   protect_from_forgery #追記
-  before_action :logged_in_user, only: %i[show new edit update destroy permit deny leave] #ログイン後しか実行できない
+  before_action :logged_in_user, only: %i[show new edit update destroy permit deny leave] #ログイン後のみ実行可能
   before_action :set_target_group, only: %i[show new create edit update destroy permit deny leave]
   before_action :set_target_join, only: %i[show edit update destroy permit deny leave]
   before_action :master_user, only: %i[ edit update ] #自分自身でないと操作できないアクション
@@ -15,17 +15,21 @@ class Api::V1::JoinsController < ApplicationController
   def create
     join = Join.new(join_params)
       if join.save
-        render json: join, status: :created
+        # render json: join, status: :created
+        render json: { join: join }
       else
-        render json: join.errors, status: :unprocessable_entity
+        # render json: join.errors, status: :unprocessable_entity
+        render json: { join: join }
       end
   end
 
   def update
     if @join.update(join_params)
-      render json: @join, status: :created
+      # render json: @join, status: :created
+      render json: { join: @join }
     else
-      render json: { status: 'SUCCESS', message: 'Not updated', data: @join.errors }
+      # render json: { status: 'SUCCESS', message: 'Not updated', data: @join.errors }
+      render json: { join: @join }
     end
   end
 
@@ -37,43 +41,59 @@ class Api::V1::JoinsController < ApplicationController
   end
 
   def destroy
-    #--------------------改善後のコード--------------------
+    #--------------------元々のコードたち--------------------
     if @join.level == 1 then  #所属済ユーザー退会時の処理 関連するanswerを先に全て削除
       Event.where(group_id: @join.group_id).each_with_index do |group_event| #Eventを次々に取得 1/12編集
-        group_event.answers.find_by(user_id: @join.user_id).destroy #削除予定のuserに関するanswerを次々に削除
+        destroy_answer = group_event.answers.find_by(user_id: @join.user_id)
+        destroy_answer.destroy if destroy_answer != nil #削除予定のuserに関するanswerを次々に削除
       end
     else #所属前のユーザー自身による申請削除
     end
     
     @join.destroy
     render json: {join: @join, current_user: current_user }
-    #--------------------元々のコード--------------------
-    # @join.destroy
-    # render json: { status: 'SUCCESS', message: 'Deleted the join', data: @join }
   end
 
   def permit #申請承認
-    if @join.level == 1 then
-      #すでに所属済みの場合,何もせず,API処理を終了させる
+    #--------------------N+1改善ver--------------------
+    if @join.level == 1 then #すでに所属済みの場合,何もせず,API処理を終了させる
     else 
       @join.level = 1
       @join.save
-      #参加するUser用にAnswerを作成するための処理 
-      #(このGroupのEventの数だけ,Answerを新規作成)
-      Event.where(group_id: @join.group_id).each_with_index do |group_event| #Eventを次々に取得 1/12編集
-        group_event.users << User.find(@join.user_id) #Anserに(event_id,user_id)を紐付ける 1/12追記
+
+      #参加するUser用にAnswerを作成するための処理 (GroupのEvent数分,Answerを新規作成)
+      @user = User.find(@join.user_id)
+      @user_group =  Group.includes(events: :users).find_by(id: @group.id)
+
+      @user_group.events.each do |group_event|
+        group_event.users << @user
       end
     end
-    render json: { status: 'SUCCESS', message: 'Permit the Application', data: @join }
+
+    render json: { join: @join }
+
+    #--------------------元々のコードたち--------------------
+    # if @join.level == 1 then #すでに所属済みの場合,何もせず,API処理を終了させる
+    # else 
+    #   @join.level = 1
+    #   @join.save
+
+    #   #参加するUser用にAnswerを作成するための処理 (GroupのEvent数分,Answerを新規作成)
+    #   Event.where(group_id: @join.group_id).each_with_index do |group_event| #Eventを次々に取得 1/12編集
+    #     group_event.users << User.find(@join.user_id) #Anserに(event_id,user_id)を紐付ける 1/12追記
+    #   end
+    # end
+    # render json: { status: 'SUCCESS', message: 'Permit the Application', data: @join }
+    # render json: { join: @join }
   end 
 
   def deny #申請拒否
-    if @join.level == 1 then
-      #すでに所属済みの場合,何もせず,API処理を終了させる
+    if @join.level == 1 then #すでに所属済みの場合,何もせず,API処理を終了させる
     else 
       @join.destroy
     end
-    render json: { status: 'SUCCESS', message: 'Deny the Application', data: @join }
+    # render json: { status: 'SUCCESS', message: 'Deny the Application', data: @join }
+    render json: { join: @join }
   end
 
   # def leave #退会処理 groups_ctontrollerへ移動する
