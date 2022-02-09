@@ -79,7 +79,7 @@
       <v-col
         v-for="val in SerchGroups"
         :key="val.id"
-        cols="4"
+        cols="12" sm="6" md="4" lg="3"
       >
         <router-link
           :to=" 'groups/' + (Number(val.id)) + '/detail'"
