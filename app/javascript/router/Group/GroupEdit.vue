@@ -40,13 +40,15 @@
 
       <!-- ①-2 ここから グループ名 -->
         <v-col cols="11">
-          <v-text-field
-            v-model="group.name"
-            :counter="10"
-            :rules="nameRules"
-            label="名前"
-            required
-          ></v-text-field>
+          <v-card-text class="ml-4">
+            <v-text-field
+              v-model="group.name"
+              :counter="10"
+              :rules="nameRules"
+              label="名前"
+              required
+            ></v-text-field>
+          </v-card-text>
         </v-col>
       <!-- ①-2 ここまで グループ名 -->
       

@@ -39,10 +39,25 @@
       <!-- ここまで ①-1 画像uploda -->
 
       <!-- ①-2 ここから グループ名 -->
-        <v-col cols="10">
+        <!-- <v-col cols="10">
           <h2>{{ user.name }}</h2>
-        </v-col>
+        </v-col> -->
       <!-- ①-2 ここまで グループ名 -->
+
+      <!-- ①-2 ここから ユーザー名 -->
+        <v-col cols="11">
+          <v-card-text class="ml-4">
+            <v-text-field
+              v-model="user.name"
+              :counter="10"
+              :rules="nameRules"
+              label="名前"
+              required
+            ></v-text-field>
+          </v-card-text>
+        </v-col>
+      <!-- ①-2 ここまで ユーザー名 -->
+
 
       </v-row>
     <!-- ①ここまで header -->

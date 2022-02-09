@@ -19,7 +19,9 @@
 
     <!-- ①-2 ここから グループ名 -->
       <v-col cols="8">
-        <h2>{{ group.name }}</h2>
+        <v-card-text class="ml-4">
+          <h2>{{ group.name }}</h2>
+        </v-card-text>
       </v-col>
     <!-- ①-2 ここまで グループ名 -->
 
