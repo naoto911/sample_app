@@ -82,7 +82,7 @@
         cols="12" sm="6" md="4" lg="3"
       >
         <router-link
-          :to=" 'groups/' + (Number(val.id)) + '/detail'"
+          :to=" '/groups/' + (Number(val.id)) + '/detail'"
           active-class="link--active"
           exact
           class="link"
@@ -95,7 +95,7 @@
               :elevation="hover ? 16 : 2"
               :class="{ 'on-hover': hover }"
               class="mx-auto"
-              max-width="344"
+              max-width="260"
             >
 
               <v-img
