@@ -113,7 +113,9 @@
         exact
         class="link"
       >
-        Login
+        <v-btn color="primary">
+          Login
+        </v-btn>
       </router-link>
     <!-- ②-2ここまで非Login時 -->
 
