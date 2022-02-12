@@ -7,7 +7,7 @@
     <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
   <!-- ①ここからSyumixロゴ&ハンバーガーメニュー -->
     <router-link
-      to="/"
+      to="/groups/"
       active-class="link--active"
       exact
       class="link"

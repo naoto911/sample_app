@@ -22,48 +22,6 @@
       </v-col>
     </v-row>
 
-  <!-- ここからイベント一覧 (最終的に削除 *Calendarの中に配置する) -->
-    <!-- <v-row>
-      <v-col
-        v-for="val in events2"
-        :key="val.id"
-        cols="4"
-      >
-        <router-link
-          :to=" $route.path + '/' + (Number(val.id)) "
-          active-class="link--active"
-          exact
-          class="link"
-        >
-          <v-hover 
-            v-slot="{ hover }"
-            close-delay="200"
-          >
-            <v-card
-              :elevation="hover ? 16 : 2"
-              :class="{ 'on-hover': hover }"
-              class="mx-auto"
-              max-width="344"
-            >
-              <v-card-title>
-                {{ val.date }}
-              </v-card-title>
-
-              <v-card-subtitle>
-                {{ val.starttime }} ~ {{ val.finishtime}}
-              </v-card-subtitle>
-
-              <v-card-subtitle>
-                {{ val.place }}
-              </v-card-subtitle>
-
-            </v-card>
-          </v-hover>
-        </router-link>
-      </v-col>
-    </v-row> -->
-  <!-- ここまでイベント一覧 (最終的に削除 *Calendarの中に配置する) -->
-
     <v-row class="fill-height">
       <v-col>
         <v-sheet height="64">
@@ -176,19 +134,6 @@
                 dark
               >
 
-              <!-- ④-1 ここから EvnetEditへのリンク -->
-                <!-- <router-link
-                  :to=" $route.path + '/' + (Number(selectedEvent.id)) + '/edit'"
-                  active-class="link--active"
-                  exact
-                  class="link"
-                >
-                  <v-btn icon>
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
-                </router-link> -->
-              <!-- ④-1 ここまで EvnetEditへのリンク -->
-
                 <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
                 <v-spacer></v-spacer>
                 <!-- <v-btn icon>
@@ -221,8 +166,8 @@
 
                   <v-col cols="12">
                     <v-radio-group
-                      v-if="eventAnswer.length == 1"
-                      v-model="eventAnswer[0].answer"
+                      v-if="eventAnswer"
+                      v-model="eventAnswer.answer"
                       row
                       @change="onChange"
                     >
@@ -268,11 +213,12 @@ export default {
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
-      events: [],
-      events2: [],
       colors: ['deep-purple', 'green', 'orange'],
-      names: ['練習', '飲み', '試合'],
-      answer: [],
+      events: [],
+     
+      // names: ['練習', '飲み', '試合'],
+      // answer: [],
+      API_events: [],
       answers: [],
     }
   },
@@ -287,7 +233,7 @@ export default {
     eventAnswer(){
         const data = this.answers;
         const result = data.filter(x => x.event_id === this.selectedEvent.id);
-        return result;
+        return result[0];
     },
   },
 
@@ -316,14 +262,52 @@ export default {
     next () {
       this.$refs.calendar.next()
     },
+
+    getEvent() {
+      axios
+        .get(`/api/v1/groups/${this.$route.params.id}/events.json`)
+        .then(response => {
+          this.API_events = response.data.events;
+          this.answers = response.data.answers;
+        });
+    },
+    pushEvent() {
+      const events = []
+      const eventCount = this.API_events.length
+      const modifyDate = (new Date('2000-01-01')).getTime()
+      const modifyTime = 9*3600*1000
+
+      for (let i = 0; i < eventCount; i++) {
+        const API_event =this.API_events[i]
+        const dateTime = (new Date(API_event.date)).getTime()
+        const startTime = (new Date(API_event.starttime)).getTime()
+        const endTime = (new Date(API_event.finishtime)).getTime()
+
+        // 以下は全てmsec
+        // dateTime = 1970/01/01 ~ イベント日付
+        // startTime,endTime = 2000-01-01 イベント開/終 時間
+        // modfiDate = 1970 1/1 ~ 2000 1/1
+        // modifyTime = UTC→JST 換算を無効化させるための定数
+        const start = new Date((dateTime +  ( startTime - modifyDate) ) - modifyTime)
+        const end = new Date(( dateTime +  ( endTime - modifyDate) )- modifyTime)
+
+        events.push({
+          name : API_event.place,
+          start: start,
+          end: end,
+          color: "green",
+          timed: true, //true で時間までcarenderに反映 (day,4 days, week のみ)
+          id: API_event.id,
+        })
+      }
+      this.events = events
+    },
+
     showEvent ({ nativeEvent, event }) {
       const open = () => {
         this.selectedEvent = event
         this.selectedElement = nativeEvent.target
         requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
-
-        // this.row = this.eventAnswer[0].answer //ここでevnet毎のanswerをrowへ格納しウィンドウ表示時の初期値を動的に更新
-
       }
         if (this.selectedOpen) {
           this.selectedOpen = false
@@ -338,51 +322,17 @@ export default {
     //   // Math.floor(n) = nを切り捨て
     //   // Math.rondom() = 0以上1未満のランダムな浮動小数点を作成
     // },
-    getEvent() {
-      axios
-        .get(`/api/v1/groups/${this.$route.params.id}/events.json`)
-        .then(response => {
-          this.events2 = response.data.events;
-          this.answers = response.data.answers;
-        });
-    },
-    pushEvent() {
-      const events = []
-      const eventCount = this.events2.length
-      const modifyDate = (new Date('2000-01-01')).getTime()
 
-      for (let i = 0; i < eventCount; i++) {
-        const dateTime = (new Date(this.events2[i].date)).getTime()
-        const firstTimestamp = (new Date(this.events2[i].starttime)).getTime()
-        const first = new Date(firstTimestamp - modifyDate + dateTime)
-        const secondTimestamp = (new Date(this.events2[i].finishtime)).getTime()
-        const second = new Date(secondTimestamp - modifyDate + dateTime)
-
-      //上で求めた定数を用いて,配列にname,start,end,color,timedを追加
-        events.push({
-          name : this.events2[i].place,
-          start: first, //表示期間中からランダムに日付+時間を選定 (イベント開始時刻)
-          end: second, //表示期間中からランダムに日付+時間を選定 (イベント終了時刻)
-          // color: this.colors[this.rnd(0, this.colors.length - 1)], //colorsからランダムに値を選定
-          color: "green",
-          timed: true, //true で時間までcarenderに反映 (day,4 days, week のみ)
-          id: this.events2[i].id,
-        })
-      }
-      // console.log(this.events);
-      this.events = events
-    },
-    onChange() {  // クリックイベントでイベント発火
-      // this.eventAnswer[0].answer = this.row  //radio変更に応じてdata内のrowも同期して更新
+    onChange() {
       this.updateAnswer();
     },
+
     updateAnswer() {
-      // if (!this.row) return;
-        this.answer = this.eventAnswer[0]
+        const updateAnswer = this.eventAnswer
         axios
-          .patch(`/api/v1/answers/${this.answer.id}`, {
+          .patch(`/api/v1/answers/${updateAnswer.id}`, {
             answer: {           
-              answer: this.answer.answer
+              answer: updateAnswer.answer
             }
           })
 
