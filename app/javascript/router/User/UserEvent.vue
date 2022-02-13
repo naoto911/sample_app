@@ -21,6 +21,15 @@
         class="my-8"
       >
         <v-container>
+
+        <router-link
+          v-for="event_group in getEvnetGgroup(API_event.group_id)"
+          :key="event_group.id"
+          :to=" '/groups/' +(event_group.id) + '/events/' + (Number(API_event.id)) "
+          active-class="link--active"
+          exact
+          class="link"
+        >
           <v-row 
             justify="space-around"
             align="center"
@@ -30,11 +39,12 @@
                 {{ API_event.date }}
             </v-col>
 
-            <v-col 
+            <!-- <v-col 
               v-for="event_group in getEvnetGgroup(API_event.group_id)"
               :key="event_group.id"
               cols=4
-            >
+            > -->
+            <v-col cols=4>
                 {{ event_group.name }}
             </v-col>
 
@@ -45,6 +55,9 @@
             </v-col>
 
           </v-row>
+        </router-link>
+
+
         </v-container>
       </v-card>
     </div>
