@@ -1,26 +1,26 @@
 <template>
   <div>
  
-    <v-row>
-      <v-col v-if="val" cols="12">
-      <!-- ① ここからイベント作成ボタン -->
-        <router-link 
-          :to=" '/groups/' + (Number(this.$route.params.id)) +'/events/new' "
-          active-class="link--active"
-          exact
-          class="link"
-        >
-          <v-btn
-            depressed
-            rounded
-            text
+   <!-- ① ここからイベント作成ボタン -->
+      <v-row>
+        <v-col v-if="val" cols="12">    
+          <router-link 
+            :to=" '/groups/' + (Number(this.$route.params.id)) +'/events/new' "
+            active-class="link--active"
+            exact
+            class="link"
           >
-            event作成
-          </v-btn>
-        </router-link>
-      <!-- ① ここまでイベント作成ボタン -->
-      </v-col>
-    </v-row>
+            <v-btn
+              depressed
+              rounded
+              text
+            >
+              event作成
+            </v-btn>
+          </router-link>
+        </v-col>
+      </v-row>
+    <!-- ① ここまでイベント作成ボタン -->
 
     <!-- ここから ② カレンダー表示 -->
       <Calender :events="events" :answers="answers" @onChange="updateAnswer"></Calender>
