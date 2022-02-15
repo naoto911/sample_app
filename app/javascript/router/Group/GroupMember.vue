@@ -102,7 +102,7 @@
                 </v-col>
 
               <!-- ② ここから 削除ボタン -->
-                <v-col v-if="val" class="text-right" cols="2">
+                <v-col v-if="val && selected.id != current_user.id" class="text-right" cols="2">
                     <v-btn 
                       icon 
                       @click="openModal(selected.id)"
@@ -142,6 +142,7 @@ export default {
       active: [],
       open: [],
       users: [],
+      current_user: [],
       joions: [],
       members: [],
 
@@ -187,6 +188,7 @@ export default {
         .then(response => {
           this.users = response.data.users;
           this.joins = response.data.joins;
+          this.current_user = response.data.current_user;
         });
     },
     deleteApplication(group_id, id) {

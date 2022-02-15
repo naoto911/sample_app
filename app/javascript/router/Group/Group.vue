@@ -36,7 +36,7 @@
 
       <!-- ①-3 ここから 申請ボタン -->
         <router-link 
-          v-if="this.checkUser(current_user.id, all_joins) == false"
+          v-if="this.checkPermittedUser(current_user.id, all_joins) == false"
           :to=" '/groups/' + (Number(this.$route.params.id)) +'/joins/new' "
           active-class="link--active"
           exact
@@ -49,6 +49,17 @@
           </v-btn>
         </router-link>
       <!-- ①-3 ここまで 申請ボタン -->
+
+      <!-- ①-3 ここから 退会ボタン -->
+        <v-btn 
+          icon 
+          v-else-if="this.checkJoinUser(current_user.id, joins) && !includeAdminuser"
+          @click="openModal(current_user.id)"
+        >
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+      <!-- ①-3 ここまで 退会ボタン -->
+
       </v-col>
 
     </v-row>
@@ -77,19 +88,30 @@
 
     <router-view  class="my-5" :val="includeAdminuser"></router-view>
 
+
+    <Modal :showContent="showContent" @close="closeModal" @delete="deleteAction"></Modal>
+
   </div>
 </template>
 
 <script>
+import Modal from '../../components/Modal.vue';
 import axios from 'axios';
 
 export default {
+
+  components: { 
+    Modal,
+  },
+
   data() {
     return {
       group: [],
       users: [],
       current_user: [],
       all_joins: [],
+      joins: [],
+
       menus: [
         { title: '紹介', icon: 'mdi-home', url: `/groups/${this.$route.params.id}/detail` },
         { title: 'メンバー', icon: 'mdi-text-account', url: `/groups/${this.$route.params.id}/member` },
@@ -97,19 +119,17 @@ export default {
       ],
       admin_menu: { title: '承認', icon: 'mdi-email-newsletter', url: `/groups/${this.$route.params.id}/approval` },
       value: 1,
-      includeUser: false,
+      includePermittedUser: false,
+      includeJoinUser: false,
       includeAdminuser: false,
 
       favorite_status: false,
+
+      showContent: false,
+      delete_group_id: null,
+      delete_id: null,
     }
   },
-
-  // computed: {
-  //   isLiked() {
-  //     if (this.favorite_status == null) { return false }
-  //     return Boolean(this.findLikeId())
-  //   },
-  // },
 
   created () {
     this.getGroup();
@@ -125,6 +145,7 @@ export default {
           this.users = response.data.users;
           this.current_user = response.data.current_user;
           this.all_joins = response.data.all_joins;
+          this.joins = response.data.joins
         });
     },
     getFavorite() {
@@ -138,14 +159,27 @@ export default {
           this.favorite_status = response.data.favorite_status;
         });
     },
-    checkUser(check_id, group_joins) {
-      for(var i in group_joins) {
-        var join = group_joins[i];
-        if(join.user_id == check_id)  {  //current_userがgroup所属済の場合, includeUser = trueへ更新
-          this.includeUser = true;
+    checkPermittedUser(check_id, check_id2) {
+      if (this.checkUser(check_id, check_id2)) {  //current_userがgroup申請済の場合, includePermittedUser = true
+        this.includePermittedUser = true;
+      }
+      return this.includePermittedUser;
+    },
+    checkJoinUser(check_id, check_id2) {
+      if (this.checkUser(check_id, check_id2)) {  //current_userがgroup所属済の場合, includeJoinUser = true
+        this.includeJoinUser = true;
+      }
+      return this.includeJoinUser;
+    },
+    checkUser(check_id, check_id2) {
+      var result = false
+      for(var i in check_id2) {
+        var join = check_id2[i];
+        if(join.user_id == check_id)  {
+          result = true;
         }
       }
-      return this.includeUser;
+      return result;
     },
     checkAdminser(check_id) {
       if(this.group.adminuser_id == check_id) {
@@ -190,6 +224,42 @@ export default {
         })
       this.favorite_status = true;
     },
+    deleteApplication(group_id, id) {
+      axios.delete(`/api/v1/groups/${group_id}/joins/${id}`)
+        .then(res => {
+          this.getGroup();
+        })
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        })
+    },
+    openModal(user_id) {
+      this.showContent = true;
+      this.delete_group_id = this.$route.params.id;
+      var id = this.getUserJoin(user_id).id;
+      this.delete_id = id;
+    },
+    closeModal () {
+      this.showContent = false
+      this.delete_group_id = null;
+      this.delete_id = null;
+    },
+    deleteAction () {
+      this.showContent = false
+      this.deleteApplication(this.delete_group_id, this.delete_id);
+      this.delete_group_id = null;
+      this.delete_id = null;
+    },
+    getUserJoin(key_id) {
+      const data = this.joins;
+      const result = data.filter(x => x.user_id === key_id);
+      return result[0];
+    },
+
   },
 
 }
