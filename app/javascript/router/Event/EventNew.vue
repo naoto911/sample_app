@@ -208,7 +208,7 @@ export default {
       .then(response => {
         console.log('OK');
         console.log(this.user);
-        this.$router.push({ path: `/api/v1/groups/${this.$route.params.id}/events` });
+        this.$router.push({ path: `/groups/${this.$route.params.id}/events` });
       })        
       .catch(error => {
         console.log('NG');

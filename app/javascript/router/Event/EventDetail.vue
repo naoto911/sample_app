@@ -162,7 +162,7 @@ export default {
     deleteEvent(id) {
       axios.delete(`/api/v1/groups/${this.$route.params.id}/events/${id}`)
         .then( (res) => {
-          this.$router.push({ path: `/api/v1/groups/${this.$route.params.id}/events` });
+          this.$router.push({ path: `/groups/${this.$route.params.id}/events` });
         })
         .catch(error => {
           console.log('NG');
