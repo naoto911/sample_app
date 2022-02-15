@@ -169,7 +169,7 @@ export default {
         place: '',
         remarks: '',
       },
-      // date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+
       time: null,
       menu1: false,
       menu2: false,
@@ -179,11 +179,6 @@ export default {
   
   created() {
     this.getEvent();
-    // this.convetTime();
-  },
-
-  beforeUpdate(){
-    // this.convetTime();
   },
 
   methods: {
@@ -206,50 +201,24 @@ export default {
     },
 
     convetTime() {
-      const modifyDate = (new Date('2000-01-01')).getTime()
-      const modifyTime = 9*3600*1000
-
       const API_event =this.event
-      // const dateTime = (new Date(API_event.date)).getTime()
+      const modifyDate = (new Date('2000-01-01')).getTime()
       const startTime = (new Date(API_event.starttime)).getTime()
       const endTime = (new Date(API_event.finishtime)).getTime()
 
-      // 以下は全てmsec
-      // dateTime = 1970/01/01 ~ イベント日付
-      // startTime,endTime = 2000-01-01 イベント開/終 時間
-      // modfiDate = 1970 1/1 ~ 2000 1/1
-      // modifyTime = UTC→JST 換算を無効化させるための定数
-      // const start = new Date(( startTime - modifyDate) - modifyTime)
-      // const end = new Date(( endTime - modifyDate) - modifyTime)
-      const start = (startTime - modifyDate) //- modifyTime
-      const end = (endTime - modifyDate) //- modifyTime
+      const start = (startTime - modifyDate)
+      const end = (endTime - modifyDate)
     
       var start_MM = (start/1000) % 3600 //分
       var start_HH = ((start/1000) - start_MM) / 3600 //時間
-
       var end_MM = (end/1000) % 3600 //分
       var end_HH = ((end/1000) - end_MM) / 3600 //時間
 
-      // console.log(start_HH)
-      // console.log(start_MM)
-
-      // start_HH =  ( '00' + start_HH ).slice( -2 );
       start_MM =  ( '00' + start_MM ).slice( -2 );
       end_MM =  ( '00' + start_MM ).slice( -2 );
 
-      // console.log(start)
-      // console.log(end)
-      // console.log(start_HH)
-      // console.log(start_MM)
-
-      // this.event.starttime = "8:00"
-      // this.event.finishtime = "13:00"
-      // console.log(String (start_HH + ":" + start_MM) == "00:00")
       this.event.starttime =  String (start_HH + ":" + start_MM)
       this.event.finishtime = String (end_HH + ":" + end_MM)
-      // console.log(typeof(this.event.finishtime))
-
-
     },
 
     UpdateEvent () {
