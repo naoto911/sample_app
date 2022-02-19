@@ -13,6 +13,7 @@
               <h3>場所</h3>
                 <p v-if="group.region" >{{group.region}}</p>
                 <p v-else>場所が未登録です。</p>
+                <GoogleMap></GoogleMap>
               <h3>SNS</h3>
                 <p v-if="group.instagram" >{{group.instagram}}</p>
                 <p v-else>instagramが未登録です。</p>
@@ -56,18 +57,20 @@
     </v-card>
 
     <Modal :showContent="showContent" @close="closeModal" @delete="deleteAction"></Modal>
-    
+
   </div>
 </template>
 
 <script>
 import Modal from '../../components/Modal.vue';
+import GoogleMap from '../../components/GoogleMap.vue'
 import axios from 'axios';
 
 export default {
 
   components: { 
     Modal,
+    GoogleMap,
   },
 
   data() {
