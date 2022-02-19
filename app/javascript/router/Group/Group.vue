@@ -67,7 +67,7 @@
 
 
   <!-- ②ここから tabs -->
-    <v-tabs>
+    <v-tabs v-if="group">
       <v-tab
         v-for="menu in menus" 
         :key="menu.title" 
@@ -113,11 +113,11 @@ export default {
       joins: [],
 
       menus: [
-        { title: '紹介', icon: 'mdi-home', url: `/groups/${this.$route.params.id}/detail` },
-        { title: 'メンバー', icon: 'mdi-text-account', url: `/groups/${this.$route.params.id}/member` },
-        { title: 'イベント', icon: 'mdi-information-variant', url:`/groups/${this.$route.params.id}/events` },
+        { title: '紹介', icon: 'mdi-home', url: `detail` },
+        { title: 'メンバー', icon: 'mdi-text-account', url: `member` },
+        { title: 'イベント', icon: 'mdi-information-variant', url:`events` },
       ],
-      admin_menu: { title: '承認', icon: 'mdi-email-newsletter', url: `/groups/${this.$route.params.id}/approval` },
+      admin_menu: { title: '承認', icon: 'mdi-email-newsletter', url: `approval` },
       value: 1,
       includePermittedUser: false,
       includeJoinUser: false,
@@ -136,14 +136,12 @@ export default {
     this.getFavorite(this.$route.params.id);
   },
 
- watch: {
-   '$route' (to, from) {
-     this.getGroup(to.params.id)
-     this.getFavorite(to.params.id)
-   }
+  watch: {
+    '$route' (to, from) {
+      this.getGroup(to.params.id)
+      this.getFavorite(to.params.id)
+    }
  },
-
-
 
   methods: {
     getGroup(id) {
