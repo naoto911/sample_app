@@ -132,14 +132,23 @@ export default {
   },
 
   created () {
-    this.getGroup();
-    this.getFavorite();
+    this.getGroup(this.$route.params.id);
+    this.getFavorite(this.$route.params.id);
   },
 
+ watch: {
+   '$route' (to, from) {
+     this.getGroup(to.params.id)
+     this.getFavorite(to.params.id)
+   }
+ },
+
+
+
   methods: {
-    getGroup() {
+    getGroup(id) {
       axios
-        .get(`/api/v1/groups/${this.$route.params.id}.json`)
+        .get(`/api/v1/groups/${id}.json`)
         .then(response => {
           this.group = response.data.group;
           this.users = response.data.users;
@@ -148,9 +157,9 @@ export default {
           this.joins = response.data.joins
         });
     },
-    getFavorite() {
+    getFavorite(id) {
       axios
-        .get(`/api/v1/groups/${this.$route.params.id}/favorites.json`,{
+        .get(`/api/v1/groups/${id}/favorites.json`,{
           params: {
             group_id: this.$route.params.id
           }
