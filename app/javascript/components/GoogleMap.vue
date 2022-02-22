@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- <div ref="map" style="height: 500px; width: 800px" @click="test($event)" ></div> -->
     <div ref="map" style="height: 500px; width: 800px"></div>
   </div>
 </template>
@@ -11,7 +12,12 @@ export default {
   data() {
     return {
       myLatLng: { lat: 35.689614, lng: 139.691585 },
-      YOUR_MAP_KEY: 'ここにAPIキーを入れる',
+      
+      // YOUR_MAP_KEY: 'ここにAPIキーを入れる',
+      map: {},
+      marker: {},
+      lat: 2, 
+      lng: null, 
     };
   },
   
@@ -32,13 +38,36 @@ export default {
     let timer = setInterval(() => {
       if (window.mapLoaded) {
         clearInterval(timer);
-        const map = new window.google.maps.Map(this.$refs.map, {
+        this.map = new window.google.maps.Map(this.$refs.map, {
+        // const map = new window.google.maps.Map(this.$refs.map, {
           center: this.myLatLng,
           zoom: 10,
         });
-        new window.google.maps.Marker({ position: this.myLatLng, map });
+
+        // クリックイベントを追加
+        google.maps.event.addListener(this.map, 'click', event => this.clickAction(event, this.map));
+
       }
     }, 500);
   },
+
+  methods: {
+    clickAction(event, map) {
+      const lat = event.latLng.lat();
+      const lng = event.latLng.lng();
+      // const marker = new google.maps.Marker({
+      this.marker = new google.maps.Marker({
+        position: {lat, lng},
+        map
+      });
+    },
+    // test(event){
+    //   this.marker = new window.google.maps.Marker({ 
+    //     position: this.map.getCenter(),
+    //     map: this.map 
+    //   });
+    // },
+  }
+
 };
 </script>
