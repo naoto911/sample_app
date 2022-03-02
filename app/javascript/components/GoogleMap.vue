@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <div ref="map" style="height: 500px; width: 800px" @click="test($event)" ></div> -->
     <div ref="map" style="height: 500px; width: 800px"></div>
   </div>
 </template>
@@ -16,8 +15,6 @@ export default {
       // YOUR_MAP_KEY: 'ここにAPIキーを入れる',
       map: {},
       marker: {},
-      lat: 2, 
-      lng: null, 
     };
   },
   
@@ -46,7 +43,6 @@ export default {
 
         // クリックイベントを追加
         google.maps.event.addListener(this.map, 'click', event => this.clickAction(event, this.map));
-
       }
     }, 500);
   },
@@ -55,11 +51,22 @@ export default {
     clickAction(event, map) {
       const lat = event.latLng.lat();
       const lng = event.latLng.lng();
-      // const marker = new google.maps.Marker({
+
+      this.deleteMakers();
+      
       this.marker = new google.maps.Marker({
         position: {lat, lng},
         map
       });
+      console.log("ここで緯度経度を試す");
+      console.log(lat);
+      console.log(lng);
+    },
+    deleteMakers() { //マーカーを削除する
+        if(Object.keys(this.marker).length) {
+        this.marker.setMap(null);
+      }
+        this.marker = null;
     },
     // test(event){
     //   this.marker = new window.google.maps.Marker({ 
