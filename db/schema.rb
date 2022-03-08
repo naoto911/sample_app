@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_02_124527) do
+ActiveRecord::Schema.define(version: 2022_03_08_125848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,8 @@ ActiveRecord::Schema.define(version: 2022_02_02_124527) do
     t.text "remarks"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "lat"
+    t.float "lng"
     t.index ["group_id"], name: "index_events_on_group_id"
   end
 
@@ -54,8 +56,9 @@ ActiveRecord::Schema.define(version: 2022_02_02_124527) do
     t.integer "adminuser_id"
     t.string "image"
     t.integer "frequency"
-    t.integer "region"
     t.string "instagram"
+    t.float "lat"
+    t.float "lng"
     t.index ["name"], name: "index_groups_on_name", unique: true
   end
 
