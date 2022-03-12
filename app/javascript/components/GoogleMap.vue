@@ -27,32 +27,64 @@
 export default {
   data() {
     return {
-      myLatLng: { lat: 35.689614, lng: 139.691585 },
       
+      // myLatLng: { lat: 35.689614, lng: 139.691585 },
+      myLatLng: { lat: 34.98586155776129, lng: 135.75780520290223 },
+     
       // YOUR_MAP_KEY: 'ここにAPIキーを入れる',
       map: {},
       marker: {},
 
       keyword: '',
+      LatLng: {},
     };
   },
-  
-  mounted() {
-    if (!window.mapLoadStarted) {
-      window.mapLoadStarted = true;
-      let script = document.createElement('script');
-      script.src =
-        // `https://maps.googleapis.com/maps/api/js?key=${this.YOUR_MAP_KEY}&callback=initMap`; //検索候補実装前
-        `https://maps.googleapis.com/maps/api/js?key=${this.YOUR_MAP_KEY}&callback=initAutocomplete&libraries=places&v=weekly`;
-      script.async = true;
-      document.head.appendChild(script);
-    }
 
-    window.initAutocomplete = () => {
+  props: {
+    group: {
+      type: Object
+    }
+  },
+
+ watch: {
+   group: function (val) {
+     console.log(this.group.lat);
+     console.log(val.lat);
+     this.getGoogleMap(val, this.map);
+   },
+    // '$route' (to, from) {
+    //   console.log("ここでテスト");
+    //   console.log(this.group.id);
+    //   // this.getGoogleMap();
+    // }
+  },
+
+  mounted() {
+      if (!window.mapLoadStarted) {
+        window.mapLoadStarted = true;
+        let script = document.createElement('script');
+        script.src =
+          // `https://maps.googleapis.com/maps/api/js?key=${this.YOUR_MAP_KEY}&callback=initMap`; //検索候補実装前
+          `https://maps.googleapis.com/maps/api/js?key=${this.YOUR_MAP_KEY}&callback=initAutocomplete&libraries=places&v=weekly`;
+
+        script.async = true;
+        document.head.appendChild(script);
+      }else {
+        this.initGooleMap();
+      }
+
+      window.initAutocomplete = () => {
+        this.initGooleMap();
+      }
+      
+  },
+
+  methods: {
+    initGooleMap() {
       //マップの初期設定
       this.map = new window.google.maps.Map(this.$refs.map, {
         center: this.myLatLng,
-        zoom: 10,
+        zoom: 13,
       });
 
       //  クリックイベントを追加
@@ -93,7 +125,6 @@ export default {
         });
         this.map.fitBounds(bounds);
       });
-    }
 
       // // 検索候補実装前のコード
       // window.initAutocomplete = () => {
@@ -115,13 +146,7 @@ export default {
 
       //     }
       //   }, 500);
-
-  },
-
-
-  
-
-  methods: {
+    },
     clickAction(event, map) {
       const lat = event.latLng.lat();
       const lng = event.latLng.lng();
@@ -141,6 +166,21 @@ export default {
         this.marker.setMap(null);
       }
         this.marker = null;
+    },
+    getGoogleMap(val, map) {
+      if (val.lat && val.lng) {
+        this.LatLng = {lat: val.lat, lng: val.lng }
+
+        this.deleteMakers();
+        this.marker = new google.maps.Marker({
+          position: this.LatLng,
+          map
+        });
+      }
+      else {
+        this.LatLng = this.myLatLng;
+      }
+      this.map.setCenter(this.LatLng);
     },
     // searchCordinate(map) {
     //       var place = this.keyword;

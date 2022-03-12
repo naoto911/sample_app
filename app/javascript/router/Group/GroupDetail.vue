@@ -13,7 +13,7 @@
               <h3>場所</h3>
                 <p v-if="group.region" >{{group.region}}</p>
                 <p v-else>場所が未登録です。</p>
-                <GoogleMap></GoogleMap>
+                <GoogleMap :group="group"></GoogleMap>
               <h3>SNS</h3>
                 <p v-if="group.instagram" >{{group.instagram}}</p>
                 <p v-else>instagramが未登録です。</p>
@@ -79,7 +79,7 @@ export default {
       onboarding: 0,
       dialog: false,
 
-      group: [],
+      group: {},
       users: [],
 
       showContent: false,
