@@ -119,7 +119,7 @@ export default {
     deleteGroup(id) {
       axios.delete(`/api/v1/groups/${id}`)
         .then(res => {
-          this.$router.push({ path: '/' });
+          this.$router.push({ path: '/groups' });
         })
         .catch(error => {
           console.log('NG');

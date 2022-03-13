@@ -79,11 +79,12 @@
                 </v-radio-group>
 
               <h3>場所</h3>
-                <v-text-field
+                <!-- <v-text-field
                   v-model="group.region"
                   label="練習場所"
                   prepend-inner-icon="mdi-map-marker"
-                ></v-text-field>
+                ></v-text-field> -->
+                <GoogleMap :group="group" @latlng="changeMarker"></GoogleMap>
 
               <h3>SNS</h3>
                 <v-text-field
@@ -141,9 +142,15 @@
 </template>
 
 <script>
+import GoogleMap from '../../components/GoogleMap.vue'
 import axios from 'axios';
 
 export default {
+
+  components: { 
+    GoogleMap,
+  },
+
   data() {
     return {
       valid: true,
@@ -202,7 +209,8 @@ export default {
       formData.append('group[image]', this.group.image)
       formData.append('group[name]', this.group.name)
       formData.append('group[frequency]', this.group.frequency)
-      formData.append('group[region]', this.group.region)
+      formData.append('group[lat]', this.group.lat)
+      formData.append('group[lng]', this.group.lng)
       formData.append('group[instagram]', this.group.instagram)
       formData.append('group[introduction]', this.group.introduction)
       formData.append('group[adminuser_id]', this.current_user.id)
@@ -211,7 +219,7 @@ export default {
         .post('/api/v1/groups', formData)
         .then(response => {
           console.log('OK');
-          this.$router.push({ path: '/' });
+          this.$router.push({ path: '/groups' });
         })        
         .catch(error => {
           console.log('NG');
@@ -221,6 +229,10 @@ export default {
           }
         })
     },
+    changeMarker(latlng) {
+      this.group.lat = latlng.lat;
+      this.group.lng = latlng.lng;
+    }
   },
 
 }

@@ -27,10 +27,9 @@
 export default {
   data() {
     return {
-      
       // myLatLng: { lat: 35.689614, lng: 139.691585 },
       myLatLng: { lat: 34.98586155776129, lng: 135.75780520290223 },
-     
+      
       // YOUR_MAP_KEY: 'ここにAPIキーを入れる',
       map: {},
       marker: {},
@@ -48,8 +47,8 @@ export default {
 
  watch: {
    group: function (val) {
-     console.log(this.group.lat);
-     console.log(val.lat);
+    //  console.log(this.group.lat);
+    //  console.log(val.lat);
      this.getGoogleMap(val, this.map);
    },
     // '$route' (to, from) {
@@ -76,7 +75,6 @@ export default {
       window.initAutocomplete = () => {
         this.initGooleMap();
       }
-      
   },
 
   methods: {
@@ -150,16 +148,14 @@ export default {
     clickAction(event, map) {
       const lat = event.latLng.lat();
       const lng = event.latLng.lng();
-
+      const position = {lat, lng};
       this.deleteMakers();
       
       this.marker = new google.maps.Marker({
         position: {lat, lng},
         map
       });
-      console.log("ここで緯度経度を試す");
-      console.log(lat);
-      console.log(lng);
+      this.$emit('latlng', position) // <=== 親コンポーネントに緯度経度情報をを渡すイベント
     },
     deleteMakers() { //マーカーを削除する
         if(Object.keys(this.marker).length) {
