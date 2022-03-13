@@ -94,8 +94,14 @@ export default {
   },
 
   created() {
-    this.getGroup();
+    this.getGroup(this.$route.params.id);
   },
+
+  watch: {
+    '$route' (to, from) {
+      this.getGroup(to.params.id)
+    }
+ },
 
   methods: {
     next () {
@@ -108,9 +114,9 @@ export default {
         ? this.length - 1
         : this.onboarding - 1
     },
-    getGroup() {
+    getGroup(id) {
       axios
-        .get(`/api/v1/groups/${this.$route.params.id}.json`)
+        .get(`/api/v1/groups/${id}.json`)
         .then(response => {
           this.group = response.data.group;
           this.users = response.data.users;
