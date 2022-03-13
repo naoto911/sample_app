@@ -11,8 +11,9 @@
                 <p v-if="group.frequency" >{{getFrequency(group.frequency)}}</p>
                 <p v-else>頻度が未登録です</p>
               <h3>場所</h3>
-                <p v-if="group.region" >{{group.region}}</p>
-                <p v-else>場所が未登録です。</p>
+                <!-- <p v-if="!group.lat && !group.lng" >{{group.region}}</p> -->
+                <!-- <p v-else>場所が未登録です。</p> -->
+                <p v-if="!group.lat && !group.lng" >場所が未登録です。</p>
                 <GoogleMap :group="group"></GoogleMap>
               <h3>SNS</h3>
                 <p v-if="group.instagram" >{{group.instagram}}</p>

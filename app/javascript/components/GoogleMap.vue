@@ -4,6 +4,7 @@
     <v-row>
       <v-col cols="6">
         <v-text-field
+          v-if="checkURL"
           outlined
           v-model.lazy="keyword"
           append-icon="mdi-magnify"
@@ -29,7 +30,7 @@ export default {
     return {
       // myLatLng: { lat: 35.689614, lng: 139.691585 },
       myLatLng: { lat: 34.98586155776129, lng: 135.75780520290223 },
-      
+     
       // YOUR_MAP_KEY: 'ここにAPIキーを入れる',
       map: {},
       marker: {},
@@ -47,16 +48,25 @@ export default {
 
  watch: {
    group: function (val) {
-    //  console.log(this.group.lat);
-    //  console.log(val.lat);
+     console.log("propsのgroup変化を検知");
      this.getGoogleMap(val, this.map);
    },
-    // '$route' (to, from) {
-    //   console.log("ここでテスト");
-    //   console.log(this.group.id);
-    //   // this.getGoogleMap();
-    // }
   },
+
+  computed: {
+    checkURL() {
+      var result = false;
+      if (this.$route.path.indexOf('new') != -1) {
+        result = true
+        if(Object.keys(this.map).length) {
+          console.log('this.mapが空でない時=initGoogleMap()完了後')
+          this.addGogleMap();
+        }
+      }
+      return result;
+    }
+  },
+
 
   mounted() {
       if (!window.mapLoadStarted) {
@@ -85,11 +95,14 @@ export default {
         zoom: 13,
       });
 
+    },
+    addGogleMap(){
       //  クリックイベントを追加
       google.maps.event.addListener(this.map, 'click', event => this.clickAction(event, this.map));
 
       // ここから検索候補実装用のコード
       const input = document.getElementById("pac-input");
+      if (!input) return; 
       const searchBox = new google.maps.places.SearchBox(input);
 
       // // マップを拡大しても検索ウィンドウを表示させるための処理 (検索ウィンドウはマップ上に設置の前提)
