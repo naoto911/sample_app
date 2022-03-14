@@ -30,7 +30,7 @@ export default {
     return {
       // myLatLng: { lat: 35.689614, lng: 139.691585 },
       myLatLng: { lat: 34.98586155776129, lng: 135.75780520290223 },
-     
+      
       // YOUR_MAP_KEY: 'ここにAPIキーを入れる',
       map: {},
       marker: {},
@@ -56,7 +56,8 @@ export default {
   computed: {
     checkURL() {
       var result = false;
-      if (this.$route.path.indexOf('new') != -1) {
+      var url = this.$route.path;
+      if (url.indexOf('new') != -1 || url.indexOf('edit') != -1) {
         result = true
         if(Object.keys(this.map).length) {
           console.log('this.mapが空でない時=initGoogleMap()完了後')

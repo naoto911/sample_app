@@ -84,11 +84,12 @@
                   </v-radio-group>
 
                 <h3>場所</h3>
-                  <v-text-field
+                  <!-- <v-text-field
                     v-model="group.region"
                     label="練習場所"
                     prepend-inner-icon="mdi-map-marker"
-                  ></v-text-field>
+                  ></v-text-field> -->
+                  <GoogleMap :group="group" @latlng="changeMarker"></GoogleMap>
 
                 <h3>SNS</h3>
                   <v-text-field
@@ -117,7 +118,7 @@
                   color="primary"
                   class="mr-4"
                   dark
-                  @click="createGroup"
+                  @click="updateGroup"
                 >
                   更新
                   <v-icon
@@ -147,14 +148,20 @@
 </template>
 
 <script>
+import GoogleMap from '../../components/GoogleMap.vue'
 import axios from 'axios';
 
 export default {
+
+  components: { 
+    GoogleMap,
+  },
+
   data() {
     return {
       valid: true,
       current_user: {},
-      group: [],
+      group: {},
 
       nameRules: [
         v => !!v || 'Name is required',
@@ -189,7 +196,7 @@ export default {
         const redirect = response.data.redirect;
         if (redirect) {
           console.log("管理者以外はrootに返す")
-          this.$router.push({ path: '/' });;
+          this.$router.push({ path: '/groups' });;
         }
       });
     },
@@ -198,7 +205,7 @@ export default {
       this.url = URL.createObjectURL(this.group.image);
       return this.url;
     },
-    createGroup () {
+    updateGroup () {
       if (!this.group.name) return;
 
         const formData = new FormData()
@@ -207,7 +214,8 @@ export default {
         }
         formData.append('group[name]', this.group.name)
         formData.append('group[frequency]', this.group.frequency)
-        formData.append('group[region]', this.group.region)
+        formData.append('group[lat]', this.group.lat)
+        formData.append('group[lng]', this.group.lng)
         formData.append('group[instagram]', this.group.instagram)
         formData.append('group[introduction]', this.group.introduction)
 
@@ -215,7 +223,7 @@ export default {
         .patch(`/api/v1/groups/${this.$route.params.id}`, formData)
         .then(response => {
           console.log('OK');
-          this.$router.push({ path: '/' });
+          this.$router.push({ path: '/groups' });
         })    
 
         // .patch(`/api/v1/groups/${this.$route.params.id}`, {
@@ -241,7 +249,10 @@ export default {
           }
         })
     },
-
+    changeMarker(latlng) {
+      this.group.lat = latlng.lat;
+      this.group.lng = latlng.lng;
+    },
   },
 
 }
