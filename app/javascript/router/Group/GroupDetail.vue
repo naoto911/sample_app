@@ -14,7 +14,7 @@
                 <!-- <p v-if="!group.lat && !group.lng" >{{group.region}}</p> -->
                 <!-- <p v-else>場所が未登録です。</p> -->
                 <p v-if="!group.lat && !group.lng" >場所が未登録です。</p>
-                <GoogleMap :group="group"></GoogleMap>
+                <GoogleMap :parent_object="group"></GoogleMap>
               <h3>SNS</h3>
                 <p v-if="group.instagram" >{{group.instagram}}</p>
                 <p v-else>instagramが未登録です。</p>

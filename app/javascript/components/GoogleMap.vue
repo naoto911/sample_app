@@ -41,13 +41,13 @@ export default {
   },
 
   props: {
-    group: {
+    parent_object: {
       type: Object
     }
   },
 
  watch: {
-   group: function (val) {
+   parent_object: function (val) {
      console.log("propsのgroup変化を検知");
      this.getGoogleMap(val, this.map);
    },

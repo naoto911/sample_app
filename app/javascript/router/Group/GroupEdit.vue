@@ -89,7 +89,7 @@
                     label="練習場所"
                     prepend-inner-icon="mdi-map-marker"
                   ></v-text-field> -->
-                  <GoogleMap :group="group" @latlng="changeMarker"></GoogleMap>
+                  <GoogleMap :parent_object="group" @latlng="changeMarker"></GoogleMap>
 
                 <h3>SNS</h3>
                   <v-text-field

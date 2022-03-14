@@ -145,7 +145,7 @@ class Api::V1::EventsController < ApplicationController
 private
 
   def event_params
-    params.require(:event).permit(:date, :place, :starttime, :finishtime, :remarks).merge(group_id: params[:group_id])
+    params.require(:event).permit(:date, :place, :lat, :lng, :starttime, :finishtime, :remarks).merge(group_id: params[:group_id])
   end
 
   def set_target_event

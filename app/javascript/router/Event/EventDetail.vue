@@ -12,8 +12,11 @@
                 <p v-if="event.date" >{{ event.date }}</p>
                 <p v-else>日付が未登録です</p>
               <h3>開催場所</h3>
-                <p v-if="event.place" >{{ event.place }}</p>
-                <p v-else>開催場所が未登録です。</p>
+                <!-- <p v-if="event.place" >{{ event.place }}</p> -->
+                <!-- <p v-else>開催場所が未登録です。</p> -->
+                <p v-if="!event.lat && !event.lng" >場所が未登録です。</p>
+                <GoogleMap :parent_object="event"></GoogleMap>
+
             <!-- ②-1 ここまで イベント詳細 -->    
 
             <!-- ②-2 ここから 参加ユーザー一覧 -->
@@ -109,18 +112,20 @@
 
 <script>
 import Modal from '../../components/Modal.vue';
+import GoogleMap from '../../components/GoogleMap.vue'
 import axios from 'axios';
 
 export default {
 
   components: { 
     Modal,
+    GoogleMap,
   },
 
   data() {
     return {
-      group: [],
-      event: [],
+      group: {},
+      event: {},
       answers: [],
       users: [],
       participant_users : [],
@@ -147,15 +152,6 @@ export default {
 
   created () {
     this.getEvent();
-  },
-
-  mounted () {
-  },
-
-  beforeUpdate(){
-  },
-
-  updated(){
   },
 
   methods: {

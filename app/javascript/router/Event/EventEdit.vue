@@ -111,11 +111,14 @@
     </v-row>
 
     <!-- ①-4 ここから開催場所 -->
-      <v-text-field
-        v-model="event.place"
-        label="開催場所"
-        required
-      ></v-text-field>
+      <h3>開催場所</h3>
+        <!-- <v-text-field
+          v-model="event.place"
+          label="開催場所"
+          required
+        ></v-text-field> -->
+        <p v-if="!event.lat && !event.lng" >場所が未登録です。</p>
+        <GoogleMap :parent_object="event" @latlng="changeMarker"></GoogleMap>
     <!-- ①-4 ここまで開催場所 -->
 
     <!-- ①-5 ここから備考 -->
@@ -156,9 +159,15 @@
 </template>
 
 <script>
+import GoogleMap from '../../components/GoogleMap.vue'
 import axios from 'axios';
 
 export default {
+
+  components: { 
+    GoogleMap,
+  },
+
   data() {
     return {
       valid: true,
@@ -199,7 +208,6 @@ export default {
           this.convetTime();
         });
     },
-
     convetTime() {
       const API_event =this.event
       const modifyDate = (new Date('2000-01-01')).getTime()
@@ -220,32 +228,35 @@ export default {
       this.event.starttime =  String (start_HH + ":" + start_MM)
       this.event.finishtime = String (end_HH + ":" + end_MM)
     },
-
     UpdateEvent () {
       if (!this.event.place) return;
-
-        axios
-          .patch(`/api/v1/groups/${this.$route.params.id}/events/${this.$route.params.event_id}`, {
-            event: {           
-              date: this.event.date,   
-              starttime: this.event.starttime,
-              finishtime: this.event.finishtime,
-              place: this.event.place,
-              remarks: this.event.remarks
-            }
-          })
-
-          .then(response => {
-            console.log('OK');
-            this.$router.push({ path: `/groups/${this.$route.params.id}/events` });
-          })        
-          .catch(error => {
-            console.log('NG');
-            console.error(error);
-            if(error.response.data && error.response.data.errors) {
-              this.errors = error.response.data.errors;
-            }
-          })
+      axios
+        .patch(`/api/v1/groups/${this.$route.params.id}/events/${this.$route.params.event_id}`, {
+          event: {           
+            date: this.event.date,   
+            starttime: this.event.starttime,
+            finishtime: this.event.finishtime,
+            place: this.event.place,
+            lat: this.event.lat,
+            lng: this.event.lng,
+            remarks: this.event.remarks
+          }
+        })
+        .then(response => {
+          console.log('OK');
+          this.$router.push({ path: `/groups/${this.$route.params.id}/events` });
+        })        
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        })
+    },
+    changeMarker(latlng) {
+      this.event.lat = latlng.lat;
+      this.event.lng = latlng.lng;
     },
   },
 

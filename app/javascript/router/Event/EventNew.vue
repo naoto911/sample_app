@@ -113,11 +113,15 @@
     </v-row>
 
     <!-- ①-4 ここから開催場所 -->
-      <v-text-field
-        v-model="event.place"
-        label="開催場所"
-        required
-      ></v-text-field>
+      <h3>開催場所</h3>
+        <v-text-field
+          v-model="event.place"
+          label="開催場所"
+          required
+        ></v-text-field>
+        <p v-if="!event.lat && !event.lng" >場所が未登録です。</p>
+        <GoogleMap :parent_object="event" @latlng="changeMarker"></GoogleMap>
+
     <!-- ①-4 ここまで開催場所 -->
 
     <!-- ①-5 ここから備考 -->
@@ -158,9 +162,15 @@
 </template>
 
 <script>
+import GoogleMap from '../../components/GoogleMap.vue'
 import axios from 'axios';
 
 export default {
+
+  components: { 
+    GoogleMap,
+  },
+
   data() {
     return {
       valid: true,
@@ -180,44 +190,48 @@ export default {
   },
 
   methods: {
-  validate () {
-    this.$refs.form.validate()
-  },
-  reset () {
-    this.$refs.form.reset()
-  },
-  resetValidation () {
-    this.$refs.form.resetValidation()
-  },
-  createEvent () {
-    if (!this.event.place) return;
-
-      axios
-        .post(`/api/v1/groups/${this.$route.params.id}/events`, {
-          event: {           
-            date: this.event.date,   
-            // starttime: this.event.starttime,
-            starttime: this.event.date + "T" +this.event.starttime,
-            // finishtime: this.event.finishtime,
-            finishtime: `${this.event.date}T${this.event.finishtime}`,
-            place: this.event.place,
-            remarks: this.event.remarks
+    validate () {
+      this.$refs.form.validate()
+    },
+    reset () {
+      this.$refs.form.reset()
+    },
+    resetValidation () {
+      this.$refs.form.resetValidation()
+    },
+    createEvent () {
+      if (!this.event.place) return;
+        axios
+          .post(`/api/v1/groups/${this.$route.params.id}/events`, {
+            event: {           
+              date: this.event.date,   
+              // starttime: this.event.starttime,
+              starttime: this.event.date + "T" +this.event.starttime,
+              // finishtime: this.event.finishtime,
+              finishtime: `${this.event.date}T${this.event.finishtime}`,
+              place: this.event.place,
+              lat: this.event.lat,
+              lng: this.event.lng,
+              remarks: this.event.remarks
+            }
+          })
+        .then(response => {
+          console.log('OK');
+          console.log(this.user);
+          this.$router.push({ path: `/groups/${this.$route.params.id}/events` });
+        })        
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
           }
         })
-
-      .then(response => {
-        console.log('OK');
-        console.log(this.user);
-        this.$router.push({ path: `/groups/${this.$route.params.id}/events` });
-      })        
-      .catch(error => {
-        console.log('NG');
-        console.error(error);
-        if(error.response.data && error.response.data.errors) {
-          this.errors = error.response.data.errors;
-        }
-      })
-    }
+    },
+    changeMarker(latlng) {
+      this.event.lat = latlng.lat;
+      this.event.lng = latlng.lng;
+    },
   },
 
 }
