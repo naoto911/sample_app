@@ -44,6 +44,7 @@ group :development, :test do
   # 追加 21/1/8
   gem 'pry-rails'
   gem 'pry-byebug'
+  gem 'rspec-rails'
 end
 
 group :development do
