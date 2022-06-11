@@ -100,7 +100,8 @@ class Api::V1::GroupsController < ApplicationController
 
   def update
     if @group.update(group_params)
-      render json: @group, status: :created
+      # render json: @group, status: :created
+      render json: {group: @group }, status: :created
     else
       render json: { status: 'SUCCESS', message: 'Not updated', data: @group.errors }
     end
