@@ -49,7 +49,7 @@ jobs:
       PGHOST: 127.0.0.1
       # PGUSER: circleci-demo-ruby
       PGUSER: postgres
-      PGPASSWORD: ""
+      # PGPASSWORD: ""
       PGPASSWORD: password
       RAILS_ENV: test
     # 実行する一連のステップです。「ビルド」のステップと似たステップもあります。
