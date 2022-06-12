@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.7/
+      - image: circleci/ruby:2.7
       # - image: circleci/ruby:2.6.5
     working_directory: ~/sample_app/src
     steps:
@@ -16,8 +16,8 @@ jobs:
 
   test:
     docker:
-      # - image: circleci/ruby:2.7
-      - image: circleci/ruby:2.6.5
+      - image: circleci/ruby:2.7
+      # - image: circleci/ruby:2.6.5
       # - image: circleci/mysql:5.5
        - image: circleci/postgres:11.12
         environment:
