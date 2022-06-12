@@ -44,8 +44,11 @@ group :development, :test do
   # 追加 21/1/8
   gem 'pry-rails'
   gem 'pry-byebug'
+
+  # Rspec導入に伴って追記 22年5月
   gem 'rspec-rails'
   gem 'factory_bot_rails'  
+  gem 'database_cleaner'
 end
 
 group :development do
