@@ -15,7 +15,7 @@ jobs:
             # RAILS_ENV: test
         #使ってるデータベースとバージョンを指定する。# 「host: localhost」でアクセスできるサービスコンテナイメージ。
         # - image: circleci/postgres:9.6
-         - image: cimg/postgres:11.12
+        - image: cimg/postgres:11.12
           environment:
             #それぞれ設定
               POSTGRES_ROOT_PASSWORD: password
