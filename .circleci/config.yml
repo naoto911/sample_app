@@ -20,6 +20,29 @@ jobs:
       - checkout # Git コードをプルダウンします。
       # - checkout:
           # path: ~/sample_app
+
+      #bundle キャッシュをリストアする。公式の設定通り。
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
+      # bundle install で依存関係をインストールする。公式の設定と多少異なってます。
+      - run:
+          name: install dependencies
+          # command: |
+          #   gem install bundler -v 2.1.4
+          #   bundle install --jobs=4 --retry=3 --path vendor/bundle
+          command: |
+            gem update --system
+            gem install bundler
+
+      # bundle キャッシュを保存する。公式の設定通り。
+      - save_cache:
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - ./vendor/bundle
+
+
       - ruby/install-deps # Ruby Orb を使って依存関係をインストールします。
       # Node Orb を使ってパッケージをインストールします。
       # Yarn の使用および 依存関係のキャッシュに yarn.lock の使用を指定します。
