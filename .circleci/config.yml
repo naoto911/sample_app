@@ -15,8 +15,11 @@ jobs:
         # auth:
           # username: mydockerhub-user
           # password: $DOCKERHUB_PASSWORD  # コンテキスト/ プロジェクト UI の環境変数を参照します。
+    working_directory: ~/sample_app
     steps:
-      - checkout # Git コードをプルダウンします。
+      # - checkout # Git コードをプルダウンします。
+      - checkout:
+          path: ~/sample_app
       - ruby/install-deps # Ruby Orb を使って依存関係をインストールします。
       # Node Orb を使ってパッケージをインストールします。
       # Yarn の使用および 依存関係のキャッシュに yarn.lock の使用を指定します。
@@ -54,8 +57,11 @@ jobs:
       PGPASSWORD: password
       RAILS_ENV: test
     # 実行する一連のステップです。「ビルド」のステップと似たステップもあります。
+    working_directory: ~/sample_app
     steps:
-      - checkout
+      # - checkout
+      - checkout:
+          path: ~/sample_app
       - ruby/install-deps
       # - node/install-packages:
       #     pkg-manager: yarn
