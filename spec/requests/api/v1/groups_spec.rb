@@ -1,4 +1,4 @@
-require 'rails_helper'
+# require 'rails_helper'
 
 # describe "GET /groups" do
 #   before do

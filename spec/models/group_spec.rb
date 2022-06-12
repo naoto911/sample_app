@@ -49,7 +49,43 @@ RSpec.describe Group, type: :model do
 
   end
 
-  # describe 'Association' do
-  # end
+  describe 'Association' do
+    let(:association) do
+      # reflect_on_associationで対象のクラスと引数で指定するクラスの
+      # 関連を返します
+      described_class.reflect_on_association(target)
+    end
+
+    # usersとの関連付けをチェックしたい場合
+    context 'users' do
+      let(:target) { :users } # targetは :users に設定
+      it { expect(association.macro).to eq :has_many } # macro メソッドで関連づけを返します
+      it { expect(association.class_name).to eq 'User' } # class_name で関連づいたクラス名を返します
+    end
+
+    # favoritesとの関連付けをチェックしたい場合
+    context 'favorites' do
+      let(:target) { :favorites } # targetは :favorites に設定
+      it { expect(association.macro).to eq :has_many } # macro メソッドで関連づけを返します
+      it { expect(association.class_name).to eq 'Favorite' } # class_name で関連づいたクラス名を返します
+    end
+
+    # joinsとの関連付けをチェックしたい場合
+    context 'joins' do
+      let(:target) { :joins } # targetは :joins に設定
+      it { expect(association.macro).to eq :has_many } # macro メソッドで関連づけを返します
+      it { expect(association.class_name).to eq 'Join' } # class_name で関連づいたクラス名を返します
+    end
+
+    # eventsとの関連付けをチェックしたい場合
+    context 'events' do
+      let(:target) { :events } # targetは :events に設定
+      it { expect(association.macro).to eq :has_many } # macro メソッドで関連づけを返します
+      it { expect(association.class_name).to eq 'Event' } # class_name で関連づいたクラス名を返します
+    end
+
+
+
+  end
   
 end
