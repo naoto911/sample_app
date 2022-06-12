@@ -16,6 +16,15 @@ jobs:
           # username: mydockerhub-user
           # password: $DOCKERHUB_PASSWORD  # コンテキスト/ プロジェクト UI の環境変数を参照します。
     # working_directory: ~/sample_app
+      - image: cimg/postgres:11.12
+    # auth:
+      # username: mydockerhub-user
+      # password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    environment: # add POSTGRES environment variables.
+      POSTGRES_USER: postgres
+      POSTGRES_DB: sample_app_test
+      POSTGRES_PASSWORD: password
+      
     steps:
       - checkout # Git コードをプルダウンします。
       # - checkout:
