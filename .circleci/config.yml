@@ -61,7 +61,8 @@ jobs:
     # ここでは、2 つの Docker イメージを設定します。
     docker:
       - image: cimg/ruby:2.6.5 # プライマリ Docker イメージです。ここでステップコマンドが実行されます。
-      - image: cimg/postgres:11.12
+      # - image: cimg/postgres:11.12
+      - image: cimg/postgres:11.12-postgis
         environment: # add POSTGRES environment variables.
           POSTGRES_USER: postgres
           POSTGRES_DB: sample_app_test
