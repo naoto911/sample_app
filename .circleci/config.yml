@@ -56,40 +56,32 @@ jobs:
     # 実行する一連のステップです。「ビルド」のステップと似たステップもあります。
     steps:
       - checkout
-      # - ruby/install-deps
+      - ruby/install-deps
       # - node/install-packages:
       #     pkg-manager: yarn
       #     cache-key: "yarn.lock"
       # # ここでは、データベース上で実行する前に
       # # セカンダリコンテナが起動することを確認します。
 
-      #bundle キャッシュをリストアする。公式の設定通り。
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            - v1-dependencies-
-      # bundle install で依存関係をインストールする。公式の設定と多少異なってます。
-      - run:
-          name: install dependencies
-          command: |
-            gem install bundler -v 2.1.4
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-      # bundle キャッシュを保存する。公式の設定通り。
-      - save_cache:
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-          paths:
-            - ./vendor/bundle
 
 
-      - ruby/install-deps
-      - node/install-packages:
-          pkg-manager: yarn
-          cache-key: "yarn.lock"
-      # ここでは、データベース上で実行する前に
-      # セカンダリコンテナが起動することを確認します。
+      # #bundle キャッシュをリストアする。公式の設定通り。
+      # - restore_cache:
+      #     keys:
+      #       - v1-dependencies-{{ checksum "Gemfile.lock" }}
+      #       - v1-dependencies-
+      # # bundle install で依存関係をインストールする。公式の設定と多少異なってます。
+      # - run:
+      #     name: install dependencies
+      #     command: |
+      #       gem install bundler -v 2.1.4
+      #       bundle install --jobs=4 --retry=3 --path vendor/bundle
 
-
+      # # bundle キャッシュを保存する。公式の設定通り。
+      # - save_cache:
+      #     key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      #     paths:
+      #       - ./vendor/bundle
 
       - run:
           name: DB の待機
