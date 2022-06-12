@@ -13,13 +13,6 @@ commands:
   setup:
     steps:
       - checkout
-      - ruby/install-deps # Ruby Orb を使って依存関係をインストールします。
-      # Node Orb を使ってパッケージをインストールします。
-      # Yarn の使用および 依存関係のキャッシュに yarn.lock の使用を指定します。
-      # 詳細は、 https://circleci.com/docs/2.0/caching/ を参照してください。
-      - node/install-packages:
-          pkg-manager: yarn
-          cache-key: "yarn.lock"
 
       #bundle キャッシュをリストアする。公式の設定通り。
       - restore_cache:
@@ -42,6 +35,14 @@ commands:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
           paths:
             - ./vendor/bundle
+
+      - ruby/install-deps # Ruby Orb を使って依存関係をインストールします。
+      # Node Orb を使ってパッケージをインストールします。
+      # Yarn の使用および 依存関係のキャッシュに yarn.lock の使用を指定します。
+      # 詳細は、 https://circleci.com/docs/2.0/caching/ を参照してください。
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
 
 jobs:
   build: #  "build"という名前の最初のジョブです。
