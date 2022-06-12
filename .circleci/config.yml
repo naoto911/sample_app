@@ -8,51 +8,11 @@ orbs:
   ruby: circleci/ruby@1.1.2
   node: circleci/node@2
 
-jobs:
-  build: #  "build"という名前の最初のジョブです。
-    docker:
-      - image: cimg/ruby:2.6.5 # カスタマイズされた CircleCI Docker イメージを使用します。
-        # auth:
-          # username: mydockerhub-user
-          # password: $DOCKERHUB_PASSWORD  # コンテキスト/ プロジェクト UI の環境変数を参照します。
-    # working_directory: ~/sample_app
-      - image: cimg/postgres:11.12
-    # auth:
-      # username: mydockerhub-user
-      # password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-    environment: # add POSTGRES environment variables.
-      POSTGRES_USER: postgres
-      POSTGRES_DB: sample_app_test
-      POSTGRES_PASSWORD: password
-      
+# setup
+commands:
+  setup:
     steps:
-      - checkout # Git コードをプルダウンします。
-      # - checkout:
-          # path: ~/sample_app
-
-      #bundle キャッシュをリストアする。公式の設定通り。
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            - v1-dependencies-
-      # bundle install で依存関係をインストールする。公式の設定と多少異なってます。
-      - run:
-          name: install dependencies
-          # command: |
-          #   gem install bundler -v 2.1.4
-          #   bundle install --jobs=4 --retry=3 --path vendor/bundle
-          command: |
-            gem update --system
-            gem install bundler
-            bundle install
-
-      # bundle キャッシュを保存する。公式の設定通り。
-      - save_cache:
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-          paths:
-            - ./vendor/bundle
-
-
+      - checkout
       - ruby/install-deps # Ruby Orb を使って依存関係をインストールします。
       # Node Orb を使ってパッケージをインストールします。
       # Yarn の使用および 依存関係のキャッシュに yarn.lock の使用を指定します。
@@ -61,27 +21,30 @@ jobs:
           pkg-manager: yarn
           cache-key: "yarn.lock"
 
+jobs:
+  build: #  "build"という名前の最初のジョブです。
+    docker:
+      - image: cimg/ruby:2.6.5 # カスタマイズされた CircleCI Docker イメージを使用します。
+    # working_directory: ~/sample_app
+    steps:
+      - setup
+
   test:  # "test"という名前の２つ目のジョブです。
     # テストを高速化するために「並列ジョブコンテナ」を実行します。
     # これによりテストが複数のコンテナに分割されます。
-    parallelism: 3
+    # parallelism: 3
     # ここでは、2 つの Docker イメージを設定します。
     docker:
       - image: cimg/ruby:2.6.5 # プライマリ Docker イメージです。ここでステップコマンドが実行されます。
-        # auth:
-          # username: mydockerhub-user
-          # password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
       - image: cimg/postgres:11.12
-        # auth:
-          # username: mydockerhub-user
-          # password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
         environment: # add POSTGRES environment variables.
           POSTGRES_USER: postgres
           POSTGRES_DB: sample_app_test
           POSTGRES_PASSWORD: password
     # Ruby/Rails 固有の環境変数をプライマリコンテナに適用します。
     environment:
-      BUNDLE_JOBS: "3"
+      # BUNDLE_JOBS: "3"
+      BUNDLE_JOBS: "4"
       BUNDLE_RETRY: "3"
       PGHOST: 127.0.0.1
       # PGUSER: circleci-demo-ruby
@@ -92,67 +55,42 @@ jobs:
     # 実行する一連のステップです。「ビルド」のステップと似たステップもあります。
     # working_directory: ~/sample_app
     steps:
-      - checkout
-      # - checkout:
-          # path: ~/sample_app
-      # - ruby/install-deps
-      # - node/install-packages:
-      #     pkg-manager: yarn
-      #     cache-key: "yarn.lock"
-      # # # ここでは、データベース上で実行する前に
-      # # # セカンダリコンテナが起動することを確認します。
-
-
-
-      #bundle キャッシュをリストアする。公式の設定通り。
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            - v1-dependencies-
-      # bundle install で依存関係をインストールする。公式の設定と多少異なってます。
-      - run:
-          name: install dependencies
-          # command: |
-          #   gem install bundler -v 2.1.4
-          #   bundle install --jobs=4 --retry=3 --path vendor/bundle
-          command: |
-            gem update --system
-            gem install bundler
-            bundle install
-
-      # bundle キャッシュを保存する。公式の設定通り。
-      - save_cache:
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-          paths:
-            - ./vendor/bundle
-
-      - ruby/install-deps
-      - node/install-packages:
-          pkg-manager: yarn
-          cache-key: "yarn.lock"
-      # # ここでは、データベース上で実行する前に
-      # # セカンダリコンテナが起動することを確認します。
-
-
-
-      - run:
-          name: DB の待機
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - setup
 
       # - run:
-      #     name: データベースのセットアップ
-      #     command: bundle exec rails db:schema:load --trace
-          # RSpec を並列実行します。
-          # - ruby/rspec-test
-
+      #     name: DB の待機
+      #     command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: rails db:migrate
+          command: bundle exec rails db:migrate
       - run:
           name: Database setup
-          command: bundle exec rails db:migrate
-
-      # rspecを実行する
+          command: bundle exec rails db:schema:load --trace
       - run:
           name: rspecを実行
           command: bundle exec rspec
+
+      # #bundle キャッシュをリストアする。公式の設定通り。
+      # - restore_cache:
+      #     keys:
+      #       - v1-dependencies-{{ checksum "Gemfile.lock" }}
+      #       - v1-dependencies-
+      # # bundle install で依存関係をインストールする。公式の設定と多少異なってます。
+      # - run:
+      #     name: install dependencies
+      #     # command: |
+      #     #   gem install bundler -v 2.1.4
+      #     #   bundle install --jobs=4 --retry=3 --path vendor/bundle
+      #     command: |
+      #       gem update --system
+      #       gem install bundler
+      #       bundle install
+
+      # # bundle キャッシュを保存する。公式の設定通り。
+      # - save_cache:
+      #     key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      #     paths:
+      #       - ./vendor/bundle
 
 
 # ワークフローを使って上記で宣言したジョブをオーケストレーションします。
