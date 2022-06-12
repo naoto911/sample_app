@@ -19,11 +19,12 @@ jobs:
       - image: circleci/ruby:2.7
       # - image: circleci/ruby:2.6.5
       # - image: circleci/mysql:5.5
-       - image: circleci/postgres:11.12
+      #  - image: circleci/postgres:11.12
+      - image: circleci/postgres:11.6-alpine
         environment:
-          POSTGRESQL_ROOT_PASSWORD: password
-          POSTGRESQL_DATABASE: sample_app_test
-          POSTGRESQL_USER: postgres
+          POSTGRES_ROOT_PASSWORD: password
+          POSTGRES_DATABASE: sample_app_test
+          POSTGRES_USER: postgres
     environment:
       BUNDLE_JOBS: "3"
       BUNDLE_RETRY: "3"
