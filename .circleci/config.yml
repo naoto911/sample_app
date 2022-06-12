@@ -50,16 +50,17 @@ jobs:
       # PGUSER: circleci-demo-ruby
       PGUSER: postgres
       PGPASSWORD: ""
+      PGPASSWORD: password
       RAILS_ENV: test
     # 実行する一連のステップです。「ビルド」のステップと似たステップもあります。
     steps:
       - checkout
-      - ruby/install-deps
-      - node/install-packages:
-          pkg-manager: yarn
-          cache-key: "yarn.lock"
-      # ここでは、データベース上で実行する前に
-      # セカンダリコンテナが起動することを確認します。
+      # - ruby/install-deps
+      # - node/install-packages:
+      #     pkg-manager: yarn
+      #     cache-key: "yarn.lock"
+      # # ここでは、データベース上で実行する前に
+      # # セカンダリコンテナが起動することを確認します。
 
       #bundle キャッシュをリストアする。公式の設定通り。
       - restore_cache:
@@ -78,6 +79,16 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
           paths:
             - ./vendor/bundle
+
+
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
+      # ここでは、データベース上で実行する前に
+      # セカンダリコンテナが起動することを確認します。
+
+
 
       - run:
           name: DB の待機
