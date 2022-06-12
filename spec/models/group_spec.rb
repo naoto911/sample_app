@@ -1,15 +1,49 @@
-# require 'rails_helper'
+require 'rails_helper'
 
-# RSpec.describe Group, type: :model do
-#   # pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe Group, type: :model do
 
-#   # RSpec.describe '四則演算' do
-#     it '1 + 1 = 2' do
-#       expect(1 + 1).to eq 2
-#     end
-#     it '10 - 1 = 9' do
-#       expect(10 - 1).to eq 9
-#     end
-#   # end
+  describe 'Validation' do
+    
+    it '正しい入力の場合は有効' do
+      @group = build(:group)
+      @group.valid?
+      expect(@group).to be_valid
+    end
+    
+    it 'nameが未入力の場合は無効' do
+      @group = build(:group, name: nil, introduction: "test")
+      @group.valid?
+      expect(@group.errors[:name]).to include("can't be blank")
+    end
 
-# end
+    it 'introductionが未入力の場合は無効' do
+      @group = build(:group, name: "test", introduction: nil)
+      @group.valid?
+      expect(@group.errors[:introduction]).to include("can't be blank")
+    end
+
+    it 'nameが10文字以下なら有効' do
+      @group = build(:group, name: "0123456789")
+      @group.valid?
+      expect(@group).to be_valid
+    end
+
+    it 'nameが10文字を超えると無効' do
+      @group = build(:group, name: "0123456789X")
+      @group.valid?
+      expect(@group.errors[:name]).to include("is too long (maximum is 10 characters)")
+    end
+
+    it 'nameがユニークであること' do
+      @group1 = create(:group , name: "group1")
+      @group2 = build(:group , name: "group1")
+      @group2.valid?
+      expect(@group2.errors[:name]).to include("has already been taken")
+    end
+
+  end
+
+  # describe 'Association' do
+  # end
+  
+end
