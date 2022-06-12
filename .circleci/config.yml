@@ -15,11 +15,11 @@ jobs:
         # auth:
           # username: mydockerhub-user
           # password: $DOCKERHUB_PASSWORD  # コンテキスト/ プロジェクト UI の環境変数を参照します。
-    working_directory: ~/sample_app
+    # working_directory: ~/sample_app
     steps:
-      # - checkout # Git コードをプルダウンします。
-      - checkout:
-          path: ~/sample_app
+      - checkout # Git コードをプルダウンします。
+      # - checkout:
+          # path: ~/sample_app
       - ruby/install-deps # Ruby Orb を使って依存関係をインストールします。
       # Node Orb を使ってパッケージをインストールします。
       # Yarn の使用および 依存関係のキャッシュに yarn.lock の使用を指定します。
@@ -57,37 +57,39 @@ jobs:
       PGPASSWORD: password
       RAILS_ENV: test
     # 実行する一連のステップです。「ビルド」のステップと似たステップもあります。
-    working_directory: ~/sample_app
+    # working_directory: ~/sample_app
     steps:
-      # - checkout
-      - checkout:
-          path: ~/sample_app
+      - checkout
+      # - checkout:
+          # path: ~/sample_app
       - ruby/install-deps
-      # - node/install-packages:
-      #     pkg-manager: yarn
-      #     cache-key: "yarn.lock"
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
       # # ここでは、データベース上で実行する前に
       # # セカンダリコンテナが起動することを確認します。
 
 
 
-      # #bundle キャッシュをリストアする。公式の設定通り。
-      # - restore_cache:
-      #     keys:
-      #       - v1-dependencies-{{ checksum "Gemfile.lock" }}
-      #       - v1-dependencies-
-      # # bundle install で依存関係をインストールする。公式の設定と多少異なってます。
-      # - run:
-      #     name: install dependencies
-      #     command: |
-      #       gem install bundler -v 2.1.4
-      #       bundle install --jobs=4 --retry=3 --path vendor/bundle
+      #bundle キャッシュをリストアする。公式の設定通り。
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
+      # bundle install で依存関係をインストールする。公式の設定と多少異なってます。
+      - run:
+          name: install dependencies
+          # command: |
+          #   gem install bundler -v 2.1.4
+          command: |
+            gem install bundler
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
 
-      # # bundle キャッシュを保存する。公式の設定通り。
-      # - save_cache:
-      #     key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-      #     paths:
-      #       - ./vendor/bundle
+      # bundle キャッシュを保存する。公式の設定通り。
+      - save_cache:
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - ./vendor/bundle
 
       - run:
           name: DB の待機
