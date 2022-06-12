@@ -62,12 +62,12 @@ jobs:
       - checkout
       # - checkout:
           # path: ~/sample_app
-      - ruby/install-deps
-      - node/install-packages:
-          pkg-manager: yarn
-          cache-key: "yarn.lock"
-      # # ここでは、データベース上で実行する前に
-      # # セカンダリコンテナが起動することを確認します。
+      # - ruby/install-deps
+      # - node/install-packages:
+      #     pkg-manager: yarn
+      #     cache-key: "yarn.lock"
+      # # # ここでは、データベース上で実行する前に
+      # # # セカンダリコンテナが起動することを確認します。
 
 
 
@@ -91,6 +91,15 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
           paths:
             - ./vendor/bundle
+
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
+      # # ここでは、データベース上で実行する前に
+      # # セカンダリコンテナが起動することを確認します。
+
+
 
       - run:
           name: DB の待機
