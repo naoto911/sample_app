@@ -60,16 +60,38 @@ jobs:
           cache-key: "yarn.lock"
       # ここでは、データベース上で実行する前に
       # セカンダリコンテナが起動することを確認します。
-      
+
+      #bundle キャッシュをリストアする。公式の設定通り。
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
+      # bundle install で依存関係をインストールする。公式の設定と多少異なってます。
+      - run:
+          name: install dependencies
+          command: |
+            gem install bundler -v 2.1.4
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+      # bundle キャッシュを保存する。公式の設定通り。
+      - save_cache:
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - ./vendor/bundle
+
       - run:
           name: DB の待機
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
-      - run:
-          name: データベースのセットアップ
-          command: bundle exec rails db:schema:load --trace
+      # - run:
+      #     name: データベースのセットアップ
+      #     command: bundle exec rails db:schema:load --trace
           # RSpec を並列実行します。
           # - ruby/rspec-test
+
+      - run:
+          name: Database setup
+          command: bundle exec rails db:migrate
 
       # rspecを実行する
       - run:
