@@ -1,68 +1,155 @@
-version: 2
+#3代目コード
+version: 2.1 # 2.1 を使うと Orb や他の機能を使用することができます。 
+
+# 設定で使用する Orb を宣言します。
+# Orb に関する詳細は、 https://circleci.com/docs/ja/2.0/orb-intro/ をご覧ください。
+orbs:
+  ruby: circleci/ruby@1.0
+  node: circleci/node@2
+
 jobs:
-   build:
-      docker:
-        #アプリのバージョンを指定
-        # - image: circleci/ruby:2.6.3-node
-        - image: cimg/ruby:2.6.5
-          environment:
-            #自身の登録しているユーザに変える。
-            POSTGRES_USER: postgres
-            APP_DATABASE_HOST: 127.0.0.1
-            RAILS_ENV: test
-            # POSTGRES_USER: postgres 
-            # PGHOST: 127.0.0.1
-            # RAILS_ENV: test
-        #使ってるデータベースとバージョンを指定する。# 「host: localhost」でアクセスできるサービスコンテナイメージ。
-        # - image: circleci/postgres:9.6
-        - image: cimg/postgres:11.12
-          environment:
-            #それぞれ設定
-              POSTGRES_ROOT_PASSWORD: password
-              POSTGRES_DATABASE: sample_app_test
-              POSTGRES_USER: postgres
-            # POSTGRES_USER: postgres
-            # #下記を書けばパスワードなしでデータベースにログインしてくれる。 
-            # POSTGRES_HOST_AUTH_METHOD: trust
-            # POSTGRES_DB: portfolio_test
-      #自身のアプリ名にする
-      working_directory: ~/sample_app
-      steps:
-        - checkout
-        #bundle キャッシュをリストアする。公式の設定通り。
-        - restore_cache:
-            keys:
-              - v1-dependencies-{{ checksum "Gemfile.lock" }}
-              - v1-dependencies-
-        # bundle install で依存関係をインストールする。公式の設定と多少異なってます。
-        - run:
-            name: install dependencies
-            command: |
-              gem install bundler -v 2.1.4
-              bundle install --jobs=4 --retry=3 --path vendor/bundle
+  build: #  "build"という名前の最初のジョブです。
+    docker:
+      - image: cimg/ruby:2.6.5 # カスタマイズされた CircleCI Docker イメージを使用します。
+        # auth:
+          # username: mydockerhub-user
+          # password: $DOCKERHUB_PASSWORD  # コンテキスト/ プロジェクト UI の環境変数を参照します。
+    steps:
+      - checkout # Git コードをプルダウンします。
+      - ruby/install-deps # Ruby Orb を使って依存関係をインストールします。
+      # Node Orb を使ってパッケージをインストールします。
+      # Yarn の使用および 依存関係のキャッシュに yarn.lock の使用を指定します。
+      # 詳細は、 https://circleci.com/docs/2.0/caching/ を参照してください。
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
 
-        # bundle キャッシュを保存する。公式の設定通り。
-        - save_cache:
-            key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-            paths:
-              - ./vendor/bundle
+  test:  # "test"という名前の２つ目のジョブです。
+    # テストを高速化するために「並列ジョブコンテナ」を実行します。
+    # これによりテストが複数のコンテナに分割されます。
+    parallelism: 3
+    # ここでは、2 つの Docker イメージを設定します。
+    docker:
+      - image: cimg/ruby:2.6.5 # プライマリ Docker イメージです。ここでステップコマンドが実行されます。
+        # auth:
+          # username: mydockerhub-user
+          # password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      - image: cimg/postgres:11.12
+        # auth:
+          # username: mydockerhub-user
+          # password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        environment: # add POSTGRES environment variables.
+          POSTGRES_USER: postgres
+          POSTGRES_DB: sample_app_test
+          POSTGRES_PASSWORD: password
+    # Ruby/Rails 固有の環境変数をプライマリコンテナに適用します。
+    environment:
+      BUNDLE_JOBS: "3"
+      BUNDLE_RETRY: "3"
+      PGHOST: 127.0.0.1
+      # PGUSER: circleci-demo-ruby
+      PGUSER: postgres
+      PGPASSWORD: ""
+      RAILS_ENV: test
+    # 実行する一連のステップです。「ビルド」のステップと似たステップもあります。
+    steps:
+      - checkout
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
+      # ここでは、データベース上で実行する前に
+      # セカンダリコンテナが起動することを確認します。
+      
+  - run:
+      name: DB の待機
+      command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
-        #↓追加する
-        - run:
-            name: DBの起動を待つ
-            command: dockerize -wait tcp://127.0.0.1:5432 -timeout 120s
+  - run:
+      name: データベースのセットアップ
+      command: bundle exec rails db:schema:load --trace
+      # RSpec を並列実行します。
+      - ruby/rspec-test
 
-        - run: bundle exec rake db:create
-        - run: bundle exec rake db:schema:load
+# ワークフローを使って上記で宣言したジョブをオーケストレーションします。
 
-        # rspecを実行する
-        - run:
-            name: rspecを実行
-            command: bundle exec rspec
+workflows:
+  version: 2
+  build_and_test:     # ワークフローの名前は "build_and_test" です。
+    jobs:             # このワークフローの一部として実行するジョブのリストです。
+      - build         # まず、ビルドを実行します。
+
+      - test:         # 次に、テストを実行します。
+          requires:   # テストを実行するにはビルドを渡す必要があります。
+            - build   # 最後に、ビルドしたジョブを実行します。
+
+
+# 2代目コード
+# version: 2
+# jobs:
+#    build:
+#       docker:
+#         #アプリのバージョンを指定
+#         # - image: circleci/ruby:2.6.3-node
+#         - image: cimg/ruby:2.6.5
+#           environment:
+#             #自身の登録しているユーザに変える。
+#             POSTGRES_USER: postgres
+#             APP_DATABASE_HOST: 127.0.0.1
+#             RAILS_ENV: test
+#             # POSTGRES_USER: postgres 
+#             # PGHOST: 127.0.0.1
+#             # RAILS_ENV: test
+#         #使ってるデータベースとバージョンを指定する。# 「host: localhost」でアクセスできるサービスコンテナイメージ。
+#         # - image: circleci/postgres:9.6
+#         - image: cimg/postgres:11.12
+#           environment:
+#             #それぞれ設定
+#               POSTGRES_ROOT_PASSWORD: password
+#               POSTGRES_DATABASE: sample_app_test
+#               POSTGRES_USER: postgres
+#             # POSTGRES_USER: postgres
+#             # #下記を書けばパスワードなしでデータベースにログインしてくれる。 
+#             # POSTGRES_HOST_AUTH_METHOD: trust
+#             # POSTGRES_DB: portfolio_test
+#       #自身のアプリ名にする
+#       working_directory: ~/sample_app
+#       steps:
+#         - checkout
+#         #bundle キャッシュをリストアする。公式の設定通り。
+#         - restore_cache:
+#             keys:
+#               - v1-dependencies-{{ checksum "Gemfile.lock" }}
+#               - v1-dependencies-
+#         # bundle install で依存関係をインストールする。公式の設定と多少異なってます。
+#         - run:
+#             name: install dependencies
+#             command: |
+#               gem install bundler -v 2.1.4
+#               bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+#         # bundle キャッシュを保存する。公式の設定通り。
+#         - save_cache:
+#             key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+#             paths:
+#               - ./vendor/bundle
+
+#         #↓追加する
+#         - run:
+#             name: DBの起動を待つ
+#             command: dockerize -wait tcp://127.0.0.1:5432 -timeout 120s
+
+#         - run: bundle exec rake db:create
+#         - run: bundle exec rake db:schema:load
+
+#         # rspecを実行する
+#         - run:
+#             name: rspecを実行
+#             command: bundle exec rspec
 
 
 
-
+# 初代コード
 # version: 2.1
 # orbs:
 #   ruby: circleci/ruby@1.1.2
