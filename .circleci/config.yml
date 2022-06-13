@@ -2,8 +2,8 @@
 version: 2.1
 # 公開されているCircleCI設定を読み込む。version: 2.1以上
 orbs:
-  # ruby-orbs: sue445/ruby-orbs@1.6.0
-  ruby: circleci/ruby@1.1.2
+  ruby-orbs: sue445/ruby-orbs@1.6.0
+  # ruby: circleci/ruby@1.1.2
   # heroku: circleci/heroku@1.0.1
 
 # CI/CD工程の全体像
