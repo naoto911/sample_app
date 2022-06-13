@@ -10,7 +10,7 @@ jobs:
   build: #  "build"という名前の最初のジョブです。
     docker:
       # - image: cimg/ruby:2.7-node # カスタマイズされた CircleCI Docker イメージを使用します。
-      - image: cimg/ruby:2.6.5
+      - image: cimg/ruby:2.7
     working_directory: ~/sample_app
     steps:
       - checkout:
@@ -19,7 +19,7 @@ jobs:
 
   test:
     docker:
-      - image: cimg/ruby:2.6.5
+      - image: cimg/ruby:2.7
       - image: cimg/postgres:11.12
         environment:
           POSTGRES_ROOT_PASSWORD: password
