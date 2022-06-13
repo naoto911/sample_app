@@ -1,277 +1,63 @@
-#3代目コード
-version: 2.1 # 2.1 を使うと Orb や他の機能を使用することができます。 
-
-# 設定で使用する Orb を宣言します。
-# Orb に関する詳細は、 https://circleci.com/docs/ja/2.0/orb-intro/ をご覧ください。
-orbs:
-  # ruby: circleci/ruby@1.0
-  # ruby: circleci/ruby@1.1.2
-  # node: circleci/node@2
-  ruby: circleci/ruby@1.8.0
-  node: circleci/node@2.0.0
-
-# setup
-commands:
-  setup:
+version: 2
+jobs:
+  build:
+    machine:
+      image: circleci/classic:edge
     steps:
       - checkout
-
-      #bundle キャッシュをリストアする。公式の設定通り。
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            - v1-dependencies-
-      # bundle install で依存関係をインストールする。公式の設定と多少異なってます。
       - run:
-          name: install dependencies
-          # command: |
-          #   gem install bundler -v 2.1.4
-          #   bundle install --jobs=4 --retry=3 --path vendor/bundle
-          command: |
-            gem update --system
-            gem install bundler
-            bundle install
-
-      # bundle キャッシュを保存する。公式の設定通り。
-      - save_cache:
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-          paths:
-            - ./vendor/bundle
-
-      - ruby/install-deps # Ruby Orb を使って依存関係をインストールします。
-      # Node Orb を使ってパッケージをインストールします。
-      # Yarn の使用および 依存関係のキャッシュに yarn.lock の使用を指定します。
-      # 詳細は、 https://circleci.com/docs/2.0/caching/ を参照してください。
-      - node/install-packages:
-          pkg-manager: yarn
-          cache-key: "yarn.lock"
-
-jobs:
-  build: #  "build"という名前の最初のジョブです。
-    docker:
-      - image: cimg/ruby:2.6.5 # カスタマイズされた CircleCI Docker イメージを使用します。
-    # working_directory: ~/sample_app
-    steps:
-      - setup
-
-  test:  # "test"という名前の２つ目のジョブです。
-    # テストを高速化するために「並列ジョブコンテナ」を実行します。
-    # これによりテストが複数のコンテナに分割されます。
-    # parallelism: 3
-    # ここでは、2 つの Docker イメージを設定します。
-    docker:
-      - image: cimg/ruby:2.6.5 # プライマリ Docker イメージです。ここでステップコマンドが実行されます。
-      # - image: cimg/postgres:11.12
-      - image: cimg/postgres:11.12-postgis
-        environment: # add POSTGRES environment variables.
-          POSTGRES_USER: postgres
-          POSTGRES_DB: sample_app_test
-          POSTGRES_PASSWORD: password
-    # Ruby/Rails 固有の環境変数をプライマリコンテナに適用します。
-    environment:
-      # BUNDLE_JOBS: "3"
-      BUNDLE_JOBS: "4"
-      BUNDLE_RETRY: "3"
-      PGHOST: 127.0.0.1
-      # PGUSER: circleci-demo-ruby
-      PGUSER: postgres
-      # PGPASSWORD: ""
-      PGPASSWORD: password
-      RAILS_ENV: test
-    # 実行する一連のステップです。「ビルド」のステップと似たステップもあります。
-    # working_directory: ~/sample_app
-    steps:
-      - setup
-
-      # - run:
-      #     name: DB の待機
-      #     command: dockerize -wait tcp://localhost:5432 -timeout 1m
+          name: docker-compose build
+          command:  docker-compose -f docker-compose.local.yml build
       - run:
-          name: rails db:migrate
-          command: bundle exec rails db:migrate
+          name: docker-compose up
+          command: docker-compose -f docker-compose.local.yml up -d
       - run:
-          name: Database setup
-          command: bundle exec rails db:schema:load --trace
+          name: sleep for waiting launch db
+          command: sleep 1
       - run:
-          name: rspecを実行
-          command: bundle exec rspec
-
-      # #bundle キャッシュをリストアする。公式の設定通り。
-      # - restore_cache:
-      #     keys:
-      #       - v1-dependencies-{{ checksum "Gemfile.lock" }}
-      #       - v1-dependencies-
-      # # bundle install で依存関係をインストールする。公式の設定と多少異なってます。
-      # - run:
-      #     name: install dependencies
-      #     # command: |
-      #     #   gem install bundler -v 2.1.4
-      #     #   bundle install --jobs=4 --retry=3 --path vendor/bundle
-      #     command: |
-      #       gem update --system
-      #       gem install bundler
-      #       bundle install
-
-      # # bundle キャッシュを保存する。公式の設定通り。
-      # - save_cache:
-      #     key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-      #     paths:
-      #       - ./vendor/bundle
-
-
-# ワークフローを使って上記で宣言したジョブをオーケストレーションします。
-
+          name: "before_test: setup db"
+          command: docker-compose -f docker-compose.local.yml exec app rails db:create db:migrate
+      - run:
+          name: test
+          command: docker-compose -f docker-compose.local.yml exec app bundel exec rspec
+      - run:
+          name: docker-compose down
+          command: docker-compose -f docker-compose.local.yml down
+  # deploy:
+    # machine:
+    #   image: circleci/classic:edge
+    # steps:
+    #   - checkout
+    #   # see: https://devcenter.heroku.com/articles/container-registry-and-runtime#using-a-ci-cd-platform
+    #   - run:
+    #       name: "build docker image"
+    #       command: docker build --rm=false -t registry.heroku.com/${HEROKU_APP_NAME}/web .
+    #   - run:
+    #       name: setup heroku command
+    #       command: bash .circleci/setup_heroku.sh
+    #   - run:
+    #       name: heroku maintenance on
+    #       command: heroku maintenance:on --app ${HEROKU_APP_NAME}
+    #   - run:
+    #       # HEROKU_AUTH_TOKEN is generated by `heroku auth:token`
+    #       name: "push container to registry.heroku.com"
+    #       command: |
+    #         docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
+    #         docker push registry.heroku.com/${HEROKU_APP_NAME}/web
+    #   - run:
+    #       name: heroku db migrate
+    #       command: heroku run rails db:migrate --app ${HEROKU_APP_NAME}
+    #   - run:
+    #       name: heroku maintenance off
+    #       command: heroku maintenance:off --app ${HEROKU_APP_NAME}
 workflows:
   version: 2
-  build_and_test:     # ワークフローの名前は "build_and_test" です。
-    jobs:             # このワークフローの一部として実行するジョブのリストです。
-      - build         # まず、ビルドを実行します。
-
-      - test:         # 次に、テストを実行します。
-          requires:   # テストを実行するにはビルドを渡す必要があります。
-            - build   # 最後に、ビルドしたジョブを実行します。
-
-
-# 2代目コード
-# version: 2
-# jobs:
-#    build:
-#       docker:
-#         #アプリのバージョンを指定
-#         # - image: circleci/ruby:2.6.3-node
-#         - image: cimg/ruby:2.6.5
-#           environment:
-#             #自身の登録しているユーザに変える。
-#             POSTGRES_USER: postgres
-#             APP_DATABASE_HOST: 127.0.0.1
-#             RAILS_ENV: test
-#             # POSTGRES_USER: postgres 
-#             # PGHOST: 127.0.0.1
-#             # RAILS_ENV: test
-#         #使ってるデータベースとバージョンを指定する。# 「host: localhost」でアクセスできるサービスコンテナイメージ。
-#         # - image: circleci/postgres:9.6
-#         - image: cimg/postgres:11.12
-#           environment:
-#             #それぞれ設定
-#               POSTGRES_ROOT_PASSWORD: password
-#               POSTGRES_DATABASE: sample_app_test
-#               POSTGRES_USER: postgres
-#             # POSTGRES_USER: postgres
-#             # #下記を書けばパスワードなしでデータベースにログインしてくれる。 
-#             # POSTGRES_HOST_AUTH_METHOD: trust
-#             # POSTGRES_DB: portfolio_test
-#       #自身のアプリ名にする
-#       working_directory: ~/sample_app
-#       steps:
-#         - checkout
-#         #bundle キャッシュをリストアする。公式の設定通り。
-#         - restore_cache:
-#             keys:
-#               - v1-dependencies-{{ checksum "Gemfile.lock" }}
-#               - v1-dependencies-
-#         # bundle install で依存関係をインストールする。公式の設定と多少異なってます。
-#         - run:
-#             name: install dependencies
-#             command: |
-#               gem install bundler -v 2.1.4
-#               bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-#         # bundle キャッシュを保存する。公式の設定通り。
-#         - save_cache:
-#             key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-#             paths:
-#               - ./vendor/bundle
-
-#         #↓追加する
-#         - run:
-#             name: DBの起動を待つ
-#             command: dockerize -wait tcp://127.0.0.1:5432 -timeout 120s
-
-#         - run: bundle exec rake db:create
-#         - run: bundle exec rake db:schema:load
-
-#         # rspecを実行する
-#         - run:
-#             name: rspecを実行
-#             command: bundle exec rspec
-
-
-
-# 初代コード
-# version: 2.1
-# orbs:
-#   ruby: circleci/ruby@1.1.2
-#   # heroku: circleci/heroku@1.2.3
-
-# jobs:
-#   build:
-#     docker:
-#       - image: cimg/ruby:2.6.5
-#     working_directory: ~/sample_app
-#     steps:
-#       - checkout:
-#           path: ~/sample_app
-#       - ruby/install-deps
-
-#   test:
-#     docker:
-#       - image: cimg/ruby:2.6.5
-#       - image: cimg/postgres:11.12
-#         environment:
-#           POSTGRES_ROOT_PASSWORD: password
-#           POSTGRES_DATABASE: sample_app_test
-#           POSTGRES_USER: postgres
-#     environment:
-#       BUNDLE_JOBS: "3"
-#       BUNDLE_RETRY: "3"
-#       APP_DATABASE_HOST: "127.0.0.1"
-#       RAILS_ENV: test
-#     working_directory: ~/sample_app
-#     steps:
-#       - checkout:
-#           path: ~/sample_app
-#       - ruby/install-deps
-#       - run:
-#           name: Database setup
-#           command: bundle exec rails db:migrate
-#       - run:
-#           # name: test
-#           # command: bundle exec rake test
-#           name: rspecを実行
-#           command: bundle exec rspec
-
-#   # deploy:
-#   #   docker:
-#   #     - image: circleci/ruby:2.7
-#   #   steps:
-#   #     - checkout
-#   #     - setup_remote_docker:
-#   #         version: 19.03.13
-#   #     - heroku/install
-#   #     - run:
-#   #         name: heroku login
-#   #         command: heroku container:login
-#   #     - run:
-#   #         name: push docker image
-#   #         command: heroku container:push web -a $HEROKU_APP_NAME
-#   #     - run:
-#   #         name: release docker image
-#   #         command: heroku container:release web -a $HEROKU_APP_NAME
-#   #     - run:
-#   #         name: database setup
-#   #         command: heroku run bundle exec rake db:migrate RAILS_ENV=production -a $HEROKU_APP_NAME
-
-# workflows:
-#   version: 2
-#   build_test_and_deploy:
-#     jobs:
-#       - build
-#       - test:
-#           requires:
-#             - build
-#       # - deploy:
-#       #     requires:
-#       #       - test
-#       #     filters:
-#       #       branches:
-#       #         only: main
+  build_and_deploy:
+    jobs:
+      - build
+      # - deploy:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         only: master
