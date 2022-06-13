@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # - image: circleci/ruby:2.7.2-node-browsers-legacy #rubyのversionに合ったコンテナ
-      - image: cimg/ruby:2.7
+      - image: cimg/ruby:2.6.5
         environment:
           - BUNDLER_VERSION: 2.1.4 # これがないとbundle installできない
           # - RAILS_ENV: 'test'
