@@ -50,8 +50,8 @@ jobs:
 
       # Test用に追記
       - run:
-        name: RUN apt install tzdata
-        command: sudo apt install tzdata
+          name: RUN apt install tzdata
+          command: sudo apt install tzdata
 
       # キャッシュする
       - save_cache:
