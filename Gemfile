@@ -8,7 +8,8 @@ gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
 # Use postgresql as the database for Active Record
 # gem 'pg', '>= 0.18', '< 2.0'
 # gem 'pg', '>= 1.3.5', '< 2.0'
-gem 'pg'
+# gem 'pg'
+# gem 'pg', '>= 1.3.5', '< 1.2.3'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets

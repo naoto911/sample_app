@@ -5,6 +5,7 @@ orbs:
 
 jobs:
   build:
+    parallelism: 2
     docker:
       # - image: circleci/ruby:2.7.2-node-browsers-legacy #rubyのversionに合ったコンテナ
       - image: cimg/ruby:2.6.5
@@ -55,9 +56,11 @@ jobs:
       # DBのセットアップ
       - run:
           name: Database Setup
+          # command: |
+          #   bundle exec rake db:create
+          #   bundle exec rake db:schema:load
           command: |
-            bundle exec rake db:create
-            bundle exec rake db:schema:load
+            bundle exec rails db:migrate
 
       # rubocopを実行
       # - run:
@@ -77,3 +80,12 @@ jobs:
       # Save artifacts
       # - store_test_results:
           # path: /tmp/test-results
+
+workflows:
+  version: 2
+  build_test_and_deploy:
+    jobs:
+      - build
+      # - test:
+      #     requires:
+      #       - build
