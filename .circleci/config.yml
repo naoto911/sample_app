@@ -48,6 +48,11 @@ jobs:
             gem install bundler -v 2.1.4
             bundle install --path=vendor/bundle --jobs 4 --retry 3
 
+      # Test用に追記
+      - run:
+        name: RUN apt install tzdata
+        command: sudo apt install tzdata
+
       # キャッシュする
       - save_cache:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
