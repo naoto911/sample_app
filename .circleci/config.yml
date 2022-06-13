@@ -12,7 +12,7 @@ jobs:
           - BUNDLER_VERSION: 2.1.4 # これがないとbundle installできない
           # - RAILS_ENV: 'test'
           - RAILS_ENV: test
-          - DB_HOST: 127.0.0.1
+          - APP_DATABASE_HOST: 127.0.0.1
       # - image: circleci/mysql:5.7
       #   environment:
       #     - MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
