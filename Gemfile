@@ -9,7 +9,7 @@ gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
 # gem 'pg', '>= 0.18', '< 2.0' #← on にしたらlocal開発環境のdocker起動は成功する
 # gem 'pg', '>= 1.3.5', '< 2.0'
 # gem 'pg'
-# gem 'pg', '>= 1.3.5', '< 1.2.3'
+# gem 'pg', '>= 1.2.3', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets

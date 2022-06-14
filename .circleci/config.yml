@@ -1,31 +1,32 @@
 version: 2.1
 orbs:
-  # ruby: circleci/ruby@0.1.2
   ruby: circleci/ruby@1.1.2
 
 jobs:
   build:
     parallelism: 2
     docker:
-      # - image: circleci/ruby:2.7.2-node-browsers-legacy #rubyのversionに合ったコンテナ
-      # - image: cimg/ruby:2.6.5
       - image: cimg/ruby:2.6.5-node
         environment:
-          - BUNDLER_VERSION: 2.1.4 # これがないとbundle installできない
+          BUNDLER_VERSION: 2.1.4 # これがないとbundle installできない
           # - RAILS_ENV: 'test'
-          - RAILS_ENV: test
-          - APP_DATABASE_HOST: 127.0.0.1
-      # - image: circleci/mysql:5.7
-      #   environment:
-      #     - MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-      #     - MYSQL_USER: root
-      #     - MYSQL_DB: ci_test # testのDB名指定
+          # - RAILS_ENV: test
+          # - PGHOST: 127.0.0.1
+          # - PGUSER: postgres
       - image: cimg/postgres:11.12
         environment:
-          POSTGRES_ROOT_PASSWORD: password
-          # POSTGRES_HOST_AUTH_METHOD: trust # パスワードなし
-          POSTGRES_DATABASE: sample_app_test
           POSTGRES_USER: postgres
+          POSTGRES_DB: sample_app_test
+          POSTGRES_HOST_AUTH_METHOD: trust # パスワードなし
+          # - POSTGRES_ROOT_PASSWORD: password
+          # POSTGRES_DATABASE: sample_app_test
+    environment:
+      BUNDLE_JOBS: "3"
+      BUNDLE_RETRY: "3"
+      PGHOST: 127.0.0.1
+      PGUSER: postgres
+      RAILS_ENV: test
+          
     working_directory: ~/sample_app
     steps:
       # CI環境上の working_directory の値の場所にGitリポジトリをコピーする。
