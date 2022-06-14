@@ -68,7 +68,8 @@ development:
 test:
   <<: *default
   database: sample_app_test
-  host: <%= ENV.fetch("APP_DATABASE_HOST") { 'db' } %> #circle CI 設定用に追記 22/6/12
+  # host: <%= ENV.fetch("APP_DATABASE_HOST") { 'db' } %> #circle CI 設定用に追記 22/6/12
+  host: '127.0.0.1'
   
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -100,7 +101,7 @@ test:
 # 以下はEC2デプロイ準備中に追記
 production:
   <<: *default
-  host: <%= Rails.application.credentials.rds[:host] %>
-  database: <%= Rails.application.credentials.rds[:database] %>
-  username: <%= Rails.application.credentials.rds[:username] %>
-  password: <%= Rails.application.credentials.rds[:password] %>
+  # host: <%= Rails.application.credentials.rds[:host] %>
+  # database: <%= Rails.application.credentials.rds[:database] %>
+  # username: <%= Rails.application.credentials.rds[:username] %>
+  # password: <%= Rails.application.credentials.rds[:password] %>

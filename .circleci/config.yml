@@ -23,6 +23,7 @@ jobs:
       - image: cimg/postgres:11.12
         environment:
           POSTGRES_ROOT_PASSWORD: password
+          # POSTGRES_HOST_AUTH_METHOD: trust # パスワードなし
           POSTGRES_DATABASE: sample_app_test
           POSTGRES_USER: postgres
     working_directory: ~/sample_app
@@ -51,8 +52,9 @@ jobs:
       # Test用に追記
       - run:
           name: RUN apt install tzdata
-          comand: apt update
-          command: sudo apt install tzdata
+          command: |
+            sudo apt update
+            sudo apt install tzdata
 
       # キャッシュする
       - save_cache:
@@ -66,7 +68,10 @@ jobs:
           # command: |
           #   bundle exec rake db:create
           #   bundle exec rake db:schema:load
+          # command: |
+          #   bundle exec rails db:migrate
           command: |
+            bundle exec rails db:create
             bundle exec rails db:migrate
 
       # rubocopを実行
