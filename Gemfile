@@ -6,7 +6,7 @@ ruby '2.6.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
 # Use postgresql as the database for Active Record
-# gem 'pg', '>= 0.18', '< 2.0' #← on にしたらlocal開発環境のdocker起動は成功する
+gem 'pg', '>= 0.18', '< 2.0' #← on にしたらlocal開発環境のdocker起動は成功する
 # gem 'pg', '>= 1.3.5', '< 2.0'
 # gem 'pg'
 # gem 'pg', '>= 1.2.3', '< 2.0'
@@ -69,6 +69,7 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
+  gem 'rspec_junit_formatter' # circleCIでのエラー回避のために追記 6/15
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

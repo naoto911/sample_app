@@ -43,6 +43,13 @@ jobs:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
             - v1-dependencies-
 
+      # bundle install 前に libpq-dev を取得するために追記
+      - run:
+          name: RUN apt install libpq-dev
+          command: |
+            sudo apt update
+            sudo apt install libpq-dev
+
       # Bundle install dependencies
       - run:
           name: Install dependencies
@@ -83,12 +90,14 @@ jobs:
       # RSpecを実行
       - run:
           name: Run rspec
-          command: |
-            bundle exec rspec --profile 10 \
-                              --format RspecJunitFormatter \ #gem 'rspec-junit-fomatter'が必要
-                              --out test_results/rspec.xml \
-                              --format progress \
-                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+          # command: |
+          #   bundle exec rspec --profile 10 \
+          #                     --format RspecJunitFormatter \ #gem 'rspec-junit-fomatter'が必要
+          #                     --out test_results/rspec.xml \
+          #                     --format progress \
+          #                     $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+          command: 
+            bundle exec rspec
 
       # Save artifacts
       # - store_test_results:
