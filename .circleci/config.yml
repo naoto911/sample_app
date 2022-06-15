@@ -1,0 +1,99 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@1.1.2
+
+jobs:
+  build:
+    parallelism: 2
+    docker:
+      - image: cimg/ruby:2.6.5-node
+        environment:
+          BUNDLER_VERSION: 2.1.4 # これがないとbundle installできない
+          RAILS_ENV: test
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+      - image: cimg/postgres:11.12
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: sample_app_test
+          # POSTGRES_HOST_AUTH_METHOD: trust # パスワードなし
+          POSTGRES_ROOT_PASSWORD: password
+    working_directory: ~/sample_app
+    steps:
+      # CI環境上の working_directory の値の場所にGitリポジトリをコピーする。
+      - checkout
+
+      # dockerコンテナの立ち上げを待つ(これ不要かも…？？？）
+      # - run:
+          # name: wait for database
+          # command: dockerize -wait tcp://127.0.0.1:3306 -timeout 5m
+
+      # キャッシュがあれば、リストアする。テスト時間の短縮につながる。keysでリストアするキャッシュを複数指定
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
+
+      # bundle install 前に libpq-dev, tzdata を取得するために追記
+      - run:
+          name: RUN apt install libpq-dev
+          command: |
+            sudo apt update
+            sudo apt install libpq-dev
+            sudo apt install tzdata
+
+      # Bundle install dependencies
+      - run:
+          name: Install dependencies
+          command: |
+            gem install bundler -v 2.1.4
+            bundle install --path=vendor/bundle --jobs 4 --retry 3
+
+      # キャッシュする
+      - save_cache:
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      # DBのセットアップ
+      - run:
+          name: Database Setup
+          command: |
+            bundle exec rails db:create
+            bundle exec rails db:migrate
+
+      # rubocopを実行
+      # - run:
+      #     name: Rubocop
+      #     command: bundle exec rubocop
+
+      # RSpecを実行
+      - run:
+          name: Run rspec
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
+              circleci tests split --split-by=timings)"
+            bundle exec rspec \
+              --format progress \
+              --format RspecJunitFormatter \
+              --out /tmp/test-results/rspec.xml \
+              --format progress \
+              $TEST_FILES
+
+
+      # Save artifacts
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
+workflows:
+  version: 2
+  build_test_and_deploy:
+    jobs:
+      - build
+      # - test:
+      #     requires:
+      #       - build

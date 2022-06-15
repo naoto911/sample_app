@@ -44,6 +44,11 @@ group :development, :test do
   # 追加 21/1/8
   gem 'pry-rails'
   gem 'pry-byebug'
+
+  # Rspec導入に伴って追記 22年5月
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'  
+  gem 'database_cleaner'
 end
 
 group :development do
@@ -61,7 +66,10 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
+  gem 'rspec_junit_formatter' # circleCIでのエラー回避のために追記 6/15
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]  #circleCI でエラー回避のため削除
+# gem 'tzinfo', '>= 1.2.9' #circleCI でエラー回避のため追記
+

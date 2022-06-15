@@ -30,7 +30,7 @@ export default {
     return {
       // myLatLng: { lat: 35.689614, lng: 139.691585 },
       myLatLng: { lat: 34.98586155776129, lng: 135.75780520290223 },
-      
+      YOUR_MAP_KEY: 'AIzaSyB1OGlg4o4pvW8vvEzhIOsfGhjhOZMvplE',
       // YOUR_MAP_KEY: 'ここにAPIキーを入れる',
       map: {},
       marker: {},
