@@ -81,7 +81,16 @@
         :to="admin_menu.url" 
         exact
       >
-        {{ admin_menu.title }}
+        <v-badge
+          v-if="approval_users_count > 0"
+          color="orange"
+          :content="approval_users_count"
+        >
+          {{ admin_menu.title }}
+        </v-badge>
+        <div v-else>
+          {{ admin_menu.title }}
+        </div>
       </v-tab>
     </v-tabs>
   <!-- ②ここまで tabs -->
@@ -111,6 +120,7 @@ export default {
       current_user: [],
       all_joins: [],
       joins: [],
+      approval_users_count: [],
 
       menus: [
         { title: '紹介', icon: 'mdi-home', url: `detail` },
@@ -153,6 +163,7 @@ export default {
           this.current_user = response.data.current_user;
           this.all_joins = response.data.all_joins;
           this.joins = response.data.joins
+          this.approval_users_count = response.data.approval_users_count; 
         });
     },
     getFavorite(id) {
