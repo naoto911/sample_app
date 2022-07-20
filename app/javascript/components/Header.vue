@@ -20,9 +20,9 @@
         color="warning"
         class="mr-4"
         dark
-        @click="gestLogin"
+        @click="guestLogin"
       >
-        GestLogin
+        GuestLogin
       </v-btn>
 
     <!-- ②-1 ここからLogin時の展開ボタン -->
@@ -216,7 +216,7 @@ export default {
           }
         })
     },
-    gestLogin () {
+    guestLogin () {
       axios
         .post('/api/v1/guest_login')
         .then(response => {
