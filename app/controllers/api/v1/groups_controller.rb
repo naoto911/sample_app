@@ -49,6 +49,7 @@ class Api::V1::GroupsController < ApplicationController
       @approval_users.push(approval.user)
     end
 
+    @approval_users_count = @approval_users.length
     # #--------------------元々のコードたち--------------------
     # @all_joins = Join.where(group_id: @group.id)
     
@@ -75,7 +76,17 @@ class Api::V1::GroupsController < ApplicationController
 
     # render json: {group: @group, users: @users, admin_user: @admin_user, approvals: @approvals, approval_users: @approval_users, current_user: current_user, all_joins: @all_joins }
 
-    render json: {group: @group, users: @users, admin_user: @admin_user, approvals: @approvals, approval_users: @approval_users, current_user: current_user, all_joins: @all_joins, joins: @joins }
+    render json: {
+      group: @group, 
+      users: @users, 
+      admin_user: @admin_user, 
+      approvals: @approvals, 
+      approval_users: @approval_users, 
+      current_user: current_user, 
+      all_joins: @all_joins, 
+      joins: @joins, 
+      approval_users_count: @approval_users_count
+    }
   end
 
   def new

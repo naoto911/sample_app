@@ -1,4 +1,3 @@
-  
 # CarrierWaveの設定呼び出し
 require 'carrierwave/storage/abstract'
 require 'carrierwave/storage/file'
