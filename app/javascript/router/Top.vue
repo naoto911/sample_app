@@ -19,16 +19,16 @@
 
     <v-spacer></v-spacer>
 
-    <!-- ②-2 ここから GestLoginボタン -->
+    <!-- ②-2 ここから guestLoginボタン -->
       <v-btn
         color="warning"
         class="mr-4"
         dark
-        @click="gestLogin"
+        @click="guestLogin"
       >
-        GestLogin
+        GuestLogin
       </v-btn>
-    <!-- ②-2 ここまで GestLoginボタン -->
+    <!-- ②-2 ここまで guestLoginボタン -->
 
     <!-- ②-2 ここから Loginボタン -->
       <router-link
@@ -242,7 +242,7 @@ export default {
     },
     Logout() {
     },
-    gestLogin () {
+    guestLogin () {
     },
   },
 
