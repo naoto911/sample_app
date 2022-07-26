@@ -38,7 +38,17 @@
           :to="menu.url" 
           exact
         >
-          {{ menu.title }}
+          <!-- {{ menu.title }} -->
+          <v-badge
+            v-if="applicaiton_groups_count > 0 && menu.title == '申請' "
+            color="orange"
+            :content="applicaiton_groups_count"
+          >
+            {{ menu.title }}
+          </v-badge>
+          <div v-else>
+            {{ menu.title }}
+          </div>
         </v-tab>
       </v-tabs>
     <!-- ②ここまで tabs -->
@@ -56,6 +66,8 @@ export default {
     return {
       group: [],
       user: {},
+      applicaiton_groups_count: [],
+
       menus: [
         { title: 'プロフィール', icon: 'mdi-home', url: `/users/${this.$route.params.id}/profile` },
         { title: 'イベント', icon: 'mdi-email-newsletter', url: `/users/${this.$route.params.id}/event` },
@@ -76,6 +88,7 @@ export default {
       .then(response => {
         this.group = response.data.group;
         this.user = response.data.user;
+        this.applicaiton_groups_count = response.data.applicaiton_groups_count;
       });
     },
     deleteUser(id) {
