@@ -158,7 +158,7 @@ export default {
       group: {
         image: null,
         name: null,
-        frequency: '2',
+        frequency: 2,
         region: null,
         instagram: null,
         introduction: null,
