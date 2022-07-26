@@ -166,7 +166,6 @@ export default {
 
   watch:{
     Watch_data() {
-      console.log('検知')
       this.page = 1
     },
   },
