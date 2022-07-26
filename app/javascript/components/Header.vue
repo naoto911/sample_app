@@ -185,9 +185,11 @@ export default {
     return {
       drawer: false,
       menus: [
-      { title: 'Home', icon: 'mdi-home', url: '/groups' },
+      // { title: 'Home', icon: 'mdi-home', url: '/groups' },
+      { title: 'Find', icon: 'mdi-home', url: '/groups' },
       { title: 'Create', icon: 'mdi-account-multiple-plus', url: '/groups/new' },
-      { title: 'Login', icon: 'mdi-information-variant', url: '/login' }
+      { title: 'Login', icon: 'mdi-login', url: '/login' },
+      { title: 'About', icon: 'mdi-information-variant', url: '/' },
       ],
     }
   },
