@@ -118,6 +118,16 @@
       </v-col>
     <!-- ここまで ② Group-card一覧 -->
 
+    <!-- ここから  ページネーション -->
+      <v-col cols="12">
+        <v-pagination
+          v-model="page"
+          :length="length"
+          @input = "pageChange"
+        ></v-pagination>
+      </v-col>
+    <!-- ここまで ページネーション -->
+
     </v-row>
   </div>
 </template>
@@ -136,6 +146,12 @@ export default {
       min: 0,
       max: 100,
       show: false,
+
+      page: 1,
+      length:0,
+      lists: [],
+      displayLists: [],
+      pageSize: 3,
     }
   },
 
@@ -148,13 +164,23 @@ export default {
     },
   },
 
+  watch:{
+    Watch_data() {
+      console.log('検知')
+      this.page = 1
+    },
+  },
+
   computed: {
+    Watch_data(){
+      return [this.keyword,this.min, this.max];
+    },
     SerchGroups () {
       var vals = [];
       var vals2 = [];
       for(var i in this.groups_length) {
           var groups_length = this.groups_length[i];
-          if(groups_length.count >= this.min && groups_length.count <= this.max ) {
+          if(groups_length.count >= this.min && groups_length.count <= this.max) {
               var group2 = this.getGroupForLength(groups_length.id)
               vals.push(group2);
           }
@@ -166,7 +192,12 @@ export default {
               vals2.push(group);
           }
       }
-      return vals2;
+
+    this.lists = vals2
+    this.length = Math.ceil(this.lists.length/this.pageSize);
+    this.displayLists = this.lists.slice(this.pageSize*(this.page -1), this.pageSize*(this.page));
+
+    return this.displayLists;
     },
   },
 
@@ -187,7 +218,10 @@ export default {
       const data = this.vals;
       const result = data.filter(x => x.id === key_id);
       return result[0];
-    }
+    },
+    pageChange(pageNumber){
+      this.displayLists = this.lists.slice(this.pageSize*(pageNumber -1), this.pageSize*(pageNumber));
+    },
   },
 
 };
