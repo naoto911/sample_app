@@ -70,6 +70,12 @@
                 </v-avatar>
                 <h3 class="text-h5 mb-2">
                   {{ selected.name }}
+                  <!-- <a
+                    :href="`//${selected.id}`"
+                    target="_blank"
+                  >
+                    {{ selected.id }}
+                  </a> -->
                 </h3>
               </v-card-text>
               <v-divider></v-divider>
@@ -84,31 +90,49 @@
                   tag="strong"
                   cols="5"
                 >
-                  Age:
+                  年齢:
                 </v-col>
-                <v-col>{{ selected.name }}</v-col>
+                <v-col v-if="selected.age">{{ selected.age }}</v-col>
+                <v-col v-else>未登録</v-col>
+
                 <v-col
                   class="text-right mr-4 mb-2"
                   tag="strong"
                   cols="5"
                 >
-                  From:
+                  出身:
                 </v-col>
-                <v-col>
-                  <a
-                    :href="`//${selected.id}`"
-                    target="_blank"
-                  >{{ selected.id }}</a>
+                <v-col v-if="areas && getBirthplace(selected.birthplace)" >{{ getBirthplace(selected.birthplace).prefName }}</v-col>
+                <v-col v-else>未登録</v-col>
+
+                <v-col
+                  class="text-right mr-4 mb-2"
+                  tag="strong"
+                  cols="5"
+                >
+                  性別:
                 </v-col>
+                <v-col v-if="selected.sex" >{{getSex(selected.sex)}}</v-col>
+                <v-col v-else>未登録</v-col>
+
+                <v-col
+                  class="text-right mr-4 mb-2"
+                  tag="strong"
+                  cols="5"
+                >
+                  自己紹介:
+                </v-col>
+                <v-col v-if="selected.introduction" >{{selected.introduction}}</v-col>
+                <v-col v-else>未登録</v-col>
 
               <!-- ② ここから 削除ボタン -->
                 <v-col v-if="val && selected.id != current_user.id" class="text-right" cols="2">
-                    <v-btn 
-                      icon 
-                      @click="openModal(selected.id)"
-                    >
-                      <v-icon>mdi-delete</v-icon>
-                    </v-btn>
+                  <v-btn 
+                    icon 
+                    @click="openModal(selected.id)"
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
                 </v-col>
               <!-- ② ここまで 削除ボタン -->
 
@@ -149,6 +173,8 @@ export default {
       showContent: false,
       delete_group_id: null,
       delete_id: null,
+
+      areas: [],
     }
   },
 
@@ -170,15 +196,14 @@ export default {
     selected () {
       //active = 左のユーザーから誰かを選択したらその人がactive
       if (!this.active.length) return undefined //非activeだとselectedはundefined
-    
       const id = this.active[0]
-
       return this.users.find(user => user.id === id) //usersからuser.idがidと等しいuserを探す
     },
   },
 
   created() {
     this.getUsers();
+    this.getAreas();
   },
 
   methods: {
@@ -191,6 +216,44 @@ export default {
           this.current_user = response.data.current_user;
         });
     },
+
+    getSex(check_value) {
+      var reslut = null;
+      switch (check_value) {
+        case 1:
+          reslut = "男性"
+          return reslut;
+          break;
+        case 2:
+          reslut = "女性"
+          return reslut;
+          break;
+        default:
+          reslut = null
+          return reslut;
+      }
+    },
+    getAreas(){
+      var temporary = axios.defaults.headers.common; //token headerを一時保存
+      axios.defaults.headers.common = null; //token headerを消去
+      var area_url = 'https://opendata.resas-portal.go.jp/api/v1/prefectures';
+
+      axios
+      .get(area_url,{
+        headers: { "X-API-KEY": "imTqHdr2MusisKwbx1V4J3wS3XrVmwEb26Uv83qB" },
+      })
+      .then(response =>  {
+        this.areas = response.data.result;
+        axios.defaults.headers.common = temporary; //token headerを復活
+      });
+    },
+    getBirthplace(key_id){
+      // const key_id = this.user.birthplace;
+      const data = this.areas;
+      const result = data.filter(x => x.prefCode === key_id);
+      return  result[0];
+    },
+
     deleteApplication(group_id, id) {
       axios.delete(`/api/v1/groups/${group_id}/joins/${id}`)
         .then(res => {
