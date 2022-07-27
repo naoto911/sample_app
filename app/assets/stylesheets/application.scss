@@ -76,3 +76,11 @@
 // }
 
  /* ↑ vuetify導入により一旦機能をoffにする ↑ */
+
+ .v-treeview-node__root {
+  min-height: 0px;
+  /* max-height: 25px; */
+  // padding-top: 5px;
+  padding-bottom: 5px;
+  margin: 0px;
+}
