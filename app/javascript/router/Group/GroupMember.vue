@@ -6,7 +6,7 @@
         justify="space-between"
       >
       <!-- ③ここから左のユーザー一覧 -->
-        <v-col cols="5">
+        <v-col cols="12" md="5">
           <v-treeview
             :active.sync="active"
             :items="users"
@@ -16,8 +16,6 @@
             open-on-click
             transition
           >
-
-          <!-- ④ここからitemにアカウントアイコンを追加 -->
             <template v-slot:prepend="{ item }">
               <v-layout justify-center>
                 <v-avatar>
@@ -29,22 +27,19 @@
                 </v-avatar>
               </v-layout>
             </template>
-          <!-- ④ここまでitemにアカウントアイコンを追加 -->
-
           </v-treeview>
+          <v-divider v-if="!(this.windowSize > 960)"></v-divider>
         </v-col>
       <!-- ③ここまで左のユーザー一覧 -->
 
-        <v-divider vertical></v-divider>
-
-        <v-col
-          class="d-flex text-center"
-        >
+        <v-divider v-if="this.windowSize > 960" vertical></v-divider>
+        
+        <v-col class="d-flex text-center">
           <v-scroll-y-transition mode="out-in">
           <!-- ①ここから誰も選んでないときの表示 -->
             <div
               v-if="!selected"
-              class="text-h6 grey--text text--lighten-1 font-weight-light"
+              class="text-h6 grey--text text--lighten-1 font-weight-light justify-center"
               style="align-self: center;"
             >
               Select a User
@@ -175,6 +170,8 @@ export default {
       delete_id: null,
 
       areas: [],
+
+      windowSize: window.innerWidth
     }
   },
 
@@ -204,6 +201,13 @@ export default {
   created() {
     this.getUsers();
     this.getAreas();
+  },
+
+  mounted() {
+    window.addEventListener('resize', this.handleResize)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize)
   },
 
   methods: {
@@ -252,6 +256,11 @@ export default {
       const data = this.areas;
       const result = data.filter(x => x.prefCode === key_id);
       return  result[0];
+    },
+
+    handleResize() {
+      // resizeのたびにこいつが発火するので、ここでやりたいことをやる
+      this.windowSize = window.innerWidth;
     },
 
     deleteApplication(group_id, id) {
