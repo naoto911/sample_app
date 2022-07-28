@@ -4,10 +4,8 @@
       <v-responsive :aspect-ratio="16/9">
         <v-row>
 
-        <!-- ① ここから 紹介 -->
           <v-col cols="10">
             <v-card-text>
-            <!-- ②-1 ここから イベント詳細 -->
               <h3>日付</h3>
                 <p v-if="event.date" >{{ event.date }}</p>
                 <p v-else>日付が未登録です</p>
@@ -15,91 +13,74 @@
                 <!-- <p v-if="event.place" >{{ event.place }}</p> -->
                 <!-- <p v-else>開催場所が未登録です。</p> -->
                 <p v-if="!event.lat && !event.lng" >場所が未登録です。</p>
-                <GoogleMap :parent_object="event"></GoogleMap>
-
-            <!-- ②-1 ここまで イベント詳細 -->    
-
-            <!-- ②-2 ここから 参加ユーザー一覧 -->
-              <h3>参加メンバー</h3>
-              <!-- ここから②-2-1 Avatar -->
-                <router-link
-                  v-for="val in participant_users"
+                <!-- <GoogleMap :parent_object="event"></GoogleMap> -->
+          
+            <!-- 参加,不参加の順にv-forを実行 -->
+            <!-- 各v-for内で,usersをv-forでさらにネストさせていることに注意 -->
+            <div
+              v-for="(users, index) in Summarize_users"
+              :key="users.id"
+              >
+                <h3>{{text[index]}}</h3>
+                <v-row 
+                  v-for="val in users"
                   :key="val.id"
-                  :to=" '/users/' + (Number(val.id)) "
-                  active-class="link--active"
-                  exact
-                  class="link"
+                  cols="12"
+                  align="center"
                 >
-
-                  <v-avatar
-                    cols="4"
-                  >
-                    <v-img
-                      v-if="val.image"
-                      :src= "val.image.url"
-                      alt="John"
-                    ></v-img>
-                    <span v-else>G</span>
-                  </v-avatar>
-                </router-link>
-              <!-- ここまで②-2-1 Avatar -->
-            <!-- ②-2 ここまで 参加ユーザー一覧 -->
-
-            <!-- ②-3 ここから 不参加ユーザー一覧 -->
-              <h3>不参加メンバー</h3>
-                <router-link
-                  v-for="val in unparticipant_users"
-                  :key="val.id"
-                  :to=" '/users/' + (Number(val.id)) "
-                  active-class="link--active"
-                  exact
-                  class="link"
-                >
-
-                  <v-avatar
-                    cols="4"
-                  >
-                    <v-img
-                      v-if="val.image"
-                      :src= "val.image.url"
-                      alt="John"
-                    ></v-img>
-                    <span v-else>G</span>
-                  </v-avatar>
-                </router-link>
-            <!-- ②-3 ここまで 不参加ユーザー一覧 -->
-
+                  <v-col cols="6">
+                    <router-link
+                      :to=" '/users/' + (Number(val.id)) + '/profile/' "
+                      active-class="link--active"
+                      exact
+                      class="link"
+                    >
+                      <v-row>
+                        <v-col cols="1">
+                          <v-avatar color="grey">
+                            <v-img
+                              v-if="val.image.url"
+                              :src= "val.image.url"
+                              alt="John"
+                            ></v-img>
+                            <v-icon v-else>mdi-account</v-icon>
+                          </v-avatar>
+                        </v-col>
+                        <v-col cols="11">
+                          <v-card-text class="ml-4">
+                            {{ val.name }}
+                          </v-card-text>
+                        </v-col>
+                      </v-row>
+                    </router-link>
+                  </v-col>
+                  <v-col cols="6">
+                  </v-col>
+                </v-row>
+            </div>
             </v-card-text>
           </v-col>
-        <!-- ① ここまで 紹介 -->
 
-        <!-- ② ここから ボタン類 -->
+        <!--  ここから ボタン類 -->
           <v-col v-if="val" class="text-right" cols="2">
 
-            <!-- ②-1 ここから 削除ボタン -->
-              <v-btn 
-                icon 
-                @click="openModal(event.id)"
-              >
-                <v-icon>mdi-delete</v-icon>
+            <v-btn icon @click="openModal(event.id)">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+            
+            <router-link
+              :to=" $route.path + '/edit' "
+              active-class="link--active"
+              exact
+              class="link"
+            >
+              <v-btn icon>
+                <v-icon>mdi-pencil</v-icon>
               </v-btn>
-            <!-- ②-1 ここまで 削除ボタン -->
-
-            <!-- ②-2 ここから 編集ボタン -->
-              <router-link
-                :to=" $route.path + '/edit' "
-                active-class="link--active"
-                exact
-                class="link"
-              >
-                <v-btn icon>
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-              </router-link>
-            <!-- ②-2 ここまで 編集ボタン -->
+            </router-link>
 
           </v-col>
-        <!-- ② ここまで ボタン類 -->
+        <!--  ここまで ボタン類 -->
 
         </v-row>
       </v-responsive>
@@ -133,6 +114,8 @@ export default {
 
       showContent: false,
       delete_id: null,
+
+      text: ["参加","不参加"],
     }
   },
 
@@ -142,13 +125,11 @@ export default {
     }
   },
 
-  // computed: {
-  //   eventAnswers(){
-  //     const data = this.answers;
-  //     const result = data.filter(x => x.answer === "○");
-  //     return result;
-  //   },
-  // },
+  computed: {
+    Summarize_users(){
+      return [this.participant_users,this.unparticipant_users];
+    },
+  },
 
   created () {
     this.getEvent();
@@ -193,21 +174,6 @@ export default {
       this.deleteEvent(this.delete_id);
       this.delete_id = null;
     },
-    // participantUsers() { //user毎のabatarとanswerの紐付けのための関数
-    //   var result2 = [];
-    //   const data2 = this.eventAnswers; //○のuserのみをdata2へ格納
-    //   const data3 = this.users; //group所属なかのuserをdata3へ格納
-    //   for (var val in data2) {  //data2をバラバラに展開
-    //     // console.log(data2[val]);
-    //     for (var user in data3 ) { //usersをバラバラに展開
-    //       if (data3[user].id == data2[val].user_id) { //data2のuser_id (○のuser_id)と一致するdata3(group所属中のuserを検証
-    //         result2.push(data3[user]); //result2へ格納 (○でかつgroup所属中のuserを抽出)
-    //       }
-    //     }
-    //   }
-    //   console.log(result2);
-    //   return result2;
-    // },
   },
 
 }
