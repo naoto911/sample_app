@@ -5,7 +5,7 @@
         class="pa-4"
         justify="space-between"
       >
-      <!-- ③ここから左のユーザー一覧 -->
+      <!-- ここから 左のユーザー一覧 -->
         <v-col cols="12" md="5">
           <v-treeview
             :active.sync="active"
@@ -18,9 +18,9 @@
           >
             <template v-slot:prepend="{ item }">
               <v-layout justify-center>
-                <v-avatar>
+                <v-avatar color="grey">
                   <v-img
-                    v-if="item.image"
+                    v-if="item.image.url"
                     :src= "item.image.url"
                   ></v-img>
                   <v-icon v-else>mdi-account</v-icon>
@@ -30,7 +30,7 @@
           </v-treeview>
           <v-divider v-if="!(this.windowSize > 960)"></v-divider>
         </v-col>
-      <!-- ③ここまで左のユーザー一覧 -->
+      <!-- ここまで 左のユーザー一覧 -->
 
         <v-divider v-if="this.windowSize > 960" vertical></v-divider>
         

@@ -39,15 +39,13 @@
             x-large
             v-on="on"
           >
-            <v-avatar
-              size="48"
-            >
+            <v-avatar size="48" color="grey">
               <v-img
-                v-if="val.image"
+                v-if="val.image.url"
                 :src= "val.image.url"
                 alt="John"
               ></v-img>
-              <span v-else>G</span>
+              <v-icon v-else>mdi-account</v-icon>
             </v-avatar>
           </v-btn>
         </template>
@@ -56,19 +54,19 @@
           <v-list-item-content class="justify-center">
             <div class="mx-auto text-center">
 
-            <!-- ここから②-1-1 Avatar -->
-              <v-avatar>
+            <!-- ここから Avatar -->
+              <v-avatar color="grey">
                 <v-img
-                  v-if="val.image"
+                  v-if="val.image.url"
                   :src= "val.image.url"
                   alt="John"
                 ></v-img>
-                <span v-else>G</span>
+                <v-icon v-else>mdi-account</v-icon>
               </v-avatar>
-            <!-- ここまで②-1-1 Avatar -->
+            <!-- ここまで Avatar -->
 
-              <h4 v-if="val">{{ val.name }}</h4> <!-- 名前 -->
-              <p v-if="val" class="text-caption mt-1">{{ val.email }}</p> <!-- E-mail -->
+              <h4 v-if="val">{{ val.name }}</h4>
+              <p v-if="val" class="text-caption mt-1">{{ val.email }}</p> 
               <v-divider class="my-3"></v-divider>
             <!-- ここから②-1-2 Myapage -->
               <router-link 
