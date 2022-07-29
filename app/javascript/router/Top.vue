@@ -2,19 +2,16 @@
   <div>
 
   <!-- ここから Header --> 
-  <v-app-bar
-    app
-    clipped-left
-  >
+  <v-app-bar app clipped-left>
   <!-- ① ここからSyumixロゴ --> 
-   <router-link
+   <!-- <router-link
       to="/groups/"
       active-class="link--active"
       exact
       class="link"
-    >
+    > -->
       <v-toolbar-title color="warning">Syumix</v-toolbar-title>
-    </router-link>
+    <!-- </router-link> -->
   <!-- ① ここまでSyumixロゴ -->
 
     <v-spacer></v-spacer>
@@ -221,12 +218,6 @@ export default {
       groups: [],
       group: null,
       groups_length: [],
-
-      menus: [
-        { title: 'Home', icon: 'mdi-home', url: '/groups' },
-        { title: 'Create', icon: 'mdi-account-multiple-plus', url: '/groups/new' },
-        { title: 'Login', icon: 'mdi-information-variant', url: '/login' }
-        ],
     }
   },
 
@@ -237,13 +228,25 @@ export default {
         .then(response => {
           this.groups = response.data.groups
           this.groups_length = response.data.groups_length
-
         });
     },
-    Logout() {
-    },
     guestLogin () {
-    },
+      axios
+        .post('/api/v1/guest_login')
+        .then(response => {
+          var user_id = response.data.user.id;
+          this.$store.dispatch('login')
+          this.$router.push({ path: `/groups` });
+          // this.$router.push({ path: `/users/${user_id}/profile` });
+        })        
+        .catch(error => {
+          console.log('NG');
+          console.error(error);
+          if(error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+          }
+        })
+      }
   },
 
 }
