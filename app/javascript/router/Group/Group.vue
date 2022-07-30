@@ -135,11 +135,12 @@ export default {
       approval_users_count: [],
 
       menus: [
-        { title: '紹介', icon: 'mdi-home', url: `detail` },
-        { title: 'メンバー', icon: 'mdi-text-account', url: `member` },
-        { title: 'イベント', icon: 'mdi-information-variant', url:`events` },
+        { title: '紹介', icon: 'mdi-home', url: `/groups/${this.$route.params.id}/detail` },
+        { title: 'メンバー', icon: 'mdi-text-account', url: `/groups/${this.$route.params.id}/member` },
+        { title: 'イベント', icon: 'mdi-information-variant', url: `/groups/${this.$route.params.id}/events` },
       ],
-      admin_menu: { title: '承認', icon: 'mdi-email-newsletter', url: `approval` },
+      admin_menu: { title: '承認', icon: 'mdi-email-newsletter', url: `/groups/${this.$route.params.id}/approval` },
+
       value: 1,
       includePermittedUser: false,
       includeJoinUser: false,
