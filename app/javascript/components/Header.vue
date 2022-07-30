@@ -96,7 +96,6 @@
               </div>
             </v-list-item-content>
           </v-card>
-
         </v-menu>
       <!-- ②-1 ここまでLogin時の展開ボタン -->
 
@@ -144,7 +143,7 @@
                   v-if="user_group.image.url"
                   :src= "user_group.image.url"
                 ></v-img>
-                <v-icon v-else>mdi-account</v-icon>
+                <v-icon v-else>mdi-account-group-outline</v-icon>
               </v-avatar>
             </v-list-item-icon>
             <v-list-item-content>
@@ -197,20 +196,6 @@ export default {
   },
 
   methods: {
-    // Logout(id) {
-    //   axios.delete(`/api/v1/login`)
-    //     .then(res => {
-    //       this.$store.dispatch('logout')
-    //       this.$router.push({ path: '/login' });
-    //     })
-    //     .catch(error => {
-    //       console.log('NG');
-    //       console.error(error);
-    //       if(error.response.data && error.response.data.errors) {
-    //         this.errors = error.response.data.errors;
-    //       }
-    //     })
-    // },
     Logout(id) {
       axios.delete(`/api/v1/login`)
         .then(res => {

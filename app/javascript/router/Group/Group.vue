@@ -3,28 +3,25 @@
   <!-- ①ここから header -->
     <v-row align="center">
 
-    <!-- ①-1 ここから avatar -->
+    <!-- ここから avatar -->
       <v-col cols="1">
-        <v-avatar
-          size="60"
-        >
+        <v-avatar size="60" color="grey">
           <v-img
             v-if="group.image && group.image.url"
             :src= "group.image.url"
           ></v-img>
-          <v-icon v-else>{{ menus[0].icon }}</v-icon>
+          <v-icon v-else>mdi-account-group-outline</v-icon>
         </v-avatar>
       </v-col>
-    <!-- ①-1 ここまで avatar -->
+    <!-- ここまで avatar -->
 
-    <!-- ①-2 ここから グループ名 -->
+    <!-- ここから グループ名 -->
       <v-col cols="8">
         <v-card-text class="ml-4">
           <h2>{{ group.name }}</h2>
         </v-card-text>
       </v-col>
-    <!-- ①-2 ここまで グループ名 -->
-
+    <!-- ここまで グループ名 -->
 
       <v-col cols="3" class="text-right">
       <!-- ①-3 ここから お気に入りボタン -->

@@ -26,10 +26,7 @@
         @click="dologin"
       >
         Login
-        <v-icon
-          dark
-          right
-        >
+        <v-icon dark right>
           mdi-checkbox-marked-circle
         </v-icon>
       </v-btn>

@@ -4,7 +4,7 @@
       <v-responsive :aspect-ratio="16/9">
         <v-row>
 
-        <!-- ① ここから 紹介 -->
+        <!-- ここから 紹介 -->
           <v-col cols="10">
             <v-card-text>
               <h3>頻度</h3>
@@ -20,24 +20,18 @@
                 <p v-else>instagramが未登録です。</p>
               <h3>説明</h3>
                 <p v-if="group.introduction" >{{group.introduction}}</p>
+                <!-- {{ group.introduction | omittedText(10) }}  -->
                 <p v-else>グループ説明が未記載です。</p>
             </v-card-text>
           </v-col>
-        <!-- ① ここまで 紹介 -->
+        <!-- ここまで 紹介 -->
 
-        <!-- ② ここから ボタン類 -->
+        <!-- ここから ボタン類 -->
           <v-col v-if="val" class="text-right" cols="2">
-
-            <!-- ②-1 ここから 削除ボタン -->
-              <v-btn 
-                icon 
-                @click="openModal(group.id)"
-              >
+              <v-btn icon @click="openModal(group.id)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
-            <!-- ②-1 ここまで 削除ボタン -->
 
-            <!-- ②-2 ここから 編集ボタン -->
               <router-link
                 :to=" '/groups/' + (Number(group.id)) + '/edit'"
                 active-class="link--active"
@@ -48,10 +42,8 @@
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
               </router-link>
-            <!-- ②-2 ここまで 編集ボタン -->
-
           </v-col>
-        <!-- ② ここまで ボタン類 -->
+        <!-- ここまで ボタン類 -->
 
         </v-row>
       </v-responsive>
@@ -103,6 +95,13 @@ export default {
       this.getGroup(to.params.id)
     }
  },
+
+  filters: {
+    omittedText(text,count) {
+     // count文字目以降は"…"
+     return text.length > count ? text.slice(0, count) + "…" : text;
+    }
+  },
 
   methods: {
     next () {

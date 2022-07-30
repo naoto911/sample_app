@@ -97,21 +97,19 @@
               class="mx-auto"
               max-width="260"
             >
-
               <v-img
                 :src= "val.image.url"
                 height="200px"
               ></v-img>
-
+              <!-- v-if="val.image && val.image.url" -->
+              <!-- <v-icon v-else height="200px">mdi-account-group-outline</v-icon> -->
               <v-card-title>
                 {{ val.name }}
               </v-card-title>
 
               <v-card-subtitle>
-                <!-- {{ val.introduction | omittedText(10) }}  -->
                 人数:{{ getGroupLength(val.id).count }}
               </v-card-subtitle>
-
             </v-card>
           </v-hover>
         </router-link>
@@ -192,19 +190,11 @@ export default {
           }
       }
 
-    this.lists = vals2
-    this.length = Math.ceil(this.lists.length/this.pageSize);
-    this.displayLists = this.lists.slice(this.pageSize*(this.page -1), this.pageSize*(this.page));
-
-    return this.displayLists;
+      this.lists = vals2
+      this.length = Math.ceil(this.lists.length/this.pageSize);
+      this.displayLists = this.lists.slice(this.pageSize*(this.page -1), this.pageSize*(this.page));
+      return this.displayLists;
     },
-  },
-
-  filters: {
-    omittedText(text,count) {
-     // count文字目以降は"…"
-     return text.length > count ? text.slice(0, count) + "…" : text;
-    }
   },
 
   methods: {

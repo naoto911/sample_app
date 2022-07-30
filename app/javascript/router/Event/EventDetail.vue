@@ -155,8 +155,6 @@ export default {
       .then(response => {
         this.group = response.data.group;
         this.event = response.data.event;
-        // this.answers = response.data.answers;
-        // this.users = response.data.users;
         this.participant_users = response.data.participant_users;
         this.unparticipant_users = response.data.unparticipant_users;
         });
