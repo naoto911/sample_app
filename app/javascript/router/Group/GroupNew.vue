@@ -5,10 +5,10 @@
       v-model="valid"
       lazy-validation
     >
-    <!-- ①ここから header -->
+    <!-- ここから header -->
       <v-row align="center">
 
-      <!-- ここから ①-1 画像uploda -->
+      <!-- ここから 画像upload -->
         <v-col cols="1">
           <label for="name1">
             <v-avatar size="60" color="grey">
@@ -28,9 +28,9 @@
             style="display:none"    
           ></v-file-input>  
         </v-col>
-      <!-- ここまで ①-1 画像uploda -->
+      <!-- ここまで 画像upload -->
 
-      <!-- ①-2 ここから グループ名 -->
+      <!-- ここから グループ名 -->
         <v-col cols="11">
           <v-card-text class="ml-4">
             <v-text-field
@@ -42,10 +42,10 @@
             ></v-text-field>
           </v-card-text>
         </v-col>
-      <!-- ①-2 ここまで グループ名 -->
+      <!-- ここまで グループ名 -->
       
       </v-row>
-    <!-- ①ここまで header -->
+    <!-- ここまで header -->
 
     <v-row style="min-height: 48px;"></v-row>
 
@@ -55,15 +55,15 @@
         <!-- ① ここから 紹介 -->
           <v-col cols="12">
             <v-card-text>
-
               <h3>頻度</h3>
-                <v-radio-group
-                  v-model="group.frequency"
-                  row
-                >
-                  <v-radio label="ガチ" :value=1></v-radio>
-                  <v-radio label="時々" :value=2></v-radio>
-                  <v-radio label="まれ" :value=3></v-radio>
+                <v-radio-group v-model="group.frequency" row>
+                  <v-radio
+                    v-for="(freq, index) in freqs"
+                    :key="index"
+                    :label="freq"
+                    :value="index+1"
+                  >
+                  </v-radio>
                 </v-radio-group>
 
               <h3>場所</h3>
@@ -147,6 +147,8 @@ export default {
         instagram: '',
         introduction: '',
       },
+
+      freqs:["ガチ", "時々", "まれ"],
 
       nameRules: [
         v => !!v || 'Name is required',
