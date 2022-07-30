@@ -11,10 +11,7 @@
       <!-- ここから ①-1 画像uploda -->
         <v-col cols="1">
           <label for="name1">
-            <v-avatar
-              size="60"
-              color="grey"
-            >
+            <v-avatar size="60" color="grey">
               <v-img
                 v-if="group.image"
                 :src= "url"
@@ -64,18 +61,9 @@
                   v-model="group.frequency"
                   row
                 >
-                  <v-radio
-                    label="ガチ"
-                    :value=1
-                  ></v-radio>
-                  <v-radio
-                    label="時々"
-                    :value=2
-                  ></v-radio>
-                  <v-radio
-                    label="まれ"
-                    :value=3
-                  ></v-radio>
+                  <v-radio label="ガチ" :value=1></v-radio>
+                  <v-radio label="時々" :value=2></v-radio>
+                  <v-radio label="まれ" :value=3></v-radio>
                 </v-radio-group>
 
               <h3>場所</h3>
@@ -116,10 +104,7 @@
                 @click="createGroup"
               >
                 作成
-                <v-icon
-                  dark
-                  right
-                >
+                <v-icon dark right>
                   mdi-checkbox-marked-circle
                 </v-icon>
               </v-btn>
@@ -157,13 +142,10 @@ export default {
       current_user: {},
       group: {
         image: null,
-        name: null,
+        name: '',
         frequency: 2,
-        region: null,
-        instagram: null,
-        introduction: null,
-
-        url: null,
+        instagram: '',
+        introduction: '',
       },
 
       nameRules: [
@@ -172,16 +154,8 @@ export default {
       ],
       select: null,
 
-      frequency: '2',
     }
   },
-
-  // computed:{
-  //   url(){
-  //     if(this.group.image === null){return;}
-  //     else{return URL.createObjectURL(this.group.image);}
-  //   }
-  // },
 
   created() {
     this.getGroup();
