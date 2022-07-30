@@ -1,13 +1,11 @@
 <template>
   <div>
-  
+
     <!-- ここから ② カレンダー表示 -->
     <v-row class="fill-height">
       <v-col>
         <v-sheet height="64">
-          <v-toolbar
-            flat
-          >
+          <v-toolbar flat>
             <v-btn
               outlined
               class="mr-4"
