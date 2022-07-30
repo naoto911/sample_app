@@ -12,16 +12,8 @@
                 <p v-else>頻度が未登録です</p>
               <h3>場所</h3>
                 <!-- <p v-if="!group.lat && !group.lng" >{{group.region}}</p> -->
-                <!-- <p v-else>場所が未登録です。</p> -->
                 <p v-if="!group.lat && !group.lng" >場所が未登録です。</p>
                 <GoogleMap :parent_object="group"></GoogleMap>
-              <h3>SNS</h3>
-                <p v-if="group.instagram" >{{group.instagram}}</p>
-                <p v-else>instagramが未登録です。</p>
-              <h3>説明</h3>
-                <p v-if="group.introduction" >{{group.introduction}}</p>
-                <!-- {{ group.introduction | omittedText(10) }}  -->
-                <p v-else>グループ説明が未記載です。</p>
             </v-card-text>
           </v-col>
         <!-- ここまで 紹介 -->
@@ -96,24 +88,7 @@ export default {
     }
  },
 
-  filters: {
-    omittedText(text,count) {
-     // count文字目以降は"…"
-     return text.length > count ? text.slice(0, count) + "…" : text;
-    }
-  },
-
   methods: {
-    next () {
-      this.onboarding = this.onboarding + 1 === this.length
-        ? 0
-        : this.onboarding + 1
-    },
-    prev () {
-      this.onboarding = this.onboarding - 1 < 0
-        ? this.length - 1
-        : this.onboarding - 1
-    },
     getGroup(id) {
       axios
         .get(`/api/v1/groups/${id}.json`)
@@ -139,25 +114,18 @@ export default {
       var reslut = null;
       switch (check_value) {
         case 1:
-          // console.log('ガチ');
           reslut = "ガチ"
-          return reslut;
           break;
         case 2:
-          // console.log('時々');
           reslut = "時々"
-          return reslut;
           break;
         case 3:
-          // console.log('まれ');
           reslut = "まれ"
-          return reslut;
           break;
         default :
-          // console.log('選択');
           reslut = null
-          return reslut;
       }
+      return reslut;
     },
     openModal(id) {
       this.showContent = true;

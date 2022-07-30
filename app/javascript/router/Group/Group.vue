@@ -58,6 +58,7 @@
 
       <v-card-text class="pt-0 pl-0">
         {{ group.introduction }}
+        <!-- {{ group.introduction | omittedText(10) }}  -->
       </v-card-text>
 
       <v-card-text class="pt-0 pl-0">
@@ -73,7 +74,7 @@
           </v-btn>
         </a>
       </v-card-text>
-      
+
     </v-card>
   <!-- ①ここまで header -->
     <v-divider></v-divider>
@@ -168,6 +169,13 @@ export default {
       this.getFavorite(to.params.id)
     }
  },
+ 
+  filters: {
+    omittedText(text,count) {
+     // count文字目以降は"…"
+     return text.length > count ? text.slice(0, count) + "…" : text;
+    }
+  },
 
   methods: {
     getGroup(id) {
