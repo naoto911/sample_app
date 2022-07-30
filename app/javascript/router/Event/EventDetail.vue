@@ -6,6 +6,15 @@
 
           <v-col cols="10">
             <v-card-text>
+              <v-radio-group
+                v-model="Myanswer.answer"
+                row
+                @change="updateAnswer(Myanswer)"
+              >
+                <v-radio label="参加" value="○"></v-radio>
+                <v-radio label="不参加" value="-"></v-radio>
+              </v-radio-group>
+
               <h3>日付</h3>
                 <p v-if="event.date" >{{ event.date }}</p>
                 <p v-else>日付が未登録です</p>
@@ -14,50 +23,50 @@
                 <!-- <p v-else>開催場所が未登録です。</p> -->
                 <p v-if="!event.lat && !event.lng" >場所が未登録です。</p>
                 <!-- <GoogleMap :parent_object="event"></GoogleMap> -->
-          
-            <!-- 参加,不参加の順にv-forを実行 -->
-            <!-- 各v-for内で,usersをv-forでさらにネストさせていることに注意 -->
-            <div
-              v-for="(users, index) in Summarize_users"
-              :key="users.id"
-              >
-                <h3>{{text[index]}}</h3>
-                <v-row 
-                  v-for="val in users"
-                  :key="val.id"
-                  cols="12"
-                  align="center"
+            
+              <!-- 参加,不参加の順にv-forを実行 -->
+              <!-- 各v-for内で,usersをv-forでさらにネストさせていることに注意 -->
+              <div
+                v-for="(users, index) in Summarize_users"
+                :key="users.id"
                 >
-                  <v-col cols="6">
-                    <router-link
-                      :to=" '/users/' + (Number(val.id)) + '/profile/' "
-                      active-class="link--active"
-                      exact
-                      class="link"
-                    >
-                      <v-row>
-                        <v-col cols="1">
-                          <v-avatar color="grey">
-                            <v-img
-                              v-if="val.image.url"
-                              :src= "val.image.url"
-                              alt="John"
-                            ></v-img>
-                            <v-icon v-else>mdi-account</v-icon>
-                          </v-avatar>
-                        </v-col>
-                        <v-col cols="11">
-                          <v-card-text class="ml-4">
-                            {{ val.name }}
-                          </v-card-text>
-                        </v-col>
-                      </v-row>
-                    </router-link>
-                  </v-col>
-                  <v-col cols="6">
-                  </v-col>
-                </v-row>
-            </div>
+                  <h3>{{text[index]}}</h3>
+                  <v-row 
+                    v-for="val in users"
+                    :key="val.id"
+                    cols="12"
+                    align="center"
+                  >
+                    <v-col cols="6">
+                      <router-link
+                        :to=" '/users/' + (Number(val.id)) + '/profile/' "
+                        active-class="link--active"
+                        exact
+                        class="link"
+                      >
+                        <v-row>
+                          <v-col cols="1">
+                            <v-avatar color="grey">
+                              <v-img
+                                v-if="val.image.url"
+                                :src= "val.image.url"
+                                alt="John"
+                              ></v-img>
+                              <v-icon v-else>mdi-account</v-icon>
+                            </v-avatar>
+                          </v-col>
+                          <v-col cols="11">
+                            <v-card-text class="ml-4">
+                              {{ val.name }}
+                            </v-card-text>
+                          </v-col>
+                        </v-row>
+                      </router-link>
+                    </v-col>
+                    <v-col cols="6">
+                    </v-col>
+                  </v-row>
+              </div>
             </v-card-text>
           </v-col>
 
@@ -107,15 +116,15 @@ export default {
     return {
       group: {},
       event: {},
-      answers: [],
-      users: [],
       participant_users : [],
       unparticipant_users: [],
+      Myanswer: {},
 
       showContent: false,
       delete_id: null,
 
       text: ["参加","不参加"],
+
     }
   },
 
@@ -134,6 +143,12 @@ export default {
   created () {
     this.getEvent();
   },
+
+  watch: {
+    'Myanswer.answer': function() {
+      this.getEvent()
+    }
+ },
 
   methods: {
     deleteEvent(id) {
@@ -157,7 +172,33 @@ export default {
         this.event = response.data.event;
         this.participant_users = response.data.participant_users;
         this.unparticipant_users = response.data.unparticipant_users;
+        const answers = response.data.answers;
+        this.Myanswer = this.MyAnswer(answers)
         });
+    },
+    MyAnswer(answers){
+      const data = answers
+      const result = data.filter(x => x.event_id === this.event.id);
+      return result[0];
+    },
+    updateAnswer(updateAnswer) {
+      axios
+        .patch(`/api/v1/answers/${updateAnswer.id}`, {
+          answer: {
+            answer: updateAnswer.answer
+          }
+        })
+
+      .then(response => {
+        console.log('OK');
+      })
+      .catch(error => {
+        console.log('NG');
+        console.error(error);
+        if(error.response.data && error.response.data.errors) {
+          this.errors = error.response.data.errors;
+        }
+      })
     },
     openModal(id) {
       this.showContent = true;

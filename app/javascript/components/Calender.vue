@@ -1,9 +1,9 @@
 <template>
   <div>
 
-    <!-- ここから ② カレンダー表示 -->
     <v-row class="fill-height">
       <v-col>
+        <!-- カレンダー上部のheader -->
         <v-sheet height="64">
           <v-toolbar flat>
             <v-btn
@@ -40,12 +40,7 @@
               {{ $refs.calendar.title }}
             </v-toolbar-title>
             <v-spacer></v-spacer>
-
-          <!-- ② ここからカレンダー期間を変更 -->
-            <v-menu
-              bottom
-              right
-            >
+            <v-menu bottom right>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   outlined
@@ -74,13 +69,12 @@
                 </v-list-item>
               </v-list>
             </v-menu>
-          <!-- ② ここまでカレンダー期間を変更 -->
-
           </v-toolbar>
         </v-sheet>
-        <v-sheet height="600">
+        <!-- カレンダー上部のheader -->
 
-        <!-- ③ここからカレンダーのメインの部分 -->
+        <!-- カレンダーのmain -->
+        <v-sheet height="600">
           <v-calendar
             ref="calendar"
             v-model="focus"
@@ -91,11 +85,7 @@
             @click:event="showEvent"
             @click:more="viewDay"
             @click:date="viewDay"
-            
           ></v-calendar>
-        <!-- ③ここまでカレンダーのメインの部分 @change="updateRange" -->
-
-        <!-- ④ここからイベントを触ると編集へのリンクが出せる -->
           <v-menu
             v-model="selectedOpen"
             :close-on-content-click="false"
@@ -107,15 +97,9 @@
               min-width="350px"
               flat
             >
-              <v-toolbar
-                :color="selectedEvent.color"
-                dark
-              >
-
+              <v-toolbar :color="selectedEvent.color" dark>
                 <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
                 <v-spacer></v-spacer>
-
-              <!-- ④-2 ここから EvnetDetaileへのリンク -->
                 <router-link
                   :to=" '/groups/' +(selectedEvent.group_id) + '/events/' + (Number(selectedEvent.id)) "
                   active-class="link--active"
@@ -126,17 +110,14 @@
                     <v-icon>mdi-credit-card-search-outline</v-icon>
                   </v-btn>
                 </router-link>
-              <!-- ④-2 ここまで EvnetDetaileへのリンク -->
-
               </v-toolbar>
+
               <v-card-text>
                 <span v-html="selectedEvent.details"></span>
               </v-card-text>
               
-            <!-- ④-3 ここからAnswer -->
               <v-card-actions>                
                 <v-row>
-
                   <v-col cols="12">
                     <v-radio-group
                       v-if="eventAnswer"
@@ -144,28 +125,19 @@
                       row
                       @change="$emit('onChange', eventAnswer)"
                     >
-                      <v-radio
-                        label="参加"
-                        value="○"
-                      ></v-radio>
-                      <v-radio
-                        label="不参加"
-                        value="-"
-                      ></v-radio>
+                      <v-radio label="参加" value="○"></v-radio>
+                      <v-radio label="不参加" value="-"></v-radio>
                     </v-radio-group>
                   </v-col>
-
                 </v-row>
               </v-card-actions>
-            <!-- ④-3 ここまでAnswer -->
-
             </v-card>
           </v-menu>
-        <!-- ④ここまでイベントを触ると編集へのリンクが出せる -->
         </v-sheet>
+        <!-- カレンダーのmain -->
       </v-col>
     </v-row>
-  <!-- ここまで ② カレンダー表示 -->
+
   </div>
 </template>
 
