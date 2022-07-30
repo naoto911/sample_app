@@ -72,7 +72,7 @@
                   label="練習場所"
                   prepend-inner-icon="mdi-map-marker"
                 ></v-text-field> -->
-                <GoogleMap :parent_object="group" @latlng="changeMarker"></GoogleMap>
+                <!-- <GoogleMap :parent_object="group" @latlng="changeMarker"></GoogleMap> -->
 
               <h3>SNS</h3>
                 <v-text-field
@@ -84,6 +84,7 @@
               <h3>説明</h3>
                 <v-textarea
                   v-model="group.introduction"
+                  :rules="introductionRules"
                   background-color="white"
                   filled
                   label="グループ紹介"
@@ -98,9 +99,9 @@
           <v-col cols="4">
             <v-card-actions>
               <v-btn
+                :disabled="!valid"
                 color="primary"
                 class="mr-4"
-                dark
                 @click="createGroup"
               >
                 作成
@@ -154,19 +155,28 @@ export default {
         v => !!v || 'Name is required',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
-      select: null,
+      introductionRules: [
+        v => !!v || 'Introduction is required',
+      ],
 
     }
   },
 
   created() {
-    this.getGroup();
+    this.getGroup()
   },
 
   methods: {
+    validate () {
+      return this.$refs.form.validate()
+    },
     reset () {
       this.$refs.form.reset()
     },
+    resetValidation () {
+      this.$refs.form.resetValidation()
+    },
+
     getGroup() {
       axios
         .get('/api/v1/groups/new.json')
@@ -180,7 +190,7 @@ export default {
       return this.url;
     },
     createGroup () {
-      if (!this.group.name) return;
+      if (!this.validate()) return;
       const formData = new FormData()
       formData.append('group[image]', this.group.image)
       formData.append('group[name]', this.group.name)
