@@ -26,10 +26,7 @@
         @click="dologin"
       >
         Login
-        <v-icon
-          dark
-          right
-        >
+        <v-icon dark right>
           mdi-checkbox-marked-circle
         </v-icon>
       </v-btn>
@@ -96,7 +93,8 @@ export default {
       .then(response => {
         var user_id = response.data.user.id;
         this.$store.dispatch('login')
-        this.$router.push({ path: `/users/${user_id}/profile` });
+         this.$router.push({ path: `/groups` });
+        // this.$router.push({ path: `/users/${user_id}/profile` });
       })        
       .catch(error => {
         console.log('NG');

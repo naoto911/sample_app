@@ -1,70 +1,68 @@
 <template>
   <div>
   <!-- ①ここから header -->
-    <v-row align="center">
+    <v-card flat>
+      <v-card-text class="pa-0">
+        <v-layout align-center>
+          <v-avatar size="60" color="grey">
+            <v-img
+              v-if="group.image && group.image.url"
+              :src= "group.image.url"
+            ></v-img>
+            <v-icon v-else>mdi-camera</v-icon>
+          </v-avatar>
+          <v-card-title class="text-h4">{{ group.name }}</v-card-title>
+          <v-spacer></v-spacer>
 
-    <!-- ①-1 ここから avatar -->
-      <v-col cols="1">
-        <v-avatar
-          size="60"
-        >
-          <v-img
-            v-if="group.image && group.image.url"
-            :src= "group.image.url"
-          ></v-img>
-          <v-icon v-else>{{ menus[0].icon }}</v-icon>
-        </v-avatar>
-      </v-col>
-    <!-- ①-1 ここまで avatar -->
-
-    <!-- ①-2 ここから グループ名 -->
-      <v-col cols="8">
-        <v-card-text class="ml-4">
-          <h2>{{ group.name }}</h2>
-        </v-card-text>
-      </v-col>
-    <!-- ①-2 ここまで グループ名 -->
-
-
-      <v-col cols="3" class="text-right">
-      <!-- ①-3 ここから お気に入りボタン -->
-        <v-btn icon>
-          <v-icon v-if="favorite_status" @click="deleteFavorite()">mdi-heart</v-icon>
-          <v-icon v-else @click="registerFavorite()">mdi-heart-outline</v-icon>
-        </v-btn>
-      <!-- ①-3 ここまで お気に入りボタン -->
-
-      <!-- ①-3 ここから 申請ボタン -->
-        <router-link 
-          v-if="this.checkPermittedUser(current_user.id, all_joins) == false"
-          :to=" '/groups/' + (Number(this.$route.params.id)) +'/joins/new' "
-          active-class="link--active"
-          exact
-          class="link"
-        >
           <v-btn icon>
-            <v-icon>mdi-gesture-tap-button</v-icon>
-            <!-- <v-icon>mdi-human-greeting-variant</v-icon> -->
-            <!-- <v-icon>mdi-file-document-multiple-outline</v-icon> -->
+            <v-icon v-if="favorite_status" @click="deleteFavorite()">mdi-heart</v-icon>
+            <v-icon v-else @click="registerFavorite()">mdi-heart-outline</v-icon>
           </v-btn>
-        </router-link>
-      <!-- ①-3 ここまで 申請ボタン -->
 
-      <!-- ①-3 ここから 退会ボタン -->
-        <v-btn 
-          icon 
-          v-else-if="this.checkJoinUser(current_user.id, joins) && !includeAdminuser"
-          @click="openModal(current_user.id)"
-        >
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-      <!-- ①-3 ここまで 退会ボタン -->
+          <router-link 
+            v-if="this.checkPermittedUser(current_user.id, all_joins) == false"
+            :to=" '/groups/' + (Number(this.$route.params.id)) +'/joins/new' "
+            active-class="link--active"
+            exact
+            class="link"
+          >
+            <v-btn icon>
+              <v-icon>mdi-gesture-tap-button</v-icon>
+            </v-btn>
+          </router-link>
 
-      </v-col>
+          <v-btn 
+            icon 
+            v-else-if="this.checkJoinUser(current_user.id, joins) && !includeAdminuser"
+            @click="openModal(current_user.id)"
+          >
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </v-layout>
+      </v-card-text>
 
-    </v-row>
+      <v-card-text class="pl-0">
+        {{ group.introduction }}
+        <!-- {{ group.introduction | omittedText(10) }}  -->
+      </v-card-text>
+
+      <v-card-text class="pt-0 pl-0">
+        <a :href="group.instagram">
+          <v-btn
+            v-for="icon in icons"
+            :key="icon"
+            icon
+          >
+            <v-icon left> 
+              {{ icon }}
+            </v-icon>
+          </v-btn>
+        </a>
+      </v-card-text>
+
+    </v-card>
   <!-- ①ここまで header -->
-
+    <v-divider></v-divider>
 
   <!-- ②ここから tabs -->
     <v-tabs v-if="group">
@@ -97,7 +95,6 @@
 
     <router-view  class="my-5" :val="includeAdminuser"></router-view>
 
-
     <Modal :showContent="showContent" @close="closeModal" @delete="deleteAction"></Modal>
 
   </div>
@@ -123,11 +120,12 @@ export default {
       approval_users_count: [],
 
       menus: [
-        { title: '紹介', icon: 'mdi-home', url: `detail` },
-        { title: 'メンバー', icon: 'mdi-text-account', url: `member` },
-        { title: 'イベント', icon: 'mdi-information-variant', url:`events` },
+        { title: '紹介', icon: 'mdi-home', url: `/groups/${this.$route.params.id}/detail` },
+        { title: 'メンバー', icon: 'mdi-text-account', url: `/groups/${this.$route.params.id}/member` },
+        { title: 'イベント', icon: 'mdi-information-variant', url: `/groups/${this.$route.params.id}/events` },
       ],
-      admin_menu: { title: '承認', icon: 'mdi-email-newsletter', url: `approval` },
+      admin_menu: { title: '承認', icon: 'mdi-email-newsletter', url: `/groups/${this.$route.params.id}/approval` },
+
       value: 1,
       includePermittedUser: false,
       includeJoinUser: false,
@@ -138,6 +136,11 @@ export default {
       showContent: false,
       delete_group_id: null,
       delete_id: null,
+
+      icons: [
+        'mdi-twitter',
+        'mdi-instagram',
+      ],
     }
   },
 
@@ -152,6 +155,13 @@ export default {
       this.getFavorite(to.params.id)
     }
  },
+ 
+  filters: {
+    omittedText(text,count) {
+     // count文字目以降は"…"
+     return text.length > count ? text.slice(0, count) + "…" : text;
+    }
+  },
 
   methods: {
     getGroup(id) {
@@ -224,7 +234,6 @@ export default {
     registerFavorite() {
       if (!this.group) return;
       const formData = new FormData()
-      // formData.append('favorite[group_id]', this.group.id)
       formData.append('favorite[group_id]', this.$route.params.id)
       formData.append('favorite[user_id]', this.current_user.id)
 

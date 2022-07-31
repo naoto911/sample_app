@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- ここから ①-1 検索ウィンドウ -->
+    <!-- ここから 検索ウィンドウ -->
     <v-row>
       <v-col cols="6">
         <v-text-field
@@ -12,17 +12,21 @@
         ></v-text-field>
       </v-col>
       <v-col cols="6">
-        <!-- <v-btn @click="searchCordinate(map)">
-          検索
-        </v-btn> -->
       </v-col>
     </v-row>
-    <!-- ここまで ①-1 検索ウィンドウ -->
-    <div ref="map" style="height: 500px; width: 800px"></div>
+    <!-- ここまで 検索ウィンドウ -->
+
+    <!-- ここから Map本体 -->
+    <v-row>
+      <v-col>
+        <v-responsive :aspect-ratio="16/9">
+          <div ref="map" style="height: 100%; width: 100%"></div>
+        </v-responsive>
+      </v-col>
+    </v-row>
+     <!-- ここまで Map本体 -->
   </div>
 </template>
-
-
 
 <script>
 export default {
@@ -48,7 +52,7 @@ export default {
 
  watch: {
    parent_object: function (val) {
-     console.log("propsのgroup変化を検知");
+    //  console.log("propsのgroup変化を検知");
      this.getGoogleMap(val, this.map);
    },
   },
@@ -60,7 +64,7 @@ export default {
       if (url.indexOf('new') != -1 || url.indexOf('edit') != -1) {
         result = true
         if(Object.keys(this.map).length) {
-          console.log('this.mapが空でない時=initGoogleMap()完了後')
+          // console.log('this.mapが空でない時=initGoogleMap()完了後')
           this.addGogleMap();
         }
       }

@@ -55,8 +55,14 @@ class Api::V1::EventsController < ApplicationController
         @unparticipant_users.push(unparticipant_answer.user)
     end
 
-    render json: {group: @group, event: @event, participant_users: @participant_users, unparticipant_users: @unparticipant_users }
-
+    # render json: {group: @group, event: @event, participant_users: @participant_users, unparticipant_users: @unparticipant_users }
+    render json: {
+      group: @group, 
+      event: @event,
+      answers: @answers,
+      participant_users: @participant_users, 
+      unparticipant_users: @unparticipant_users
+    }
     #--------------------元々のコードたち--------------------
     # @answers = Answer.where(event_id: @event.id)
     # @participant_answers= @answers.where("answer = '○'")

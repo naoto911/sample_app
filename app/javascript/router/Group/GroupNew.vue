@@ -5,138 +5,113 @@
       v-model="valid"
       lazy-validation
     >
-    <!-- ①ここから header -->
-      <v-row align="center">
-
-      <!-- ここから ①-1 画像uploda -->
-        <v-col cols="1">
-          <label for="name1">
-            <v-avatar
-              size="60"
-              color="grey"
-            >
-              <v-img
-                v-if="group.image"
-                :src= "url"
-              ></v-img>
-              <v-icon v-else>mdi-camera</v-icon>
-            </v-avatar>
-          </label>
-          <v-file-input
-            id="name1"
-            v-model="group.image"
-            accept="image/*"
-            filled
-            @change="cheangeImage()"
-            style="display:none"    
-          ></v-file-input>  
-        </v-col>
-      <!-- ここまで ①-1 画像uploda -->
-
-      <!-- ①-2 ここから グループ名 -->
-        <v-col cols="11">
-          <v-card-text class="ml-4">
-            <v-text-field
-              v-model="group.name"
-              :counter="10"
-              :rules="nameRules"
-              label="名前"
-              required
-            ></v-text-field>
-          </v-card-text>
-        </v-col>
-      <!-- ①-2 ここまで グループ名 -->
-      
-      </v-row>
-    <!-- ①ここまで header -->
-
-    <v-row style="min-height: 48px;"></v-row>
-
     <v-card>
-      <v-responsive :aspect-ratio="16/9">
-        <v-row>
-        <!-- ① ここから 紹介 -->
-          <v-col cols="12">
-            <v-card-text>
+      <v-card-text class="d-flex flex-row">
+        <label for="name1">
+          <v-avatar size="60" color="grey">
+            <v-img
+              v-if="group.image"
+              :src= "url"
+            ></v-img>
+            <v-icon v-else>mdi-camera</v-icon>
+          </v-avatar>
+        </label>
+        <v-file-input
+          id="name1"
+          v-model="group.image"
+          accept="image/*"
+          filled
+          @change="cheangeImage()"
+          style="display:none" 
+        ></v-file-input>  
 
-              <h3>頻度</h3>
-                <v-radio-group
-                  v-model="group.frequency"
-                  row
-                >
-                  <v-radio
-                    label="ガチ"
-                    :value=1
-                  ></v-radio>
-                  <v-radio
-                    label="時々"
-                    :value=2
-                  ></v-radio>
-                  <v-radio
-                    label="まれ"
-                    :value=3
-                  ></v-radio>
-                </v-radio-group>
+        <v-text-field
+          v-model="group.name"
+          :counter="10"
+          :rules="nameRules"
+          label="名前"
+          required
+          filled
+          height=60px
+          class="my-0 pt-0 ml-4"
+        ></v-text-field>
+      </v-card-text>
 
-              <h3>場所</h3>
-                <!-- <v-text-field
-                  v-model="group.region"
-                  label="練習場所"
-                  prepend-inner-icon="mdi-map-marker"
-                ></v-text-field> -->
-                <GoogleMap :parent_object="group" @latlng="changeMarker"></GoogleMap>
+      <v-card-text>
+        <v-textarea
+          v-model="group.introduction"
+          :rules="introductionRules"
+          filled
+          label="グループ紹介"
+          auto-grow
+          clearable
+        ></v-textarea>
+      </v-card-text>  
 
-              <h3>SNS</h3>
-                <v-text-field
-                  v-model="group.instagram"
-                  label="instagramのURL"
-                  prepend-inner-icon="mdi-instagram"
-                ></v-text-field>
+      <v-card-text>        
+        <v-text-field
+          v-model="group.twitter"
+          label="twitterのURL"
+          prepend-inner-icon="mdi-twitter"
+          filled
+        ></v-text-field>
+        <v-text-field
+          v-model="group.instagram"
+          label="instagramのURL"
+          prepend-inner-icon="mdi-instagram"
+          filled
+        ></v-text-field>
+       </v-card-text>  
 
-              <h3>説明</h3>
-                <v-textarea
-                  v-model="group.introduction"
-                  background-color="white"
-                  filled
-                  label="グループ紹介"
-                  auto-grow
-                ></v-textarea>
+        <v-card-text>
+          <div><strong>頻度</strong></div>
+          <v-radio-group v-model="group.frequency" row>
+            <v-radio
+              v-for="(freq, index) in freqs"
+              :key="index"
+              :label="freq"
+              :value="index+1"
+            >
+            </v-radio>
+          </v-radio-group>
+        </v-card-text>  
 
-            </v-card-text>
-          </v-col>
-        <!-- ① ここまで 紹介 -->
+        <v-card-text>
+          <v-text-field
+            v-model="group.region"
+            label="練習場所"
+            prepend-inner-icon="mdi-map-marker"
+            filled
+          ></v-text-field>
+          <!-- <GoogleMap :parent_object="group" @latlng="changeMarker"></GoogleMap> -->
+        </v-card-text>
 
-        <!-- ここから ①-2 ボタン類 -->
-          <v-col cols="4">
-            <v-card-actions>
-              <v-btn
-                color="primary"
-                class="mr-4"
-                dark
-                @click="createGroup"
-              >
-                作成
-                <v-icon
-                  dark
-                  right
-                >
-                  mdi-checkbox-marked-circle
-                </v-icon>
-              </v-btn>
-              <v-btn
-                color="error"
-                class="mr-4"
-                @click="reset"
-              >
-                リセット
-              </v-btn>
-            </v-card-actions>
-          </v-col>
-        <!-- ここまで ①-2 ボタン類 -->
+        <!-- ここから ボタン類 -->
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            :disabled="!valid"
+            color="primary"
+            class="mr-4"
+            @click="createGroup"
+          >
+            作成
+            <v-icon dark right>
+              mdi-checkbox-marked-circle
+            </v-icon>
+          </v-btn>
+          
+          <v-btn
+            color="error"
+            class="mr-4"
+            @click="reset"
+          >
+            リセット
+          </v-btn>
+        </v-card-actions>
+        <!-- ここまで ボタン類 -->
 
-        </v-row>
-      </v-responsive>
-    </v-card>
+      </v-card>
     </v-form>
   </div>
 </template>
@@ -157,37 +132,33 @@ export default {
       current_user: {},
       group: {
         image: null,
-        name: null,
-        frequency: '2',
-        region: null,
-        instagram: null,
-        introduction: null,
-
-        url: null,
+        name: '',
+        frequency: 2,
+        instagram: '',
+        introduction: '',
       },
+
+      freqs:["ガチ", "時々", "まれ"],
 
       nameRules: [
         v => !!v || 'Name is required',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
       ],
-      select: null,
+      introductionRules: [
+        v => !!v || 'Introduction is required',
+      ],
 
-      frequency: '2',
     }
   },
 
-  // computed:{
-  //   url(){
-  //     if(this.group.image === null){return;}
-  //     else{return URL.createObjectURL(this.group.image);}
-  //   }
-  // },
-
   created() {
-    this.getGroup();
+    this.getGroup()
   },
 
   methods: {
+    validate () {
+      return this.$refs.form.validate()
+    },
     reset () {
       this.$refs.form.reset()
     },
@@ -204,7 +175,7 @@ export default {
       return this.url;
     },
     createGroup () {
-      if (!this.group.name) return;
+      if (!this.validate()) return;
       const formData = new FormData()
       formData.append('group[image]', this.group.image)
       formData.append('group[name]', this.group.name)

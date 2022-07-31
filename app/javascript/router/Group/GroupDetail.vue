@@ -4,7 +4,7 @@
       <v-responsive :aspect-ratio="16/9">
         <v-row>
 
-        <!-- ① ここから 紹介 -->
+        <!-- ここから 紹介 -->
           <v-col cols="10">
             <v-card-text>
               <h3>頻度</h3>
@@ -12,32 +12,18 @@
                 <p v-else>頻度が未登録です</p>
               <h3>場所</h3>
                 <!-- <p v-if="!group.lat && !group.lng" >{{group.region}}</p> -->
-                <!-- <p v-else>場所が未登録です。</p> -->
                 <p v-if="!group.lat && !group.lng" >場所が未登録です。</p>
                 <GoogleMap :parent_object="group"></GoogleMap>
-              <h3>SNS</h3>
-                <p v-if="group.instagram" >{{group.instagram}}</p>
-                <p v-else>instagramが未登録です。</p>
-              <h3>説明</h3>
-                <p v-if="group.introduction" >{{group.introduction}}</p>
-                <p v-else>グループ説明が未記載です。</p>
             </v-card-text>
           </v-col>
-        <!-- ① ここまで 紹介 -->
+        <!-- ここまで 紹介 -->
 
-        <!-- ② ここから ボタン類 -->
+        <!-- ここから ボタン類 -->
           <v-col v-if="val" class="text-right" cols="2">
-
-            <!-- ②-1 ここから 削除ボタン -->
-              <v-btn 
-                icon 
-                @click="openModal(group.id)"
-              >
+              <v-btn icon @click="openModal(group.id)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
-            <!-- ②-1 ここまで 削除ボタン -->
 
-            <!-- ②-2 ここから 編集ボタン -->
               <router-link
                 :to=" '/groups/' + (Number(group.id)) + '/edit'"
                 active-class="link--active"
@@ -48,10 +34,8 @@
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
               </router-link>
-            <!-- ②-2 ここまで 編集ボタン -->
-
           </v-col>
-        <!-- ② ここまで ボタン類 -->
+        <!-- ここまで ボタン類 -->
 
         </v-row>
       </v-responsive>
@@ -105,16 +89,6 @@ export default {
  },
 
   methods: {
-    next () {
-      this.onboarding = this.onboarding + 1 === this.length
-        ? 0
-        : this.onboarding + 1
-    },
-    prev () {
-      this.onboarding = this.onboarding - 1 < 0
-        ? this.length - 1
-        : this.onboarding - 1
-    },
     getGroup(id) {
       axios
         .get(`/api/v1/groups/${id}.json`)
@@ -140,25 +114,18 @@ export default {
       var reslut = null;
       switch (check_value) {
         case 1:
-          // console.log('ガチ');
           reslut = "ガチ"
-          return reslut;
           break;
         case 2:
-          // console.log('時々');
           reslut = "時々"
-          return reslut;
           break;
         case 3:
-          // console.log('まれ');
           reslut = "まれ"
-          return reslut;
           break;
         default :
-          // console.log('選択');
           reslut = null
-          return reslut;
       }
+      return reslut;
     },
     openModal(id) {
       this.showContent = true;

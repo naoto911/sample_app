@@ -29,6 +29,8 @@ class Api::V1::UsersController < ApplicationController
         @applicaiton_groups.push(application.group)
     end
 
+    @applicaiton_groups_count = @applicaiton_groups.length
+
     #Mygroup一覧のための準備
     @user_joins = Join.includes(:group).where(user_id: @user.id).where(level: 1)
     @user_groups = []
@@ -51,7 +53,16 @@ class Api::V1::UsersController < ApplicationController
       @user_favorites_groups.push(user_favorite.group)
     end
 
-    render json: {user: @user, applications: @applications, applicaiton_groups: @applicaiton_groups, user_groups: @user_groups, join_events: @join_events, user_favorites_groups: @user_favorites_groups, user_join_answers: @user_join_answers }
+    render json: {
+      user: @user, 
+      applications: @applications, 
+      applicaiton_groups: @applicaiton_groups, 
+      user_groups: @user_groups, 
+      join_events: @join_events, 
+      user_favorites_groups: @user_favorites_groups, 
+      user_join_answers: @user_join_answers, 
+      applicaiton_groups_count: @applicaiton_groups_count 
+    }
 
     #--------------------元々のコードたち--------------------
     #申請中のデータ

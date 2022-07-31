@@ -1,34 +1,22 @@
 <template>
   <div>
-    <!-- <h1>マイページ</h1> -->
 
-  <!-- ①ここから header -->
     <v-row align="center">
-
-    <!-- ①-1 ここから avatar -->
       <v-col cols="1">
-        <v-avatar
-          size="60"
-        >
+        <v-avatar size="60" color="grey">
           <v-img
             v-if="user.image && user.image.url"
             :src= "user.image.url"
           ></v-img>
-          <v-icon v-else>{{ menus[0].icon }}</v-icon>
+          <v-icon v-else>mdi-account</v-icon>
         </v-avatar>
       </v-col>
-    <!-- ①-1 ここまで avatar -->
-
-    <!-- ①-2 ここから ユーザー名 -->
       <v-col cols="10">
         <v-card-text>
           <h2 class="ml-4">{{ user.name }}</h2>
         </v-card-text>
       </v-col>
-    <!-- ①-2 ここまで ユーザー名 -->
-
     </v-row>
-  <!-- ①ここまで header -->
 
     <!-- ②ここから tabs -->
       <v-tabs>
@@ -38,7 +26,16 @@
           :to="menu.url" 
           exact
         >
-          {{ menu.title }}
+          <v-badge
+            v-if="applicaiton_groups_count > 0 && menu.title == '申請' "
+            color="orange"
+            :content="applicaiton_groups_count"
+          >
+            {{ menu.title }}
+          </v-badge>
+          <div v-else>
+            {{ menu.title }}
+          </div>
         </v-tab>
       </v-tabs>
     <!-- ②ここまで tabs -->
@@ -56,6 +53,8 @@ export default {
     return {
       group: [],
       user: {},
+      applicaiton_groups_count: [],
+
       menus: [
         { title: 'プロフィール', icon: 'mdi-home', url: `/users/${this.$route.params.id}/profile` },
         { title: 'イベント', icon: 'mdi-email-newsletter', url: `/users/${this.$route.params.id}/event` },
@@ -76,6 +75,7 @@ export default {
       .then(response => {
         this.group = response.data.group;
         this.user = response.data.user;
+        this.applicaiton_groups_count = response.data.applicaiton_groups_count;
       });
     },
     deleteUser(id) {

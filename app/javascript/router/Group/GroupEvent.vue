@@ -1,30 +1,30 @@
 <template>
   <div>
- 
-   <!-- ① ここからイベント作成ボタン -->
-      <v-row>
-        <v-col v-if="val" cols="12">    
-          <router-link 
-            :to=" '/groups/' + (Number(this.$route.params.id)) +'/events/new' "
-            active-class="link--active"
-            exact
-            class="link"
+    <v-row>
+      <v-col v-if="val" cols="12">
+        <router-link 
+          :to=" '/groups/' + (Number(this.$route.params.id)) +'/events/new' "
+          active-class="link--active"
+          exact
+          class="link"
+        >
+          <v-btn
+            class="ma-2 mx-4"
+            dark
+            color="teal"
           >
-            <v-btn
-              depressed
-              rounded
-              text
+            <v-icon
+              dark
+              left
             >
-              event作成
-            </v-btn>
-          </router-link>
-        </v-col>
-      </v-row>
-    <!-- ① ここまでイベント作成ボタン -->
+              mdi-calendar-plus
+            </v-icon>作成
+          </v-btn>
+        </router-link>
+      </v-col>
+    </v-row>
 
-    <!-- ここから ② カレンダー表示 -->
-      <Calender :events="events" :answers="answers" @onChange="updateAnswer"></Calender>
-    <!-- ここまで ② カレンダー表示 -->
+    <Calender :events="events" :answers="answers" @onChange="updateAnswer"></Calender>
   
   </div>
 </template>
@@ -107,14 +107,14 @@ export default {
     updateAnswer(updateAnswer) {
         axios
           .patch(`/api/v1/answers/${updateAnswer.id}`, {
-            answer: {           
+            answer: {
               answer: updateAnswer.answer
             }
           })
 
         .then(response => {
           console.log('OK');
-        })        
+        })
         .catch(error => {
           console.log('NG');
           console.error(error);

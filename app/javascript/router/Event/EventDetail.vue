@@ -4,10 +4,17 @@
       <v-responsive :aspect-ratio="16/9">
         <v-row>
 
-        <!-- ① ここから 紹介 -->
           <v-col cols="10">
             <v-card-text>
-            <!-- ②-1 ここから イベント詳細 -->
+              <v-radio-group
+                v-model="Myanswer.answer"
+                row
+                @change="updateAnswer(Myanswer)"
+              >
+                <v-radio label="参加" value="○"></v-radio>
+                <v-radio label="不参加" value="-"></v-radio>
+              </v-radio-group>
+
               <h3>日付</h3>
                 <p v-if="event.date" >{{ event.date }}</p>
                 <p v-else>日付が未登録です</p>
@@ -15,91 +22,64 @@
                 <!-- <p v-if="event.place" >{{ event.place }}</p> -->
                 <!-- <p v-else>開催場所が未登録です。</p> -->
                 <p v-if="!event.lat && !event.lng" >場所が未登録です。</p>
-                <GoogleMap :parent_object="event"></GoogleMap>
-
-            <!-- ②-1 ここまで イベント詳細 -->    
-
-            <!-- ②-2 ここから 参加ユーザー一覧 -->
-              <h3>参加メンバー</h3>
-              <!-- ここから②-2-1 Avatar -->
-                <router-link
-                  v-for="val in participant_users"
-                  :key="val.id"
-                  :to=" '/users/' + (Number(val.id)) "
-                  active-class="link--active"
-                  exact
-                  class="link"
-                >
-
-                  <v-avatar
-                    cols="4"
-                  >
-                    <v-img
-                      v-if="val.image"
-                      :src= "val.image.url"
-                      alt="John"
-                    ></v-img>
-                    <span v-else>G</span>
-                  </v-avatar>
-                </router-link>
-              <!-- ここまで②-2-1 Avatar -->
-            <!-- ②-2 ここまで 参加ユーザー一覧 -->
-
-            <!-- ②-3 ここから 不参加ユーザー一覧 -->
-              <h3>不参加メンバー</h3>
-                <router-link
-                  v-for="val in unparticipant_users"
-                  :key="val.id"
-                  :to=" '/users/' + (Number(val.id)) "
-                  active-class="link--active"
-                  exact
-                  class="link"
-                >
-
-                  <v-avatar
-                    cols="4"
-                  >
-                    <v-img
-                      v-if="val.image"
-                      :src= "val.image.url"
-                      alt="John"
-                    ></v-img>
-                    <span v-else>G</span>
-                  </v-avatar>
-                </router-link>
-            <!-- ②-3 ここまで 不参加ユーザー一覧 -->
-
+                <!-- <GoogleMap :parent_object="event"></GoogleMap> -->
             </v-card-text>
-          </v-col>
-        <!-- ① ここまで 紹介 -->
 
-        <!-- ② ここから ボタン類 -->
+            <!-- 参加,不参加の順にv-forを実行 -->
+            <!-- 各v-for内で,usersをv-forでさらにネストさせていることに注意 -->
+            <div
+              v-for="(users, index) in Summarize_users"
+              :key="users.id"
+              >
+              <v-list subheader>
+                <v-subheader>{{text[index]}}</v-subheader>
+
+                <v-list-item
+                  v-for="user in users"
+                  :key="user.id"
+                >
+                  <v-list-item-avatar>
+                    <v-img
+                      v-if="user.image.url"
+                      :src= "user.image.url"
+                    ></v-img>
+                  </v-list-item-avatar>
+
+                  <v-list-item-content>
+                    <v-list-item-title v-text="user.name"></v-list-item-title>
+                  </v-list-item-content>
+                  <!-- <v-list-item-icon>
+                    <v-icon :color="user.introduction ? 'deep-purple accent-4' : 'grey'">
+                      mdi-message-outline
+                    </v-icon>
+                  </v-list-item-icon> -->
+                </v-list-item>
+              </v-list>
+              <v-divider v-if="!(index=Summarize_users.length)"></v-divider> 
+            </div>
+            
+          </v-col>
+
+          <!--  ここから ボタン類 -->
           <v-col v-if="val" class="text-right" cols="2">
 
-            <!-- ②-1 ここから 削除ボタン -->
-              <v-btn 
-                icon 
-                @click="openModal(event.id)"
-              >
-                <v-icon>mdi-delete</v-icon>
+            <v-btn icon @click="openModal(event.id)">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+            
+            <router-link
+              :to=" $route.path + '/edit' "
+              active-class="link--active"
+              exact
+              class="link"
+            >
+              <v-btn icon>
+                <v-icon>mdi-pencil</v-icon>
               </v-btn>
-            <!-- ②-1 ここまで 削除ボタン -->
-
-            <!-- ②-2 ここから 編集ボタン -->
-              <router-link
-                :to=" $route.path + '/edit' "
-                active-class="link--active"
-                exact
-                class="link"
-              >
-                <v-btn icon>
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-              </router-link>
-            <!-- ②-2 ここまで 編集ボタン -->
+            </router-link>
 
           </v-col>
-        <!-- ② ここまで ボタン類 -->
+          <!--  ここまで ボタン類 -->
 
         </v-row>
       </v-responsive>
@@ -126,13 +106,14 @@ export default {
     return {
       group: {},
       event: {},
-      answers: [],
-      users: [],
       participant_users : [],
       unparticipant_users: [],
+      Myanswer: {},
 
       showContent: false,
       delete_id: null,
+
+      text: ["参加","不参加"],
     }
   },
 
@@ -142,17 +123,21 @@ export default {
     }
   },
 
-  // computed: {
-  //   eventAnswers(){
-  //     const data = this.answers;
-  //     const result = data.filter(x => x.answer === "○");
-  //     return result;
-  //   },
-  // },
+  computed: {
+    Summarize_users(){
+      return [this.participant_users,this.unparticipant_users];
+    },
+  },
 
   created () {
     this.getEvent();
   },
+
+  watch: {
+    'Myanswer.answer': function() {
+      this.getEvent()
+    }
+ },
 
   methods: {
     deleteEvent(id) {
@@ -174,11 +159,35 @@ export default {
       .then(response => {
         this.group = response.data.group;
         this.event = response.data.event;
-        // this.answers = response.data.answers;
-        // this.users = response.data.users;
         this.participant_users = response.data.participant_users;
         this.unparticipant_users = response.data.unparticipant_users;
+        const answers = response.data.answers;
+        this.Myanswer = this.MyAnswer(answers)
         });
+    },
+    MyAnswer(answers){
+      const data = answers
+      const result = data.filter(x => x.event_id === this.event.id);
+      return result[0];
+    },
+    updateAnswer(updateAnswer) {
+      axios
+        .patch(`/api/v1/answers/${updateAnswer.id}`, {
+          answer: {
+            answer: updateAnswer.answer
+          }
+        })
+
+      .then(response => {
+        console.log('OK');
+      })
+      .catch(error => {
+        console.log('NG');
+        console.error(error);
+        if(error.response.data && error.response.data.errors) {
+          this.errors = error.response.data.errors;
+        }
+      })
     },
     openModal(id) {
       this.showContent = true;
@@ -193,21 +202,6 @@ export default {
       this.deleteEvent(this.delete_id);
       this.delete_id = null;
     },
-    // participantUsers() { //user毎のabatarとanswerの紐付けのための関数
-    //   var result2 = [];
-    //   const data2 = this.eventAnswers; //○のuserのみをdata2へ格納
-    //   const data3 = this.users; //group所属なかのuserをdata3へ格納
-    //   for (var val in data2) {  //data2をバラバラに展開
-    //     // console.log(data2[val]);
-    //     for (var user in data3 ) { //usersをバラバラに展開
-    //       if (data3[user].id == data2[val].user_id) { //data2のuser_id (○のuser_id)と一致するdata3(group所属中のuserを検証
-    //         result2.push(data3[user]); //result2へ格納 (○でかつgroup所属中のuserを抽出)
-    //       }
-    //     }
-    //   }
-    //   console.log(result2);
-    //   return result2;
-    // },
   },
 
 }
