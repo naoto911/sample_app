@@ -23,54 +23,44 @@
                 <!-- <p v-else>開催場所が未登録です。</p> -->
                 <p v-if="!event.lat && !event.lng" >場所が未登録です。</p>
                 <!-- <GoogleMap :parent_object="event"></GoogleMap> -->
-            
-              <!-- 参加,不参加の順にv-forを実行 -->
-              <!-- 各v-for内で,usersをv-forでさらにネストさせていることに注意 -->
-              <div
-                v-for="(users, index) in Summarize_users"
-                :key="users.id"
-                >
-                  <h3>{{text[index]}}</h3>
-                  <v-row 
-                    v-for="val in users"
-                    :key="val.id"
-                    cols="12"
-                    align="center"
-                  >
-                    <v-col cols="6">
-                      <router-link
-                        :to=" '/users/' + (Number(val.id)) + '/profile/' "
-                        active-class="link--active"
-                        exact
-                        class="link"
-                      >
-                        <v-row>
-                          <v-col cols="1">
-                            <v-avatar color="grey">
-                              <v-img
-                                v-if="val.image.url"
-                                :src= "val.image.url"
-                                alt="John"
-                              ></v-img>
-                              <v-icon v-else>mdi-account</v-icon>
-                            </v-avatar>
-                          </v-col>
-                          <v-col cols="11">
-                            <v-card-text class="ml-4">
-                              {{ val.name }}
-                            </v-card-text>
-                          </v-col>
-                        </v-row>
-                      </router-link>
-                    </v-col>
-                    <v-col cols="6">
-                    </v-col>
-                  </v-row>
-              </div>
             </v-card-text>
+
+            <!-- 参加,不参加の順にv-forを実行 -->
+            <!-- 各v-for内で,usersをv-forでさらにネストさせていることに注意 -->
+            <div
+              v-for="(users, index) in Summarize_users"
+              :key="users.id"
+              >
+              <v-list subheader>
+                <v-subheader>{{text[index]}}</v-subheader>
+
+                <v-list-item
+                  v-for="user in users"
+                  :key="user.id"
+                >
+                  <v-list-item-avatar>
+                    <v-img
+                      v-if="user.image.url"
+                      :src= "user.image.url"
+                    ></v-img>
+                  </v-list-item-avatar>
+
+                  <v-list-item-content>
+                    <v-list-item-title v-text="user.name"></v-list-item-title>
+                  </v-list-item-content>
+                  <!-- <v-list-item-icon>
+                    <v-icon :color="user.introduction ? 'deep-purple accent-4' : 'grey'">
+                      mdi-message-outline
+                    </v-icon>
+                  </v-list-item-icon> -->
+                </v-list-item>
+              </v-list>
+              <v-divider v-if="!(index=Summarize_users.length)"></v-divider> 
+            </div>
+            
           </v-col>
 
-        <!--  ここから ボタン類 -->
+          <!--  ここから ボタン類 -->
           <v-col v-if="val" class="text-right" cols="2">
 
             <v-btn icon @click="openModal(event.id)">
@@ -89,7 +79,7 @@
             </router-link>
 
           </v-col>
-        <!--  ここまで ボタン類 -->
+          <!--  ここまで ボタン類 -->
 
         </v-row>
       </v-responsive>
@@ -124,7 +114,6 @@ export default {
       delete_id: null,
 
       text: ["参加","不参加"],
-
     }
   },
 
