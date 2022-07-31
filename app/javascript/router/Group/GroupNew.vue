@@ -22,7 +22,7 @@
           accept="image/*"
           filled
           @change="cheangeImage()"
-          style="display:none"    
+          style="display:none" 
         ></v-file-input>  
 
         <v-text-field
@@ -31,19 +31,16 @@
           :rules="nameRules"
           label="名前"
           required
-          background-color="grey lighten-2"
-          color="cyan"
+          filled
           height=60px
           class="my-0 pt-0 ml-4"
         ></v-text-field>
       </v-card-text>
 
-      <v-card-text class="pt-0">
+      <v-card-text>
         <v-textarea
           v-model="group.introduction"
           :rules="introductionRules"
-          background-color="grey lighten-2"
-          color="cyan"
           filled
           label="グループ紹介"
           auto-grow
@@ -51,17 +48,22 @@
         ></v-textarea>
       </v-card-text>  
 
-      <v-card-text class="pt-0">
+      <v-card-text>        
+        <v-text-field
+          v-model="group.twitter"
+          label="twitterのURL"
+          prepend-inner-icon="mdi-twitter"
+          filled
+        ></v-text-field>
         <v-text-field
           v-model="group.instagram"
           label="instagramのURL"
           prepend-inner-icon="mdi-instagram"
-          background-color="grey lighten-2"
-          color="cyan"
+          filled
         ></v-text-field>
        </v-card-text>  
 
-        <v-card-text class="pt-0">
+        <v-card-text>
           <div><strong>頻度</strong></div>
           <v-radio-group v-model="group.frequency" row>
             <v-radio
@@ -74,11 +76,12 @@
           </v-radio-group>
         </v-card-text>  
 
-        <v-card-text class="pt-0">
+        <v-card-text>
           <v-text-field
             v-model="group.region"
             label="練習場所"
             prepend-inner-icon="mdi-map-marker"
+            filled
           ></v-text-field>
           <!-- <GoogleMap :parent_object="group" @latlng="changeMarker"></GoogleMap> -->
         </v-card-text>
@@ -159,10 +162,6 @@ export default {
     reset () {
       this.$refs.form.reset()
     },
-    // resetValidation () {
-    //   this.$refs.form.resetValidation()
-    // },
-
     getGroup() {
       axios
         .get('/api/v1/groups/new.json')
