@@ -9,7 +9,7 @@
               v-if="group.image && group.image.url"
               :src= "group.image.url"
             ></v-img>
-            <v-icon v-else>mdi-camera</v-icon>
+            <v-icon v-else>mdi-account-group-outline</v-icon>
           </v-avatar>
           <v-card-title class="text-h4">{{ group.name }}</v-card-title>
           <v-spacer></v-spacer>

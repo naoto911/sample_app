@@ -138,6 +138,7 @@ export default {
         introduction: '',
       },
 
+      url: null,
       freqs:["ガチ", "時々", "まれ"],
 
       nameRules: [
