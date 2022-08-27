@@ -1,30 +1,27 @@
 <template>
   <div>
     <!-- ここから 検索ウィンドウ -->
-    <v-row>
-      <v-col cols="6">
-        <v-text-field
-          v-if="checkURL"
-          outlined
-          v-model.lazy="keyword"
-          append-icon="mdi-magnify"
-          id="pac-input"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="6">
-      </v-col>
-    </v-row>
+    <v-card-text>
+      <v-text-field
+        v-if="checkURL"
+        v-model="address"
+        label="練習場所"
+        prepend-inner-icon="mdi-map-marker"
+        filled
+        id="pac-input"
+      ></v-text-field>
     <!-- ここまで 検索ウィンドウ -->
 
     <!-- ここから Map本体 -->
-    <v-row>
-      <v-col>
-        <v-responsive :aspect-ratio="16/9">
-          <div ref="map" style="height: 100%; width: 100%"></div>
-        </v-responsive>
-      </v-col>
-    </v-row>
+      <v-row>
+        <v-col>
+          <v-responsive :aspect-ratio="16/9">
+            <div ref="map" style="height: 100%; width: 100%"></div>
+          </v-responsive>
+        </v-col>
+      </v-row>
      <!-- ここまで Map本体 -->
+    </v-card-text>
   </div>
 </template>
 
@@ -35,12 +32,13 @@ export default {
       // myLatLng: { lat: 35.689614, lng: 139.691585 },
       myLatLng: { lat: 34.98586155776129, lng: 135.75780520290223 },
       YOUR_MAP_KEY: 'AIzaSyB1OGlg4o4pvW8vvEzhIOsfGhjhOZMvplE',
-      // YOUR_MAP_KEY: 'ここにAPIキーを入れる',
       map: {},
       marker: {},
 
       keyword: '',
       LatLng: {},
+
+      address: ''
     };
   },
 
@@ -77,16 +75,12 @@ export default {
       if (!window.mapLoadStarted) {
         window.mapLoadStarted = true;
         let script = document.createElement('script');
-        script.src =
-          // `https://maps.googleapis.com/maps/api/js?key=${this.YOUR_MAP_KEY}&callback=initMap`; //検索候補実装前
-          `https://maps.googleapis.com/maps/api/js?key=${this.YOUR_MAP_KEY}&callback=initAutocomplete&libraries=places&v=weekly`;
-
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${this.YOUR_MAP_KEY}&callback=initAutocomplete&libraries=places&v=weekly`;
         script.async = true;
         document.head.appendChild(script);
       }else {
         this.initGooleMap();
       }
-
       window.initAutocomplete = () => {
         this.initGooleMap();
       }
@@ -99,32 +93,19 @@ export default {
         center: this.myLatLng,
         zoom: 13,
       });
-
     },
     addGogleMap(){
-      //  クリックイベントを追加
-      google.maps.event.addListener(this.map, 'click', event => this.clickAction(event, this.map));
+      var lat = null
+      var lng = null
+      var address = null
 
       // ここから検索候補実装用のコード
       const input = document.getElementById("pac-input");
       if (!input) return; 
       const searchBox = new google.maps.places.SearchBox(input);
-
-      // // マップを拡大しても検索ウィンドウを表示させるための処理 (検索ウィンドウはマップ上に設置の前提)
-      // this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-      // // 検索ウィンドウをマップ上に設置した場合の調整用の処理?
-      // this.map.addListener("bounds_changed", () => { 
-      //   searchBox.setBounds(this.map.getBounds());
-      // });
-
       searchBox.addListener("places_changed", () => {
-
         const places = searchBox.getPlaces();
-
-        if (places.length == 0) {
-          return;
-        }
+         if (places.length == 0) return;
         const bounds = new google.maps.LatLngBounds();
 
         places.forEach((place) => {
@@ -133,6 +114,10 @@ export default {
             return;
           }
 
+          address = place.formatted_address // 住所取得
+          lat = place.geometry.location.lat(); //緯度取得
+          lng = place.geometry.location.lng(); //経度取得
+
           if (place.geometry.viewport) {  //viewport"メソッド
             bounds.union(place.geometry.viewport);
           } else {
@@ -140,40 +125,17 @@ export default {
           }
         });
         this.map.fitBounds(bounds);
+        this.address = address;
+        this.deleteMakers();
+        this.createMakers(lat, lng, address, this.map);
       });
-
-      // // 検索候補実装前のコード
-      // window.initAutocomplete = () => {
-      // window.initMap = () => {
-      //   window.mapLoaded = true;
-      // };
-
-      //   let timer = setInterval(() => {
-      //     if (window.mapLoaded) {
-      //       clearInterval(timer);
-      //       this.map = new window.google.maps.Map(this.$refs.map, {
-      //       // const map = new window.google.maps.Map(this.$refs.map, {
-      //         center: this.myLatLng,
-      //         zoom: 10,
-      //       });
-
-      //       // クリックイベントを追加
-      //       google.maps.event.addListener(this.map, 'click', event => this.clickAction(event, this.map));
-
-      //     }
-      //   }, 500);
     },
-    clickAction(event, map) {
-      const lat = event.latLng.lat();
-      const lng = event.latLng.lng();
-      const position = {lat, lng};
-      this.deleteMakers();
-      
+    createMakers(lat, lng, address, map){
       this.marker = new google.maps.Marker({
         position: {lat, lng},
         map
       });
-      this.$emit('latlng', position) // <=== 親コンポーネントに緯度経度情報をを渡すイベント
+      this.$emit('latlng',  {lat, lng, address}) // <=== 親コンポーネントに緯度経度情報をを渡すイベント
     },
     deleteMakers() { //マーカーを削除する
         if(Object.keys(this.marker).length) {
@@ -184,7 +146,6 @@ export default {
     getGoogleMap(val, map) {
       if (val.lat && val.lng) {
         this.LatLng = {lat: val.lat, lng: val.lng }
-
         this.deleteMakers();
         this.marker = new google.maps.Marker({
           position: this.LatLng,
@@ -196,34 +157,6 @@ export default {
       }
       this.map.setCenter(this.LatLng);
     },
-    // searchCordinate(map) {
-    //       var place = this.keyword;
-    //       var geocoder = new google.maps.Geocoder(); // geocoderのコンストラクタ
-
-    //       geocoder.geocode(
-    //         { 
-    //           address: place, 
-    //         }, 
-    //         function(results, status) {
-    //           if (status == google.maps.GeocoderStatus.OK) {
-    //             for (var i in results) {
-    //               if (results[0].geometry) {
-    //                 var latlng = results[0].geometry.location; // 緯度経度を取得
-    //                 // var address = results[0].formatted_address; // 住所を取得
-    //                 map.setCenter(latlng); // 変換した緯度・経度情報を地図の中心に表示
-    //                 map.setZoom(15); //縮尺を調整
-    //               }
-    //             }
-    //           } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-    //             alert("見つかりません");
-    //           } else {
-    //             console.log(status);
-    //             alert("エラー発生");
-    //           }
-    //         }
-    //       );
-    //   },
-
   }
 
 };
